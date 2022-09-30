@@ -18,6 +18,23 @@ def run_link():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
+            elif event.key == SDLK_w:
+                dir_y += 1
+            elif event.key == SDLK_s:
+                dir_y -= 1
+            elif event.key == SDLK_d:
+                dir_x += 1
+            elif event.key == SDLK_a:
+                dir_x -= 1
+        elif event.type == SDL_KEYUP:
+            if event.key == SDLK_w:
+                dir_y -= 1
+            elif event.key == SDLK_s:
+                dir_y += 1
+            elif event.key == SDLK_d:
+                dir_x -= 1
+            elif event.key == SDLK_a:
+                dir_x += 1
 
 
 # roll
@@ -28,11 +45,20 @@ def run_link():
 
 open_canvas(width, height)
 
+run = load_image('Link/Run/right.png')
+runFrame = 0
 
 while running:
     clear_canvas()
+    run.clip_draw(runFrame * 115, 0, 115, 120, pos_x, pos_y)
     update_canvas()
+
     run_link()
+
+    pos_x += dir_x * 10
+    pos_y += dir_y * 10
+
+    runFrame = (runFrame + 1) % 10
     delay(0.05)
 
 
