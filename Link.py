@@ -50,13 +50,37 @@ def run_link():
 
 open_canvas(width, height)
 
+run_x = load_image('Link/Run/run_x.png')
+run_x_Frame_w = 0
+run_x_Frame_h = 1
+run_y = load_image('Link/Run/run_y.png')
+run_y_Frame_w = 0
+run_y_Frame_h = 0
 
 while running:
     clear_canvas()
 
+    run_link()
 
     pos_x += dir_x * 10
     pos_y += dir_y * 10
+
+    if direction == 0 or direction == 1:
+        run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
+        run_y_Frame_w = (run_y_Frame_w + 1) % 10
+        if direction == 0:
+            run_y_Frame_h = 1
+        else:
+            run_y_Frame_h = 0
+    elif direction == 2 or direction == 3:
+        run_x.clip_draw(run_x_Frame_w * 115, run_x_Frame_h * 120, 115, 120, pos_x, pos_y)
+        run_x_Frame_w = (run_x_Frame_w + 1) % 10
+        if direction == 2:
+            run_x_Frame_h = 1
+        else:
+            run_x_Frame_h = 0
+
+    update_canvas()
 
     delay(0.05)
 
