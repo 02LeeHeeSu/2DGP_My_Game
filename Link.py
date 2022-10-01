@@ -54,6 +54,17 @@ while running:
     update_canvas()
 
     run_link()
+    events = get_events()
+
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN:
+            if event.key == SDLK_ESCAPE:
+                running = False
+            run_keydown(event.key)
+        elif event.type == SDL_KEYUP:
+            run_keyup(event.key)
 
     pos_x += dir_x * 10
     pos_y += dir_y * 10
