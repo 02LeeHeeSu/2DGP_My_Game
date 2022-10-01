@@ -19,19 +19,14 @@ pos_x, pos_y = width // 2, height // 2
 
 open_canvas(width, height)
 
-run = load_image('Link/Run/right.png')
-runFrame = 0
 
 while running:
     clear_canvas()
-    run.clip_draw(runFrame * 115, 0, 115, 120, pos_x, pos_y)
-    update_canvas()
 
 
     pos_x += dir_x * 10
     pos_y += dir_y * 10
 
-    runFrame = (runFrame + 1) % 10
     delay(0.05)
 
 
