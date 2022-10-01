@@ -10,6 +10,27 @@ pos_x, pos_y = width // 2, height // 2
 def run_keydown(eventKey):
     global dir_x, dir_y
 
+    if eventKey == SDLK_w:
+        dir_y += 1
+    elif eventKey == SDLK_s:
+        dir_y -= 1
+    elif eventKey == SDLK_d:
+        dir_x += 1
+    elif eventKey == SDLK_a:
+        dir_x -= 1
+
+
+def run_keyup(eventKey):
+    global  dir_x, dir_y
+
+    if eventKey == SDLK_w:
+        dir_y -= 1
+    elif eventKey == SDLK_s:
+        dir_y += 1
+    elif eventKey == SDLK_d:
+        dir_x -= 1
+    elif eventKey == SDLK_a:
+        dir_x += 1
 
 
 # roll
