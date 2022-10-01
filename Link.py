@@ -9,31 +9,7 @@ dir_x, dir_y = 0, 0
 pos_x, pos_y = width // 2, height // 2
 
 # run
-def run_keydown(eventKey):
     global dir_x, dir_y
-
-    if eventKey == SDLK_w:
-        dir_y += 1
-    elif eventKey == SDLK_s:
-        dir_y -= 1
-    elif eventKey == SDLK_d:
-        dir_x += 1
-    elif eventKey == SDLK_a:
-        dir_x -= 1
-
-
-def run_keyup(eventKey):
-    global  dir_x, dir_y
-
-    if eventKey == SDLK_w:
-        dir_y -= 1
-    elif eventKey == SDLK_s:
-        dir_y += 1
-    elif eventKey == SDLK_d:
-        dir_x -= 1
-    elif eventKey == SDLK_a:
-        dir_x += 1
-
 
 # roll
 
@@ -51,17 +27,6 @@ while running:
     run.clip_draw(runFrame * 115, 0, 115, 120, pos_x, pos_y)
     update_canvas()
 
-    events = get_events()
-
-    for event in events:
-        if event.type == SDL_QUIT:
-            running = False
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            run_keydown(event.key)
-        elif event.type == SDL_KEYUP:
-            run_keyup(event.key)
 
     pos_x += dir_x * 10
     pos_y += dir_y * 10
