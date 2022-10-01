@@ -3,6 +3,8 @@ from pico2d import *
 running = True
 width, height = 1440, 960
 
+# direction is integer between 0 and 3
+direction = 0
 dir_x, dir_y = 0, 0
 pos_x, pos_y = width // 2, height // 2
 
