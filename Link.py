@@ -141,8 +141,10 @@ while running:
     elif pos_y > height - 60:
         pos_y = height - 60
 
-    pos_x += dir_x * 10
-    pos_y += dir_y * 10
+    if Run and not Roll:
+        pos_x += dir_x * 10
+        pos_y += dir_y * 10
+
     if Roll:
         if direction == 0:
             pos_y += 20
