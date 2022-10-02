@@ -12,8 +12,19 @@ Run = False
 
 
 # run
+def run_kd(key):
     global direction
     global dir_x, dir_y
+
+    if key == SDLK_w:
+        dir_y += 1
+    elif key == SDLK_s:
+        dir_y -= 1
+    elif key == SDLK_d:
+        dir_x += 1
+    elif key == SDLK_a:
+        dir_x -= 1
+
 
 # roll
 
