@@ -75,6 +75,9 @@ while running:
     clear_canvas()
 
     if direction == 0 or direction == 1:
+    if not Run:
+        stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
+
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
         run_y_Frame_w = (run_y_Frame_w + 1) % 10
         if direction == 0:
