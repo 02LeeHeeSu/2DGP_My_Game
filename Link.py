@@ -110,7 +110,8 @@ while running:
 
     clear_canvas()
 
-    if not Run:
+    # 서 있는 상태 확인
+    if not Run and not Roll:
         stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
 
     events = get_events()
@@ -124,6 +125,7 @@ while running:
                 run_kd(event.key)
             elif event.key == SDLK_l:
                 roll_kd(event.key)
+                Roll = True
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
