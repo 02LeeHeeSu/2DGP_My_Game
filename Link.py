@@ -8,6 +8,9 @@ direction = 1
 dir_x, dir_y = 0, 0
 pos_x, pos_y = width // 2, height // 2
 
+Run = False
+
+
 # run
 def run_link():
     global running
