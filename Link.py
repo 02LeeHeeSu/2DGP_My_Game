@@ -57,6 +57,13 @@ run_y = load_image('Link/Run/run_y.png')
 run_y_Frame_w = 0
 run_y_Frame_h = 0
 
+roll_x = load_image('Link/Roll/roll_x.png')
+roll_x_Frame_w = 0
+roll_x_Frame_h = 1
+roll_y = load_image('Link/Roll/roll_y.png')
+roll_y_Frame_w = 0
+roll_y_Frame_h = 0
+
 while running:
     if dir_x == 0 and dir_y == 0:
         Run = False
