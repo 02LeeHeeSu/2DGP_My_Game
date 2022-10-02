@@ -48,6 +48,8 @@ def run_ku(key):
 
 open_canvas(width, height)
 
+stand = load_image('Link/Stand/Stand.png')
+
 run_x = load_image('Link/Run/run_x.png')
 run_x_Frame_w = 0
 run_x_Frame_h = 1
