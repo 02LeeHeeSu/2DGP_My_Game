@@ -93,9 +93,13 @@ while running:
                 running = False
             elif event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_kd(event.key)
+            elif event.key == SDLK_l:
+                roll_kd(event.key)
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
+            elif event.key == SDLK_l:
+                roll_ku(event.key)
 
     if (direction == 0 or direction == 1) and Run:
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
