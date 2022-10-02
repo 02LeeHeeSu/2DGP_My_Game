@@ -58,11 +58,8 @@ run_y_Frame_w = 0
 run_y_Frame_h = 0
 
 while running:
+
     clear_canvas()
-
-
-    pos_x += dir_x * 10
-    pos_y += dir_y * 10
 
     if direction == 0 or direction == 1:
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
@@ -81,7 +78,10 @@ while running:
 
     update_canvas()
 
-    delay(0.05)
 
+    pos_x += dir_x * 10
+    pos_y += dir_y * 10
+
+    delay(0.05)
 
 close_canvas()
