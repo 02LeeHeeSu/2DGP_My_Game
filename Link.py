@@ -78,6 +78,13 @@ while running:
     if not Run:
         stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
 
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN:
+            if event.key == SDLK_ESCAPE:
+                running = False
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
         run_y_Frame_w = (run_y_Frame_w + 1) % 10
         if direction == 0:
