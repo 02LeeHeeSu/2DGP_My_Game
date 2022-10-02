@@ -43,32 +43,32 @@ def run_ku(key):
 # roll
 def roll_kd(key):
     global direction
-    global dir_x, dir_y
+    global pos_x, pos_y
 
     if key == SDLK_l:
         if direction == 0:
-            dir_y += 2
+            pos_y += 50
         elif direction == 1:
-            dir_y -= 2
+            pos_y -= 50
         elif direction == 2:
-            dir_x += 2
+            pos_x += 50
         elif direction == 3:
-            dir_x -= 2
+            pos_x -= 50
 
 
 def roll_ku(key):
     global direction
-    global dir_x, dir_y
+    global pos_x, pos_y
 
     if key == SDLK_l:
         if direction == 0:
-            dir_y -= 2
+            pos_y -= 20
         elif direction == 1:
-            dir_y += 2
+            pos_y += 20
         elif direction == 2:
-            dir_x -= 2
+            pos_x -= 20
         elif direction == 3:
-            dir_x += 2
+            pos_x += 20
 
 
 # attack
@@ -127,7 +127,8 @@ while running:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
             elif event.key == SDLK_l:
-                roll_ku(event.key)
+                # roll_ku(event.key)
+                pass
 
     if (direction == 0 or direction == 1) and Run:
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
