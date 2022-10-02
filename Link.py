@@ -10,6 +10,7 @@ pos_x, pos_y = width // 2, height // 2
 
 Run = False
 Roll = False
+roll_repeat = 0
 
 
 # run
@@ -129,6 +130,12 @@ while running:
 
     pos_x += dir_x * 10
     pos_y += dir_y * 10
+    if Roll:
+        roll_repeat += 1
+
+    if roll_repeat == 9:
+        roll_repeat = 0
+        Roll = False
 
     delay(0.05)
 
