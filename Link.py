@@ -74,7 +74,6 @@ while running:
 
     clear_canvas()
 
-    if direction == 0 or direction == 1:
     if not Run:
         stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
 
@@ -91,13 +90,14 @@ while running:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
 
+    if (direction == 0 or direction == 1) and Run:
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
         run_y_Frame_w = (run_y_Frame_w + 1) % 10
         if direction == 0:
             run_y_Frame_h = 1
         else:
             run_y_Frame_h = 0
-    elif direction == 2 or direction == 3:
+    elif (direction == 2 or direction == 3) and Run:
         run_x.clip_draw(run_x_Frame_w * 115, run_x_Frame_h * 120, 115, 120, pos_x, pos_y)
         run_x_Frame_w = (run_x_Frame_w + 1) % 10
         if direction == 2:
