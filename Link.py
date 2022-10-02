@@ -64,6 +64,7 @@ roll_y_Frame_w = 0
 roll_y_Frame_h = 0
 
 while running:
+    # 달리는 상태 확인
     if dir_x == 0 and dir_y == 0:
         Run = False
 
@@ -84,6 +85,7 @@ while running:
     if not Run and not Roll:
         stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
 
+    # 이벤트 폴링
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -101,6 +103,7 @@ while running:
             elif event.key == SDLK_l:
                 pass
 
+    # 달리기 출력
     if (direction == 0 or direction == 1) and Run:
         run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
         run_y_Frame_w = (run_y_Frame_w + 1) % 10
@@ -116,6 +119,7 @@ while running:
         else:
             run_x_Frame_h = 0
 
+    # 구르기 출력
     if (direction == 0 or direction == 1) and Roll:
         roll_y.clip_draw(roll_repeat * 90, roll_y_Frame_h * 120, 90, 120, pos_x, pos_y)
         if direction == 0:
