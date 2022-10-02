@@ -41,37 +41,6 @@ def run_ku(key):
         dir_x += 1
 
 
-# roll
-def roll_kd(key):
-    global direction
-    global pos_x, pos_y
-
-    if key == SDLK_l:
-        if direction == 0:
-            pos_y += 50
-        elif direction == 1:
-            pos_y -= 50
-        elif direction == 2:
-            pos_x += 50
-        elif direction == 3:
-            pos_x -= 50
-
-
-def roll_ku(key):
-    global direction
-    global pos_x, pos_y
-
-    if key == SDLK_l:
-        if direction == 0:
-            pos_y -= 20
-        elif direction == 1:
-            pos_y += 20
-        elif direction == 2:
-            pos_x -= 20
-        elif direction == 3:
-            pos_x += 20
-
-
 # attack
 
 
@@ -124,13 +93,11 @@ while running:
             elif event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_kd(event.key)
             elif event.key == SDLK_l:
-                roll_kd(event.key)
                 Roll = True
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
             elif event.key == SDLK_l:
-                # roll_ku(event.key)
                 pass
 
     if (direction == 0 or direction == 1) and Run:
