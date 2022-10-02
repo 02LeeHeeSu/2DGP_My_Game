@@ -116,6 +116,19 @@ while running:
         else:
             run_x_Frame_h = 0
 
+    if (direction == 0 or direction == 1) and Roll:
+        roll_y.clip_draw(roll_repeat * 90, roll_y_Frame_h * 120, 90, 120, pos_x, pos_y)
+        if direction == 0:
+            roll_y_Frame_h = 1
+        else:
+            roll_y_Frame_h = 0
+    elif (direction == 2 or direction == 3) and Roll:
+        roll_x.clip_draw(roll_repeat * 100, run_x_Frame_h * 120, 100, 120, pos_x, pos_y)
+        if direction == 2:
+            roll_x_Frame_h = 1
+        else:
+            roll_x_Frame_h = 0
+
     update_canvas()
 
     if pos_x < 45:
