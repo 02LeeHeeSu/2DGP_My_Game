@@ -58,6 +58,19 @@ run_y_Frame_w = 0
 run_y_Frame_h = 0
 
 while running:
+    if dir_x == 0 and dir_y == 0:
+        Run = False
+
+    else:
+        Run = True
+        if dir_y > 0:
+            direction = 0
+        elif dir_y < 0:
+            direction = 1
+        if dir_x > 0:
+            direction = 2
+        elif dir_x < 0:
+            direction = 3
 
     clear_canvas()
 
