@@ -41,6 +41,34 @@ def run_ku(key):
 
 
 # roll
+def roll_kd(key):
+    global direction
+    global dir_x, dir_y
+
+    if key == SDLK_l:
+        if direction == 0:
+            dir_y += 2
+        elif direction == 1:
+            dir_y -= 2
+        elif direction == 2:
+            dir_x += 2
+        elif direction == 3:
+            dir_x -= 2
+
+
+def roll_ku(key):
+    global direction
+    global dir_x, dir_y
+
+    if key == SDLK_l:
+        if direction == 0:
+            dir_y -= 2
+        elif direction == 1:
+            dir_y += 2
+        elif direction == 2:
+            dir_x -= 2
+        elif direction == 3:
+            dir_x += 2
 
 
 # attack
