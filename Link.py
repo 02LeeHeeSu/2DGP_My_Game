@@ -157,26 +157,6 @@ while running:
     elif pos_y > height - 60:
         pos_y = height - 60
 
-    if Run and not Roll:
-        pos_x += dir_x * 10
-        pos_y += dir_y * 10
-
-    if Roll:
-        if direction == 0:
-            pos_y += 20
-        elif direction == 1:
-            pos_y -= 20
-        elif direction == 2:
-            pos_x += 20
-        elif direction == 3:
-            pos_x -= 20
-
-        roll_repeat += 1
-
-    if roll_repeat == 9:
-        roll_repeat = 0
-        Roll = False
-
     delay(0.05)
 
 close_canvas()
