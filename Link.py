@@ -12,6 +12,9 @@ Run = False
 Roll = False
 roll_repeat_x = 0
 roll_repeat_y = 0
+Attack = False
+attack_repeat_x = 0
+attack_repeat_y = 0
 
 
 # run
@@ -58,6 +61,10 @@ roll_x_Frame = 1
 roll_y = load_image('Link/Roll/roll_y.png')
 roll_y_Frame = 0
 
+attack_x = load_image('Link/Attack/attack_x.png')
+attack_x_Frame = 1
+attack_y = load_image('Link/Attack/attack_y.png')
+attack_y_Frame = 0
 
 while running:
     # 달리는 상태 확인
