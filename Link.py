@@ -177,7 +177,37 @@ while running:
         pos_y += dir_y * 10
 
     # 구르기 상태면
+    if Roll:
+        if direction == 0 or direction == 1:
+            if direction == 0:
+                pos_y += 20
+            else:
+                pos_y -= 20
+
+            roll_repeat_y = (roll_repeat_y + 1) % 9
+            if roll_repeat_y == 0:
+                Roll = False
+        elif direction == 2 or direction == 3:
+            if direction == 2:
+                pos_x += 20
+            else:
+                pos_x -= 20
+
+            roll_repeat_x = (roll_repeat_x + 1) % 10
+            if roll_repeat_x == 0:
+                Roll = False
+
     # 공격 상태면
+    if Attack:
+        if direction == 0 or direction == 1:
+            attack_repeat_y = (attack_repeat_y + 1) % 7
+            if attack_repeat_y == 0:
+                Attack = False
+        elif direction == 2 or direction == 3:
+            attack_repeat_x = (attack_repeat_x + 1) % 8
+            if attack_repeat_x == 0:
+                Attack = False
+
     # 경계 설정
     if pos_x < 45:
         pos_x = 45
