@@ -169,6 +169,9 @@ while running:
 
     update_canvas()
 
+    # 좌표의 변환과 frame 전환을 구현
+
+    # 달리는 상태면
     if Run and not Roll and not Attack:
         pos_x += dir_x * 10
         pos_y += dir_y * 10
