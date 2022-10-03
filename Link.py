@@ -31,7 +31,6 @@ def run_kd(key):
 
 def run_ku(key):
     global dir_x, dir_y
-    global Run
 
     if key == SDLK_w:
         dir_y -= 1
@@ -41,9 +40,6 @@ def run_ku(key):
         dir_x -= 1
     elif key == SDLK_a:
         dir_x += 1
-
-
-# attack
 
 
 open_canvas(width, height)
@@ -100,8 +96,6 @@ while running:
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
-            elif event.key == SDLK_l:
-                pass
 
     # 달리기 출력
     if (direction == 0 or direction == 1) and Run:
