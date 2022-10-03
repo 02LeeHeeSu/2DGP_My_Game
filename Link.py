@@ -85,7 +85,7 @@ while running:
     clear_canvas()
 
     # 서 있는 상태 확인
-    if not Run and not Roll:
+    if not Run and not Roll and not Attack:
         stand.clip_draw(direction * 90, 0, 90, 120, pos_x, pos_y)
 
     # 이벤트 폴링
@@ -144,6 +144,10 @@ while running:
             roll_x_Frame_h = 0
 
     update_canvas()
+
+    if Run and not Roll and not Attack:
+        pos_x += dir_x * 10
+        pos_y += dir_y * 10
 
     # 구르기 상태면
     # 공격 상태면
