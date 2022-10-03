@@ -107,43 +107,48 @@ while running:
                 run_ku(event.key)
 
     # 달리기 출력
-    if (direction == 0 or direction == 1) and Run:
-        clear_canvas()
-        
-        run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
-        run_y_Frame_w = (run_y_Frame_w + 1) % 10
-        if direction == 0:
-            run_y_Frame_h = 1
-        else:
-            run_y_Frame_h = 0
-    elif (direction == 2 or direction == 3) and Run:
+    if Run:
         clear_canvas()
 
-        run_x.clip_draw(run_x_Frame_w * 115, run_x_Frame_h * 120, 115, 120, pos_x, pos_y)
-        run_x_Frame_w = (run_x_Frame_w + 1) % 10
-        if direction == 2:
-            run_x_Frame_h = 1
-        else:
-            run_x_Frame_h = 0
+        if direction == 0 or direction == 1:
+            run_y.clip_draw(run_y_Frame_w * 90, run_y_Frame_h * 120, 90, 120, pos_x, pos_y)
+            run_y_Frame_w = (run_y_Frame_w + 1) % 10
+
+            if direction == 0:
+                run_y_Frame_h = 1
+            else:
+                run_y_Frame_h = 0
+        elif direction == 2 or direction == 3:
+            run_x.clip_draw(run_x_Frame_w * 115, run_x_Frame_h * 120, 115, 120, pos_x, pos_y)
+            run_x_Frame_w = (run_x_Frame_w + 1) % 10
+
+            if direction == 2:
+                run_x_Frame_h = 1
+            else:
+                run_x_Frame_h = 0
 
     # 구르기 출력
-    if (direction == 0 or direction == 1) and Roll:
+    if Roll:
         clear_canvas()
 
-        roll_y.clip_draw(roll_repeat * 90, roll_y_Frame_h * 120, 90, 120, pos_x, pos_y)
-        if direction == 0:
-            roll_y_Frame_h = 1
-        else:
-            roll_y_Frame_h = 0
-    elif (direction == 2 or direction == 3) and Roll:
+        if direction == 0 or direction == 1:
+            roll_y.clip_draw(roll_repeat_y * 90, roll_y_Frame * 120, 90, 120, pos_x, pos_y)
+
+            if direction == 0:
+                roll_y_Frame = 1
+            else:
+                roll_y_Frame = 0
+        elif direction == 2 or direction == 3:
+            roll_x.clip_draw(roll_repeat_x * 100, run_x_Frame_h * 120, 100, 120, pos_x, pos_y)
+
+            if direction == 2:
+                roll_x_Frame = 1
+            else:
+                roll_x_Frame = 0
+
     # 공격 출력
         clear_canvas()
 
-        roll_x.clip_draw(roll_repeat * 100, run_x_Frame_h * 120, 100, 120, pos_x, pos_y)
-        if direction == 2:
-            roll_x_Frame_h = 1
-        else:
-            roll_x_Frame_h = 0
 
     update_canvas()
 
