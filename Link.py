@@ -149,8 +149,23 @@ while running:
                 roll_x_Frame = 0
 
     # 공격 출력
+    if Attack:
         clear_canvas()
 
+        if direction == 0 or direction == 1:
+            attack_y.clip_draw(attack_repeat_y * 190, attack_y_Frame * 265, 190, 265, pos_x, pos_y)
+
+            if direction == 0:
+                attack_y_Frame = 1
+            else:
+                attack_y_Frame = 0
+        elif direction == 2 or direction == 3:
+            attack_x.clip_draw(attack_repeat_x * 180, attack_x_Frame * 180, 180, 180, pos_x, pos_y)
+
+            if direction == 2:
+                attack_x_Frame = 1
+            else:
+                attack_x_Frame = 0
 
     update_canvas()
 
