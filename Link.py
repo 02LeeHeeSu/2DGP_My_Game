@@ -133,6 +133,7 @@ while running:
         else:
             roll_y_Frame_h = 0
     elif (direction == 2 or direction == 3) and Roll:
+    # 공격 출력
         clear_canvas()
 
         roll_x.clip_draw(roll_repeat * 100, run_x_Frame_h * 120, 100, 120, pos_x, pos_y)
@@ -143,6 +144,9 @@ while running:
 
     update_canvas()
 
+    # 구르기 상태면
+    # 공격 상태면
+    # 경계 설정
     if pos_x < 45:
         pos_x = 45
     elif pos_x > width - 45:
