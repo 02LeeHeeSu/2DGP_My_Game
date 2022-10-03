@@ -10,7 +10,8 @@ pos_x, pos_y = width // 2, height // 2
 
 Run = False
 Roll = False
-roll_repeat = 0
+roll_repeat_x = 0
+roll_repeat_y = 0
 
 
 # run
@@ -57,11 +58,10 @@ run_y_Frame_w = 0
 run_y_Frame_h = 0
 
 roll_x = load_image('Link/Roll/roll_x.png')
-roll_x_Frame_w = 0
-roll_x_Frame_h = 1
+roll_x_Frame = 1
 roll_y = load_image('Link/Roll/roll_y.png')
-roll_y_Frame_w = 0
-roll_y_Frame_h = 0
+roll_y_Frame = 0
+
 
 while running:
     # 달리는 상태 확인
