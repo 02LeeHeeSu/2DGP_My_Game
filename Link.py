@@ -100,8 +100,10 @@ while running:
                 running = False
             elif event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_kd(event.key)
-            elif event.key == SDLK_l:
+            elif event.key == SDLK_l and not Attack:
                 Roll = True
+            elif event.key == SDLK_j and not Roll:
+                Attack = True
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
