@@ -5,6 +5,13 @@ width, height = 1440, 960
 dir_x, dir_y = 0, 0
 
 
+def dir_to_frame(direction):
+    if direction < 2:
+        return -direction + 1
+    else:
+        return -direction + 3
+
+
 def run_kd(key):
     global dir_x, dir_y
 
