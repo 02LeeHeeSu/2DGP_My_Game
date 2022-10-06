@@ -41,6 +41,18 @@ def run_ku(key):
 # 주인공 객체 생성
 class MainCharacter:
     def __init__(self):
+        self.x, self.y = width // 2, height // 2   # 위치
+
+        self.direction = 1  # 방향
+
+        self.Stand = load_image('Link/Stand/Stand.png') # 서 있는 상태
+
+        self.Run_x = load_image('Link/Run/run_x.png')   # 달리기
+        self.Run_y = load_image('Link/Run/run_y.png')
+        self.Roll_x = load_image('Link/Roll/roll_x.png')    # 구르기
+        self.Roll_y = load_image('Link/Roll/roll_y.png')
+        self.Attack_x = load_image('Link/Attack/attack_x.png')  # 공격
+        self.Attack_y = load_image('Link/Attack/attack_y.png')
     def update(self):
     def draw(self):
 # 적 객체 생성
