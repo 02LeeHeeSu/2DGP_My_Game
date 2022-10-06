@@ -167,8 +167,25 @@ while running:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
 
+    if dir_x == 0 and dir_y == 0:
+        Link.Run = False
+    else:
+        Link.Run = True
+
+        if not (Link.Roll or Link.Attack):
+            if dir_y > 0 and dir_x >= 0:
+                Link.direction = 0
+            elif dir_y < 0 and dir_x <= 0:
+                Link.direction = 1
+            elif dir_x > 0 >= dir_y:
+                Link.direction = 2
+            elif dir_x < 0 <= dir_y:
+                Link.direction = 3
+
+    Link.draw()
     update_canvas()
 
+    Link.update()
 
     delay(0.05)
 
