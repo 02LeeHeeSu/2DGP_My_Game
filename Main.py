@@ -63,7 +63,81 @@ class MainCharacter:
         self.Attack_frame_x, self.Attack_frame_y = 0, 0
 
     def update(self):
+        if self.Run and not(self.Roll or self.Attack):
+            self.x += dir_x * 10
+            self.y += dir_y * 10
+
+            self.Run_frame_x = (self.Run_frame_x + 1) % 10
+            self.Run_frame_y = (self.Run_frame_y + 1) % 10
+
+        if self.Roll:
+            if self.direction == 0 or self.direction == 1:
+                if self.direction == 0:
+                    self.y += 20
+                else:
+                    self.y -= 20
+
+                self.Roll_frame_y = (self.Roll_frame_y + 1) % 9
+                if self.Roll_frame_y == 0:
+                    self.Roll = False
+            elif self.direction == 2 or self.direction == 3:
+                if self.direction == 2:
+                    self.x += 18
+                else:
+                    self.x -= 18
+
+                self.Roll_frame_x = (self.Roll_frame_x + 1) % 10
+                if self.Roll_frame_x == 0:
+                    self.Roll = False
+
+        if self.Attack:
+            if self.direction == 0 or self.direction == 1:
+                self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
+                if self.Attack_frame_y == 0:
+                    self.Attack = False
+            elif self.direction == 2 or self.direction == 3:
+                self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
+                if self.Attack_frame_x == 0:
+                    self.Attack = False
+
+        if self.x < 45:
+            self.x = 45
+        elif self.x > width - 45:
+            self.x = width - 45
+
+        if self.y < 60:
+            self.y = 60
+        elif self.y > height - 60:
+            self.y = height - 60
+
     def draw(self):
+        if not (self.Run or self.Roll or self.Attack):
+            self.Stand.clip_draw(self.direction * 90, 0, 90, 120, self.x, self.y)
+
+        if self.Run:
+            clear_canvas()
+
+            if self.direction == 0 or self.direction == 1:
+                self.Run_y.clip_draw(self.Run_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+            elif self.direction == 2 or self.direction == 3:
+                self.Run_x.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
+
+        if self.Roll:
+            clear_canvas()
+
+            if self.direction == 0 or self.direction == 1:
+                self.Roll_y.clip_draw(self.Roll_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+            elif self.direction == 2 or self.direction == 3:
+                self.Roll_x.clip_draw(self.Roll_frame_x * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
+
+        if self.Attack:
+            clear_canvas()
+
+            if self.direction == 0 or self.direction == 1:
+                self.Attack_y.clip_draw(self.Attack_frame_y * 190, dir_to_frame(self.direction) * 265, 190, 265, self.x, self.y)
+            elif self.direction == 2 or self.direction == 3:
+                self.Attack_x.clip_draw(self.Attack_frame_x * 270, dir_to_frame(self.direction) * 185, 270, 185, self.x, self.y)
+
 # 적 객체 생성
 
 
