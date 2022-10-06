@@ -47,12 +47,21 @@ class MainCharacter:
 
         self.Stand = load_image('Link/Stand/Stand.png') # 서 있는 상태
 
+        self.Run = False
         self.Run_x = load_image('Link/Run/run_x.png')   # 달리기
         self.Run_y = load_image('Link/Run/run_y.png')
+        self.Run_frame_x, self.Run_frame_y = 0, 0
+
+        self.Roll = False
         self.Roll_x = load_image('Link/Roll/roll_x.png')    # 구르기
         self.Roll_y = load_image('Link/Roll/roll_y.png')
+        self.Roll_frame_x, self.Roll_frame_y = 0, 0
+
+        self.Attack = False
         self.Attack_x = load_image('Link/Attack/attack_x.png')  # 공격
         self.Attack_y = load_image('Link/Attack/attack_y.png')
+        self.Attack_frame_x, self.Attack_frame_y = 0, 0
+
     def update(self):
     def draw(self):
 # 적 객체 생성
