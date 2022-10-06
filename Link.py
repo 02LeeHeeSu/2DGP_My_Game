@@ -75,13 +75,13 @@ while running:
         Run = True
 
         if not Roll and not Attack:
-            if dir_y > 0:
+            if dir_y > 0 and dir_x == 0:
                 direction = 0
-            elif dir_y < 0:
+            elif dir_y < 0 and dir_x == 0:
                 direction = 1
-            if dir_x > 0:
+            elif dir_x > 0 and dir_y == 0:
                 direction = 2
-            elif dir_x < 0:
+            elif dir_x < 0 and dir_y == 0:
                 direction = 3
 
     clear_canvas()
