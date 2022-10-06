@@ -160,7 +160,7 @@ while running:
             else:
                 attack_y_Frame = 0
         elif direction == 2 or direction == 3:
-            attack_x.clip_draw(attack_repeat_x * 180, attack_x_Frame * 180, 180, 180, pos_x, pos_y)
+            attack_x.clip_draw(attack_repeat_x * 270, attack_x_Frame * 185, 270, 185, pos_x, pos_y)
 
             if direction == 2:
                 attack_x_Frame = 1
@@ -204,7 +204,7 @@ while running:
             if attack_repeat_y == 0:
                 Attack = False
         elif direction == 2 or direction == 3:
-            attack_repeat_x = (attack_repeat_x + 1) % 8
+            attack_repeat_x = (attack_repeat_x + 1) % 7
             if attack_repeat_x == 0:
                 Attack = False
 
