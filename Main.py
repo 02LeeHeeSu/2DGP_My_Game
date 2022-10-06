@@ -143,6 +143,9 @@ class MainCharacter:
 
 # 초기화
 open_canvas(width, height)
+Link = MainCharacter()
+
+
 # 게임 루프
 while running:
     clear_canvas()
