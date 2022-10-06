@@ -32,6 +32,10 @@ def run_ku(key):
 
 
 # 주인공 객체 생성
+class MainCharacter:
+    def __init__(self):
+    def update(self):
+    def draw(self):
 # 적 객체 생성
 
 
