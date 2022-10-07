@@ -45,7 +45,7 @@ class MainCharacter:
 
         self.direction = 1  # 방향
 
-        self.Stand = load_image('Link/Stand/Stand.png') # 서 있는 상태
+        self.Stand = load_image('Link/Stand/Stand.png')    # 서 있는 상태
 
         self.Run = False
         self.Run_x = load_image('Link/Run/run_x.png')   # 달리기
@@ -173,13 +173,13 @@ while running:
         Link.Run = True
 
         if not (Link.Roll or Link.Attack):
-            if dir_y > 0 and dir_x >= 0:
+            if dir_y > 0:
                 Link.direction = 0
-            elif dir_y < 0 and dir_x <= 0:
+            elif dir_y < 0:
                 Link.direction = 1
-            elif dir_x > 0 >= dir_y:
+            elif dir_x > 0:
                 Link.direction = 2
-            elif dir_x < 0 <= dir_y:
+            elif dir_x < 0:
                 Link.direction = 3
 
     Link.draw()
