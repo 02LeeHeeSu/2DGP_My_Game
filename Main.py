@@ -62,8 +62,12 @@ class MainCharacter:
         self.Attack_y = load_image('Link/Attack/attack_y.png')
         self.Attack_frame_x, self.Attack_frame_y = 0, 0
 
+        self.Spin = False
+        self.Spin_Attack = load_image('Link/Attack/spin_attack.png')
+        self.Spin_frame = 0
+
     def update(self):
-        if self.Run and not(self.Roll or self.Attack):
+        if self.Run and not(self.Roll or self.Attack or self.Spin):
             self.x += dir_x * 10
             self.y += dir_y * 10
 
@@ -100,6 +104,12 @@ class MainCharacter:
                 if self.Attack_frame_x == 0:
                     self.Attack = False
 
+        if self.Spin:
+            self.Spin_frame = (self.Spin_frame + 1) % 13
+            if self.Spin_frame == 0:
+                self.Spin = False
+                self.direction = 1
+
         if self.x < 45:
             self.x = 45
         elif self.x > width - 45:
@@ -111,7 +121,7 @@ class MainCharacter:
             self.y = height - 60
 
     def draw(self):
-        if not (self.Run or self.Roll or self.Attack):
+        if not (self.Run or self.Roll or self.Attack or self.Spin):
             self.Stand.clip_draw(self.direction * 90, 0, 90, 120, self.x, self.y)
 
         if self.Run:
@@ -138,6 +148,11 @@ class MainCharacter:
             elif self.direction == 2 or self.direction == 3:
                 self.Attack_x.clip_draw(self.Attack_frame_x * 270, dir_to_frame(self.direction) * 185, 270, 185, self.x, self.y)
 
+        if self.Spin:
+            clear_canvas()
+
+            self.Spin_Attack.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
+
 # 적 객체 생성
 
 
@@ -159,10 +174,12 @@ while running:
                 running = False
             elif event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_kd(event.key)
-            elif event.key == SDLK_l and not Link.Attack:
+            elif event.key == SDLK_l and not (Link.Attack or Link.Spin):
                 Link.Roll = True
-            elif event.key == SDLK_j and not Link.Roll:
+            elif event.key == SDLK_j and not (Link.Roll or Link.Spin):
                 Link.Attack = True
+            elif event.key == SDLK_k and not (Link.Roll or Link.Attack):
+                Link.Spin = True
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
@@ -172,7 +189,7 @@ while running:
     else:
         Link.Run = True
 
-        if not (Link.Roll or Link.Attack):
+        if not (Link.Roll or Link.Attack or Link.Spin):
             if dir_y > 0:
                 Link.direction = 0
             elif dir_y < 0:
