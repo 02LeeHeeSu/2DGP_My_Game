@@ -206,8 +206,7 @@ def enter():
 def update():
     set_direction()
     Link.update()
-
-    delay(0.03)
+    delay(0.04)
 
 
 def draw():
