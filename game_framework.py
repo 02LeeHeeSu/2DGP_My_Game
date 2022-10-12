@@ -88,7 +88,7 @@ def run(start_state):
         stack[-1].draw()
     # repeatedly delete the top of the stack
     while len(stack) > 0:
-        stack[-1].exit()
+        stack[-1].end()
         stack.pop()
 
 
