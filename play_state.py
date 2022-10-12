@@ -108,8 +108,8 @@ class MainCharacter:
 
     def update(self):
         if self.Run and not(self.Roll or self.Attack or self.Spin):
-            self.x += dir_x * 10
-            self.y += dir_y * 10
+            self.x += dir_x * 15
+            self.y += dir_y * 15
 
             self.Run_frame_x = (self.Run_frame_x + 1) % 10
             self.Run_frame_y = (self.Run_frame_y + 1) % 10
