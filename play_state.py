@@ -186,7 +186,7 @@ class MainCharacter:
             if self.direction == 0 or self.direction == 1:
                 self.Attack_y.clip_draw(self.Attack_frame_y * 190, dir_to_frame(self.direction) * 265, 190, 265, self.x, self.y)
             elif self.direction == 2 or self.direction == 3:
-                self.Attack_x.clip_draw(self.Attack_frame_x * 270, dir_to_frame(self.direction) * 185, 270, 185, self.x, self.y)
+                self.Attack_x.clip_draw(self.Attack_frame_x * 270, dir_to_frame(self.direction) * 225, 270, 225, self.x, self.y)
 
         if self.Spin:
             clear_canvas()
