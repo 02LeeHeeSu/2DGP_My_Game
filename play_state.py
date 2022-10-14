@@ -250,10 +250,14 @@ def update():
     delay(0.04)
 
 
-def draw():
-    clear_canvas()
+def draw_world():
     Link.draw()
     slot.draw()
+
+
+def draw():
+    clear_canvas()
+    draw_world()
     update_canvas()
 
 
@@ -271,12 +275,12 @@ def resume():
     pass
 
 
-def test_self():
-    import sys
-    open_canvas(width, height)
-    game_framework.run(sys.modules['__main__'])
-    close_canvas()
-
-
-if __name__ == '__main__':
-    test_self()
+# def test_self():
+#     import sys
+#     open_canvas(width, height)
+#     game_framework.run(sys.modules['__main__'])
+#     close_canvas()
+#
+#
+# if __name__ == '__main__':
+#     test_self()

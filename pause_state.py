@@ -32,6 +32,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
+    play_state.draw_world()
     image.draw(720, 480)
     update_canvas()
 
@@ -48,12 +49,12 @@ def resume():
     pass
 
 
-def test_self():
-    import sys
-    open_canvas(1440, 960)
-    game_framework.run(sys.modules['__main__'])
-    close_canvas()
-
-
-if __name__ == '__main__':
-    test_self()
+# def test_self():
+#     import sys
+#     open_canvas(1440, 960)
+#     game_framework.run(sys.modules['__main__'])
+#     close_canvas()
+#
+#
+# if __name__ == '__main__':
+#     test_self()
