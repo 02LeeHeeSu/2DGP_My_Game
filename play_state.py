@@ -214,6 +214,12 @@ class Item:
     def draw(self):
         self.slot.draw(720, 50)
 
+        if self.IsGetArrow:
+            self.Arrow.draw(slot_x + slot_gap * 1, slot_y)
+        if self.IsGetShield:
+            self.Shield.draw(slot_x + slot_gap * 2, slot_y)
+        if self.IsGetPotion:
+            self.Potion.draw(slot_x + slot_gap * 3, slot_y)
 # 게임 초기화: 객체 생성
 Link = None
 
