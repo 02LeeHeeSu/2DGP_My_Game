@@ -13,7 +13,7 @@ def enter():
     logo_time = 0.0
 
 
-def end():
+def exit():
     global image
     del image
 

@@ -256,7 +256,7 @@ def draw():
     update_canvas()
 
 
-def end():
+def exit():
     global Link, slot
     del Link
     del slot
