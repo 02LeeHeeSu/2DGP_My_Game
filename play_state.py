@@ -252,6 +252,7 @@ def update():
 def draw():
     clear_canvas()
     Link.draw()
+    slot.draw()
     update_canvas()
 
 
