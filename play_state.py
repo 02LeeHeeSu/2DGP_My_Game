@@ -234,11 +234,13 @@ class Item:
 
 # 게임 초기화: 객체 생성
 Link = None
+slot = None
 
 
 def enter():
-    global Link
+    global Link, slot
     Link = MainCharacter()
+    slot = Item()
 
 
 def update():
