@@ -6,6 +6,10 @@ import title_state
 width, height = 1440, 960
 dir_x, dir_y = 0, 0
 
+slot_gap = 54
+slot_x = 557 - slot_gap
+slot_y = 65
+
 
 def set_direction():
     if dir_x == 0 and dir_y == 0:
