@@ -77,6 +77,14 @@ def handle_events():
                 Link.Attack = True
             elif event.key == SDLK_k and not (Link.Roll or Link.Attack):
                 Link.Spin = True
+            elif event.key == SDLK_1:
+                slot.number = 1
+            elif event.key == SDLK_2:
+                slot.number = 2
+            elif event.key == SDLK_3:
+                slot.number = 3
+            elif event.key == SDLK_4:
+                slot.number = 4
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
