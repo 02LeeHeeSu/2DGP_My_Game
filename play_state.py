@@ -194,6 +194,22 @@ class MainCharacter:
             self.Spin_Attack.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
 
 
+# Item 그리고 Item slot
+class Item:
+    def __init__(self):
+        self.slot = load_image('Item/slot.png')
+        self.selected = load_image('Item/selected.png')
+        self.number = 1
+        self.Arrow = load_image('Item/arrow_slot.png')
+        self.IsGetArrow = True
+        self.Shield = load_image('Item/Shield_slot.png')
+        self.IsGetShield = True
+        self.Potion = load_image('Item/potion_slot.png')
+        self.IsGetPotion = True
+
+    def draw(self):
+        self.slot.draw(720, 50)
+
 # 게임 초기화: 객체 생성
 Link = None
 
