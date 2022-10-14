@@ -257,5 +257,6 @@ def draw():
 
 
 def end():
-    global Link
+    global Link, slot
     del Link
+    del slot
