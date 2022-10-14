@@ -38,3 +38,14 @@ def draw():
 
 def handle_events():
     events = get_events()
+
+
+def test_self():
+    import sys
+    open_canvas(1440, 960)
+    game_framework.run(sys.modules['__main__'])
+    close_canvas()
+
+
+if __name__ == '__main__':
+    test_self()

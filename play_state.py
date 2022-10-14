@@ -260,3 +260,14 @@ def end():
     global Link, slot
     del Link
     del slot
+
+
+def test_self():
+    import sys
+    open_canvas(width, height)
+    game_framework.run(sys.modules['__main__'])
+    close_canvas()
+
+
+if __name__ == '__main__':
+    test_self()
