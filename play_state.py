@@ -228,6 +228,10 @@ class Item:
             self.Shield.draw(slot_x + slot_gap * 2, slot_y)
         if self.IsGetPotion:
             self.Potion.draw(slot_x + slot_gap * 3, slot_y)
+
+        self.selected.draw(slot_x + slot_gap * self.number, slot_y)
+
+
 # 게임 초기화: 객체 생성
 Link = None
 
