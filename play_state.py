@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import title_state
+import pause_state
 
 width, height = 1440, 960
 dir_x, dir_y = 0, 0
@@ -68,7 +69,7 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
-                game_framework.change_state(title_state)
+                game_framework.push_state(pause_state)
             elif event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_kd(event.key)
             elif event.key == SDLK_l and not (Link.Attack or Link.Spin):
@@ -260,6 +261,14 @@ def exit():
     global Link, slot
     del Link
     del slot
+
+
+def pause():
+    pass
+
+
+def resume():
+    pass
 
 
 def test_self():
