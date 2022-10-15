@@ -65,6 +65,8 @@ def run_ku(key):
 
 
 def handle_events():
+    global selected_num
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -81,13 +83,13 @@ def handle_events():
             elif event.key == SDLK_k and not (Link.Roll or Link.Attack):
                 Link.Spin = True
             elif event.key == SDLK_1:
-                slot.number = 1
+                selected_num = 1
             elif event.key == SDLK_2:
-                slot.number = 2
+                selected_num = 2
             elif event.key == SDLK_3:
-                slot.number = 3
+                selected_num = 3
             elif event.key == SDLK_4:
-                slot.number = 4
+                selected_num = 4
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_w or event.key == SDLK_s or event.key == SDLK_d or event.key == SDLK_a:
                 run_ku(event.key)
@@ -231,6 +233,7 @@ class Item:
         if self.IsGetPotion:
             self.Potion.draw(slot_x + slot_gap * 3, slot_y)
 
+        self.selected.draw(slot_x + slot_gap * selected_num, slot_y)
 
 
 # 게임 초기화: 객체 생성
