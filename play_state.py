@@ -11,6 +11,9 @@ slot_x = 557 - slot_gap
 slot_y = 65
 
 
+selected_num = 1    # 아이템 선택 번호
+
+
 def set_direction():
     if dir_x == 0 and dir_y == 0:
         Link.Run = False
@@ -211,7 +214,6 @@ class Item:
     def __init__(self):
         self.slot = load_image('Item/slot.png')
         self.selected = load_image('Item/selected.png')
-        self.number = 1
         self.Arrow = load_image('Item/arrow_slot.png')
         self.IsGetArrow = True
         self.Shield = load_image('Item/Shield_slot.png')
@@ -229,7 +231,6 @@ class Item:
         if self.IsGetPotion:
             self.Potion.draw(slot_x + slot_gap * 3, slot_y)
 
-        self.selected.draw(slot_x + slot_gap * self.number, slot_y)
 
 
 # 게임 초기화: 객체 생성
