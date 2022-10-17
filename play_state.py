@@ -118,8 +118,8 @@ class MainCharacter:
         self.Roll_frame_x, self.Roll_frame_y = 0, 0
 
         self.Attack = False
-        self.Attack_x = load_image('Link/Attack/attack_x (2).png')  # 공격
-        self.Attack_y = load_image('Link/Attack/attack_y (2).png')
+        self.Attack_x = load_image('Link/Attack/attack_x.png')  # 공격
+        self.Attack_y = load_image('Link/Attack/attack_y.png')
         self.Attack_frame_x, self.Attack_frame_y = 0, 0
 
         self.Spin = False
