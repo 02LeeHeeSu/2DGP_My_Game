@@ -11,7 +11,7 @@ slot_x = 557 - slot_gap
 slot_y = 65
 
 
-IsGetArrow = True
+IsGetBow = True
 IsGetShield = True
 IsGetPotion = True
 selected_num = 1    # 아이템 선택 번호
@@ -219,15 +219,15 @@ class Item:
     def __init__(self):
         self.slot = load_image('Item/slot.png')
         self.selected = load_image('Item/selected.png')
-        self.Arrow = load_image('Item/arrow_slot.png')
+        self.Bow = load_image('Item/bow_slot.png')
         self.Shield = load_image('Item/Shield_slot.png')
         self.Potion = load_image('Item/potion_slot.png')
 
     def draw(self):
         self.slot.draw(720, 50)
 
-        if IsGetArrow:
-            self.Arrow.draw(slot_x + slot_gap * 1, slot_y)
+        if IsGetBow:
+            self.Bow.draw(slot_x + slot_gap * 1, slot_y)
         if IsGetShield:
             self.Shield.draw(slot_x + slot_gap * 2, slot_y)
         if IsGetPotion:
