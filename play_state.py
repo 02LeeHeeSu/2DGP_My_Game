@@ -118,8 +118,8 @@ class MainCharacter:
         self.Roll_frame_x, self.Roll_frame_y = 0, 0
 
         self.Attack = False
-        self.Attack_x = load_image('Link/Attack/attack_x.png')  # 공격
-        self.Attack_y = load_image('Link/Attack/attack_y.png')
+        self.Attack_x = load_image('Link/Attack/attack_x (2).png')  # 공격
+        self.Attack_y = load_image('Link/Attack/attack_y (2).png')
         self.Attack_frame_x, self.Attack_frame_y = 0, 0
 
         self.Spin = False
@@ -204,9 +204,9 @@ class MainCharacter:
             clear_canvas()
 
             if self.direction == 0 or self.direction == 1:
-                self.Attack_y.clip_draw(self.Attack_frame_y * 190, dir_to_frame(self.direction) * 265, 190, 265, self.x, self.y)
+                self.Attack_y.clip_draw(self.Attack_frame_y * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
             elif self.direction == 2 or self.direction == 3:
-                self.Attack_x.clip_draw(self.Attack_frame_x * 270, dir_to_frame(self.direction) * 225, 270, 225, self.x, self.y)
+                self.Attack_x.clip_draw(self.Attack_frame_x * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
             clear_canvas()
