@@ -235,15 +235,20 @@ class Slot:
         self.selected.draw(self.slot_x + self.slot_gap * selected_num, self.slot_y)
 
 
+class Bow:
+    def __init__(self):
+        self.Use = False
 # 게임 초기화: 객체 생성
 Link = None
 slot = None
+bow = None
 
 
 def enter():
-    global Link, slot
+    global Link, slot, bow
     Link = MainCharacter()
     slot = Slot()
+    bow = Bow()
 
 
 def update():
