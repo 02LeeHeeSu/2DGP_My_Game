@@ -211,7 +211,7 @@ class MainCharacter:
 
 
 # Item 그리고 Item slot
-class Item:
+class Slot:
     def __init__(self):
         self.slot_gap = 54
         self.slot_x = 557 - self.slot_gap
@@ -226,13 +226,13 @@ class Item:
         self.slot.draw(720, 50)
 
         if IsGetBow:
-            self.Bow.draw(slot_x + slot_gap * 1, slot_y)
+            self.Bow.draw(self.slot_x + self.slot_gap * 1, self.slot_y)
         if IsGetShield:
-            self.Shield.draw(slot_x + slot_gap * 2, slot_y)
+            self.Shield.draw(self.slot_x + self.slot_gap * 2, self.slot_y)
         if IsGetPotion:
-            self.Potion.draw(slot_x + slot_gap * 3, slot_y)
+            self.Potion.draw(self.slot_x + self.slot_gap * 3, self.slot_y)
 
-        self.selected.draw(slot_x + slot_gap * selected_num, slot_y)
+        self.selected.draw(self.slot_x + self.slot_gap * selected_num, self.slot_y)
 
 
 # 게임 초기화: 객체 생성
@@ -243,7 +243,7 @@ slot = None
 def enter():
     global Link, slot
     Link = MainCharacter()
-    slot = Item()
+    slot = Slot()
 
 
 def update():
