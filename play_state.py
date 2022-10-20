@@ -6,10 +6,6 @@ import pause_state
 width, height = 1440, 960
 dir_x, dir_y = 0, 0
 
-slot_gap = 54
-slot_x = 557 - slot_gap
-slot_y = 65
-
 
 IsGetBow = True
 IsGetShield = True
@@ -217,6 +213,9 @@ class MainCharacter:
 # Item 그리고 Item slot
 class Item:
     def __init__(self):
+        self.slot_gap = 54
+        self.slot_x = 557 - self.slot_gap
+        self.slot_y = 65
         self.slot = load_image('Item/slot.png')
         self.selected = load_image('Item/selected.png')
         self.Bow = load_image('Item/bow_slot.png')
