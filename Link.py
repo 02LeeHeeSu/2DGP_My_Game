@@ -22,9 +22,13 @@ key_event_table = {
 class STAND:
     @staticmethod
     def enter(self, event):
+        self.dir_x = 0
+        self.dir_y = 0
+
     @staticmethod
-    def exit(self):
+    def exit(self, event):
         pass
+
     @staticmethod
     def do(self):
         pass
