@@ -5,6 +5,18 @@ width, height = 1440, 960
 
 
 # 주인공 객체 생성
+# 이벤트 정의
+wd, sd, dd, ad, wu, su, du, au = range(8)
+key_event_table = {
+    (SDL_KEYDOWN, SDLK_w): wd,
+    (SDL_KEYDOWN, SDLK_s): sd,
+    (SDL_KEYDOWN, SDLK_d): dd,
+    (SDL_KEYDOWN, SDLK_a): ad,
+    (SDL_KEYUP, SDLK_w): wu,
+    (SDL_KEYUP, SDLK_s): su,
+    (SDL_KEYUP, SDLK_d): du,
+    (SDL_KEYUP, SDLK_a): au
+}
 class MainCharacter:
     def __init__(self):
         self.x, self.y = width // 2, height // 2   # 위치
