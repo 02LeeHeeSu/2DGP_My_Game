@@ -95,93 +95,67 @@ class MainCharacter:
         self.Spin_frame = 0
 
     def update(self):
-        if self.Run and not(self.Roll or self.Attack or self.Spin):
-            self.x += dir_x * 15
-            self.y += dir_y * 15
+        self.cur_state.do(self)
 
-            self.Run_frame_x = (self.Run_frame_x + 1) % 10
-            self.Run_frame_y = (self.Run_frame_y + 1) % 10
+        if self.queue:
+            event = self.queue.pop()
+            self.cur_state.exit(self)
+            self.cur_state = next_state[self.cur_state][event]
+            self.cur_state.enter(self, event)
+        # if self.Run and not(self.Roll or self.Attack or self.Spin):
+        #     self.x += self.dir_x * 15
+        #     self.y += self.dir_y * 15
+        #
+        #     self.Run_frame_x = (self.Run_frame_x + 1) % 10
+        #     self.Run_frame_y = (self.Run_frame_y + 1) % 10
 
-        if self.Roll:
-            if self.direction == 0 or self.direction == 1:
-                if self.direction == 0:
-                    self.y += 20
-                else:
-                    self.y -= 20
+        # if self.Roll:
+        #     if self.direction == 0 or self.direction == 1:
+        #         if self.direction == 0:
+        #             self.y += 20
+        #         else:
+        #             self.y -= 20
+        #
+        #         self.Roll_frame_y = (self.Roll_frame_y + 1) % 9
+        #         if self.Roll_frame_y == 0:
+        #             self.Roll = False
+        #     elif self.direction == 2 or self.direction == 3:
+        #         if self.direction == 2:
+        #             self.x += 18
+        #         else:
+        #             self.x -= 18
+        #
+        #         self.Roll_frame_x = (self.Roll_frame_x + 1) % 10
+        #         if self.Roll_frame_x == 0:
+        #             self.Roll = False
+        #
+        # if self.Attack:
+        #     if self.direction == 0 or self.direction == 1:
+        #         self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
+        #         if self.Attack_frame_y == 0:
+        #             self.Attack = False
+        #     elif self.direction == 2 or self.direction == 3:
+        #         self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
+        #         if self.Attack_frame_x == 0:
+        #             self.Attack = False
+        #
+        # if self.Spin:
+        #     self.Spin_frame = (self.Spin_frame + 1) % 13
+        #     if self.Spin_frame == 0:
+        #         self.Spin = False
+        #         self.direction = 1
 
-                self.Roll_frame_y = (self.Roll_frame_y + 1) % 9
-                if self.Roll_frame_y == 0:
-                    self.Roll = False
-            elif self.direction == 2 or self.direction == 3:
-                if self.direction == 2:
-                    self.x += 18
-                else:
-                    self.x -= 18
-
-                self.Roll_frame_x = (self.Roll_frame_x + 1) % 10
-                if self.Roll_frame_x == 0:
-                    self.Roll = False
-
-        if self.Attack:
-            if self.direction == 0 or self.direction == 1:
-                self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
-                if self.Attack_frame_y == 0:
-                    self.Attack = False
-            elif self.direction == 2 or self.direction == 3:
-                self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
-                if self.Attack_frame_x == 0:
-                    self.Attack = False
-
-        if self.Spin:
-            self.Spin_frame = (self.Spin_frame + 1) % 13
-            if self.Spin_frame == 0:
-                self.Spin = False
-                self.direction = 1
-
-        if self.x < 45:
-            self.x = 45
-        elif self.x > width - 45:
-            self.x = width - 45
-
-        if self.y < 60:
-            self.y = 60
-        elif self.y > height - 60:
-            self.y = height - 60
+        # if self.x < 45:
+        #     self.x = 45
+        # elif self.x > width - 45:
+        #     self.x = width - 45
+        #
+        # if self.y < 60:
+        #     self.y = 60
+        # elif self.y > height - 60:
+        #     self.y = height - 60
 
     def draw(self):
-        if not (self.Run or self.Roll or self.Attack or self.Spin):
-            self.Stand.clip_draw(self.direction * 90, 0, 90, 120, self.x, self.y)
-
-        if self.Run:
-            clear_canvas()
-
-            if self.direction == 0 or self.direction == 1:
-                self.Run_y.clip_draw(self.Run_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
-            elif self.direction == 2 or self.direction == 3:
-                self.Run_x.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
-
-        if self.Roll:
-            clear_canvas()
-
-            if self.direction == 0 or self.direction == 1:
-                self.Roll_y.clip_draw(self.Roll_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
-            elif self.direction == 2 or self.direction == 3:
-                self.Roll_x.clip_draw(self.Roll_frame_x * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
-
-        if self.Attack:
-            clear_canvas()
-
-            if self.direction == 0 or self.direction == 1:
-                self.Attack_y.clip_draw(self.Attack_frame_y * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
-            elif self.direction == 2 or self.direction == 3:
-                self.Attack_x.clip_draw(self.Attack_frame_x * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
-
-        if self.Spin:
-            clear_canvas()
-
-            self.Spin_Attack.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
-
-
 def handle_events():
     global selected_num
 
@@ -217,3 +191,35 @@ def handle_events():
             elif event.key == SDLK_u:
                 if selected_num == 1 and bow.Use:
                     bow.Use = False
+        self.cur_state.draw(self)
+        # if not (self.Run or self.Roll or self.Attack or self.Spin):
+        #     self.Stand.clip_draw(self.direction * 90, 0, 90, 120, self.x, self.y)
+
+        # if self.Run:
+        #     clear_canvas()
+        #
+        #     if self.direction == 0 or self.direction == 1:
+        #         self.Run_y.clip_draw(self.Run_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+        #     elif self.direction == 2 or self.direction == 3:
+        #         self.Run_x.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
+
+        # if self.Roll:
+        #     clear_canvas()
+        #
+        #     if self.direction == 0 or self.direction == 1:
+        #         self.Roll_y_image.clip_draw(self.Roll_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+        #     elif self.direction == 2 or self.direction == 3:
+        #         self.Roll_x_image.clip_draw(self.Roll_frame_x * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
+        #
+        # if self.Attack:
+        #     clear_canvas()
+        #
+        #     if self.direction == 0 or self.direction == 1:
+        #         self.Attack_y.clip_draw(self.Attack_frame_y * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
+        #     elif self.direction == 2 or self.direction == 3:
+        #         self.Attack_x_image.clip_draw(self.Attack_frame_x * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
+        #
+        # if self.Spin:
+        #     clear_canvas()
+        #
+        #     self.Spin_Attack.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
