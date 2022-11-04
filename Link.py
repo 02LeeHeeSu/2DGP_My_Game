@@ -48,13 +48,58 @@ class STAND:
 class RUN:
     @staticmethod
     def enter(self, event):
+        if event == wd:
+            self.dir_y += 1
+        elif event == sd:
+            self.dir_y -= 1
+        elif event == dd:
+            self.dir_x += 1
+        elif event == ad:
+            self.dir_x -= 1
+
+        elif event == wu:
+            self.dir_y -= 1
+        elif event == su:
+            self.dir_y += 1
+        elif event == du:
+            self.dir_x -= 1
+        elif event == au:
+            self.dir_x += 1
+
     @staticmethod
     def exit(self):
         pass
+
     @staticmethod
     def do(self):
+        # 방향 설정
+        if self.dir_y > 0:
+            self.direction = 0
+        elif self.dir_y < 0:
+            self.direction = 1
+        elif self.dir_x > 0:
+            self.direction = 2
+        elif self.dir_x < 0:
+            self.direction = 3
+
+        # 좌표 설정
+        self.x += self.dir_x * 15
+        self.y += self.dir_y * 15
+        self.x = clamp(45, self.x, width - 45)
+        self.y = clamp(60, self.y, height - 60)
+
+        # 프레임 변화
+        self.Run_frame_x = (self.Run_frame_x + 1) % 10
+        self.Run_frame_y = (self.Run_frame_y + 1) % 10
+
     @staticmethod
     def draw(self):
+        if self.direction == 0 or self.direction == 1:
+            self.Run_y_image.clip_draw(self.Run_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+        elif self.direction == 2 or self.direction == 3:
+            self.Run_x_image.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
+
+
 next_state = {
     Stand: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN},
