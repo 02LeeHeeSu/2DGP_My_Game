@@ -151,10 +151,16 @@ class ATTACK:
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
-            dir_0: STAND},
+            dir_0: STAND,
+            jd: ATTACK, kd: ATTACK},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
-          dir_0: STAND}
+          dir_0: STAND,
+          jd: ATTACK, kd: ATTACK},
+    ATTACK: {wd: ATTACK, sd: ATTACK, dd: ATTACK, ad: ATTACK,
+             wu: ATTACK, su: ATTACK, du: ATTACK, au: ATTACK,
+             dir_0: STAND,
+             jd: ATTACK, kd: ATTACK}
 }
 
 
