@@ -171,6 +171,24 @@ class ATTACK:
             self.Spin_Attack_image.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
 
 
+class ROLL:
+    @staticmethod
+    def enter(self, event):
+        pass
+
+    @staticmethod
+    def exit(self):
+        pass
+
+    @staticmethod
+    def do(self):
+        pass
+
+    @staticmethod
+    def draw(self):
+        pass
+    
+
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
