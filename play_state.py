@@ -20,25 +20,26 @@ class Bow:
         self.Use = False
 # 게임 초기화: 객체 생성
 Link = None
-slot = None
+inventory = None
 bow = None
 
 
 def enter():
-    global Link, slot, bow
+    global Link, inventory, bow
     Link = MainCharacter()
-    slot = Slot()
+    inventory = Slot()
     bow = Bow()
 
 
 def update():
     Link.update()
+    inventory.update()
     delay(0.04)
 
 
 def draw_world():
     Link.draw()
-    slot.draw()
+    inventory.draw()
 
 
 def draw():
@@ -48,9 +49,9 @@ def draw():
 
 
 def exit():
-    global Link, slot
+    global Link, inventory
     del Link
-    del slot
+    del inventory
 
 
 def pause():
