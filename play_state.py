@@ -17,7 +17,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            game_framework.quit()
+            game_framework.push_state(pause_state)
         else:
             for obj in game_world.all_objects():
                 obj.handle_event(event)
