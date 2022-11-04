@@ -108,14 +108,46 @@ class RUN:
 class ATTACK:
     @staticmethod
     def enter(self, event):
+        if event == jd:
+            self.Attack = True
+        elif event == kd:
+            self.Spin = True
+
     @staticmethod
     def exit(self):
         pass
 
     @staticmethod
     def do(self):
+        if self.Attack:
+            if self.direction == 0 or self.direction == 1:
+                self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
+                if self.Attack_frame_y == 0:
+                    self.Attack = False
+
+            elif self.direction == 2 or self.direction == 3:
+                self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
+                if self.Attack_frame_x == 0:
+                    self.Attack = False
+
+        if self.Spin:
+            self.Spin_frame = (self.Spin_frame + 1) % 13
+            if self.Spin_frame == 0:
+                self.Spin = False
+                self.direction = 1
+
     @staticmethod
     def draw(self):
+        if self.Attack:
+            if self.direction == 0 or self.direction == 1:
+                self.Attack_y_image.clip_draw(self.Attack_frame_y * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
+            elif self.direction == 2 or self.direction == 3:
+                self.Attack_x_image.clip_draw(self.Attack_frame_x * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
+
+        if self.Spin:
+            self.Spin_Attack_image.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
+
+
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
