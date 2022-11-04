@@ -12,7 +12,7 @@ def dir_to_frame(direction):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au = range(8)
+wd, sd, dd, ad, wu, su, du, au, dir_0 = range(9)
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
     (SDL_KEYDOWN, SDLK_s): sd,
@@ -101,10 +101,12 @@ class RUN:
 
 
 next_state = {
-    Stand: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
-            wu: RUN, su: RUN, du: RUN, au: RUN},
-    RUN: {wd: Stand, sd: Stand, dd: Stand, ad: Stand,
-          wu: Stand, su: Stand, du: Stand, au: Stand}
+    STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
+            wu: RUN, su: RUN, du: RUN, au: RUN,
+            dir_0: STAND},
+    RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
+          wu: RUN, su: RUN, du: RUN, au: RUN,
+          dir_0: STAND}
 }
 
 
