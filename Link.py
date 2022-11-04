@@ -111,13 +111,13 @@ class RUN:
 class ACTION:
     @staticmethod
     def enter(self, event):
-        if event == jd:
-            self.Attack = True
-        elif event == kd:
-            self.Spin = True
-        elif event == ld:
-            self.Roll = True
-        elif event == wd:
+        if self.is_none_action():
+            if event == jd:
+                self.Attack = True
+            elif event == kd:
+                self.Spin = True
+
+        if event == wd:
             self.dir_y += 1
         elif event == sd:
             self.dir_y -= 1
@@ -196,6 +196,12 @@ class MainCharacter:
 
     def is_none_event(self):
         if not self.queue:
+            return True
+        else:
+            return False
+
+    def is_none_action(self):
+        if not (self.Attack or self. Spin or self.Roll):
             return True
         else:
             return False
