@@ -71,6 +71,7 @@ class MainCharacter:
         self.x, self.y = width // 2, height // 2   # 위치
 
         self.direction = 1  # 방향
+        self.dir_x, self.dir_y = 0, 0
 
         self.Stand = load_image('Link/Stand/Stand.png')    # 서 있는 상태
 
