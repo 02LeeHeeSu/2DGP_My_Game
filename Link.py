@@ -124,17 +124,20 @@ class ATTACK:
                 self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
                 if self.Attack_frame_y == 0:
                     self.Attack = False
+                    self.add_event(dir_0)
 
             elif self.direction == 2 or self.direction == 3:
                 self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
                 if self.Attack_frame_x == 0:
                     self.Attack = False
+                    self.add_event(dir_0)
 
         if self.Spin:
             self.Spin_frame = (self.Spin_frame + 1) % 13
             if self.Spin_frame == 0:
                 self.Spin = False
                 self.direction = 1
+                self.add_event(dir_0)
 
     @staticmethod
     def draw(self):
