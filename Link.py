@@ -33,7 +33,7 @@ class STAND:
         self.dir_y = 0
 
     @staticmethod
-    def exit(self, event):
+    def exit(self):
         pass
 
     @staticmethod
