@@ -12,7 +12,7 @@ def dir_to_frame(direction):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au, dir_0 = range(9)
+wd, sd, dd, ad, wu, su, du, au, jd, kd, dir_0 = range(11)
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
     (SDL_KEYDOWN, SDLK_s): sd,
@@ -21,7 +21,10 @@ key_event_table = {
     (SDL_KEYUP, SDLK_w): wu,
     (SDL_KEYUP, SDLK_s): su,
     (SDL_KEYUP, SDLK_d): du,
-    (SDL_KEYUP, SDLK_a): au
+    (SDL_KEYUP, SDLK_a): au,
+    (SDL_KEYDOWN, SDLK_j): jd,
+    (SDL_KEYDOWN, SDLK_k): kd
+
 }
 
 
