@@ -32,8 +32,11 @@ key_event_table = {
 class STAND:
     @staticmethod
     def enter(self, event):
-        self.dir_x = 0
-        self.dir_y = 0
+        if event == dir_0:
+            pass
+        else:
+            self.dir_x = 0
+            self.dir_y = 0
 
     @staticmethod
     def exit(self):
@@ -112,6 +115,23 @@ class ATTACK:
             self.Attack = True
         elif event == kd:
             self.Spin = True
+        elif event == wd:
+            self.dir_y += 1
+        elif event == sd:
+            self.dir_y -= 1
+        elif event == dd:
+            self.dir_x += 1
+        elif event == ad:
+            self.dir_x -= 1
+
+        elif event == wu:
+            self.dir_y -= 1
+        elif event == su:
+            self.dir_y += 1
+        elif event == du:
+            self.dir_x -= 1
+        elif event == au:
+            self.dir_x += 1
 
     @staticmethod
     def exit(self):
