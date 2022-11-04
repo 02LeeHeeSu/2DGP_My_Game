@@ -116,6 +116,8 @@ class ACTION:
                 self.Attack = True
             elif event == kd:
                 self.Spin = True
+            elif event == ld:
+                self.Roll = True
 
         if event == wd:
             self.dir_y += 1
@@ -161,6 +163,28 @@ class ACTION:
                 self.direction = 1
                 self.add_event(dir_0)
 
+        if self.Roll:
+            if self.direction == 0 or self.direction == 1:
+                if self.direction == 0:
+                    self.y += 20
+                else:
+                    self.y -= 20
+
+                self.Roll_frame_y = (self.Roll_frame_y + 1) % 9
+                if self.Roll_frame_y == 0:
+                    self.Roll = False
+                    self.add_event(dir_0)
+            elif self.direction == 2 or self.direction == 3:
+                if self.direction == 2:
+                    self.x += 18
+                else:
+                    self.x -= 18
+
+                self.Roll_frame_x = (self.Roll_frame_x + 1) % 10
+                if self.Roll_frame_x == 0:
+                    self.Roll = False
+                    self.add_event(dir_0)
+
     @staticmethod
     def draw(self):
         if self.Attack:
@@ -171,6 +195,12 @@ class ACTION:
 
         if self.Spin:
             self.Spin_Attack_image.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
+
+        if self.Roll:
+            if self.direction == 0 or self.direction == 1:
+                self.Roll_y_image.clip_draw(self.Roll_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+            elif self.direction == 2 or self.direction == 3:
+                self.Roll_x_image.clip_draw(self.Roll_frame_x * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
 
 
 next_state = {
