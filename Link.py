@@ -4,6 +4,13 @@ from pico2d import *
 width, height = 1440, 960
 
 
+def dir_to_frame(direction):
+    if direction < 2:
+        return -direction + 1
+    else:
+        return -direction + 3
+
+
 # 이벤트 정의
 wd, sd, dd, ad, wu, su, du, au = range(8)
 key_event_table = {
