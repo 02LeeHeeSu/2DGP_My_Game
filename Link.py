@@ -4,7 +4,6 @@ from pico2d import *
 width, height = 1440, 960
 
 
-# 주인공 객체 생성
 # 이벤트 정의
 wd, sd, dd, ad, wu, su, du, au = range(8)
 key_event_table = {
