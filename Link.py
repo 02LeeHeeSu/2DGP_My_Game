@@ -45,6 +45,14 @@ class RUN:
     def do(self):
     @staticmethod
     def draw(self):
+next_state = {
+    Stand: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
+            wu: RUN, su: RUN, du: RUN, au: RUN},
+    RUN: {wd: Stand, sd: Stand, dd: Stand, ad: Stand,
+          wu: Stand, su: Stand, du: Stand, au: Stand}
+}
+
+
 class MainCharacter:
     def __init__(self):
         self.x, self.y = width // 2, height // 2   # 위치
