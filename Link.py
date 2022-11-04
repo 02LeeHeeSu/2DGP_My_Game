@@ -54,7 +54,20 @@ next_state = {
 
 
 class MainCharacter:
+
+    def add_event(self, event):
+        self.queue.insert(0, event)
+
+    def handle_event(self, event):
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
+
     def __init__(self):
+        self.queue = []
+        self.cur_state = Stand
+        self.cur_state.enter(self, None)
+
         self.x, self.y = width // 2, height // 2   # 위치
 
         self.direction = 1  # 방향
