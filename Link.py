@@ -76,7 +76,7 @@ class RUN:
     @staticmethod
     def do(self):
         # 방향 설정
-        if self.dir_x == 0 and self.dir_y == 0 and not self.queue:
+        if self.dir_x == 0 and self.dir_y == 0 and self.is_none_event(self):
             self.add_event(dir_0)
         if self.dir_y > 0:
             self.direction = 0
@@ -119,6 +119,12 @@ class MainCharacter:
 
     def add_event(self, event):
         self.queue.insert(0, event)
+
+    def is_none_event(self):
+        if not self.queue:
+            return True
+        else:
+            return False
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
