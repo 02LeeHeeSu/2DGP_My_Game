@@ -105,6 +105,17 @@ class RUN:
             self.Run_x_image.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
 
 
+class ATTACK:
+    @staticmethod
+    def enter(self, event):
+    @staticmethod
+    def exit(self):
+        pass
+
+    @staticmethod
+    def do(self):
+    @staticmethod
+    def draw(self):
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
