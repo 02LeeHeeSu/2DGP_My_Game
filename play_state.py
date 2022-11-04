@@ -1,9 +1,9 @@
 from pico2d import *
+from Link import MainCharacter
+from slot import Slot
 
 import game_framework
 import pause_state
-
-from Link import MainCharacter
 
 width, height = 1440, 960
 
