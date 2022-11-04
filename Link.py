@@ -73,6 +73,8 @@ class RUN:
     @staticmethod
     def do(self):
         # 방향 설정
+        if self.dir_x == 0 and self.dir_y == 0:
+            self.add_event(dir_0)
         if self.dir_y > 0:
             self.direction = 0
         elif self.dir_y < 0:
