@@ -31,6 +31,7 @@ class STAND:
     def enter(self, event):
         self.dir_x = 0
         self.dir_y = 0
+        print("stand 상태 호출")
 
     @staticmethod
     def exit(self):
@@ -56,6 +57,7 @@ class RUN:
             self.dir_x += 1
         elif event == ad:
             self.dir_x -= 1
+            print(f"down 호출{self.dir_x}")
 
         elif event == wu:
             self.dir_y -= 1
@@ -65,6 +67,7 @@ class RUN:
             self.dir_x -= 1
         elif event == au:
             self.dir_x += 1
+            print(f"up 호출{self.dir_x}")
 
     @staticmethod
     def exit(self):
