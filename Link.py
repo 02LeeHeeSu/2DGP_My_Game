@@ -177,15 +177,15 @@ next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
             dir_0: STAND,
-            jd: ACTION, kd: ACTION},
+            jd: ACTION, kd: ACTION, ld: ACTION},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
-          jd: ACTION, kd: ACTION},
+          jd: ACTION, kd: ACTION, ld: ACTION},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
-             jd: ACTION, kd: ACTION}
+             jd: ACTION, kd: ACTION, ld: ACTION}
 }
 
 
