@@ -20,7 +20,7 @@ key_event_table = {
 
 
 # 클래스를 이용해서 상태를 만든다
-class Stand:
+class STAND:
     @staticmethod
     def enter(self, event):
     @staticmethod
@@ -65,7 +65,7 @@ class MainCharacter:
 
     def __init__(self):
         self.queue = []
-        self.cur_state = Stand
+        self.cur_state = STAND
         self.cur_state.enter(self, None)
 
         self.x, self.y = width // 2, height // 2   # 위치
