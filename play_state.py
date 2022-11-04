@@ -1,4 +1,7 @@
 from pico2d import *
+
+import game_world
+
 from Link import MainCharacter
 from slot import Slot
 
@@ -16,8 +19,8 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.quit()
         else:
-            Link.handle_event(event)
-            inventory.handle_event(event)
+            for obj in game_world.all_objects():
+                obj.handle_event(event)
 
 
 class Bow:
@@ -34,17 +37,19 @@ def enter():
     Link = MainCharacter()
     inventory = Slot()
     bow = Bow()
+    game_world.add_object(Link, 1)
+    game_world.add_object(inventory, 2)
 
 
 def update():
-    Link.update()
-    inventory.update()
+    for obj in game_world.all_objects():
+        obj.update()
     delay(0.04)
 
 
 def draw_world():
-    Link.draw()
-    inventory.draw()
+    for obj in game_world.all_objects():
+        obj.draw()
 
 
 def draw():
@@ -54,9 +59,7 @@ def draw():
 
 
 def exit():
-    global Link, inventory
-    del Link
-    del inventory
+    game_world.clear()
 
 
 def pause():
