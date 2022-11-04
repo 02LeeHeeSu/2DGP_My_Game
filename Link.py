@@ -108,13 +108,15 @@ class RUN:
             self.Run_x_image.clip_draw(self.Run_frame_x * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
 
 
-class ATTACK:
+class ACTION:
     @staticmethod
     def enter(self, event):
         if event == jd:
             self.Attack = True
         elif event == kd:
             self.Spin = True
+        elif event == ld:
+            self.Roll = True
         elif event == wd:
             self.dir_y += 1
         elif event == sd:
@@ -175,15 +177,15 @@ next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: RUN, su: RUN, du: RUN, au: RUN,
             dir_0: STAND,
-            jd: ATTACK, kd: ATTACK},
+            jd: ACTION, kd: ACTION},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
-          jd: ATTACK, kd: ATTACK},
-    ATTACK: {wd: ATTACK, sd: ATTACK, dd: ATTACK, ad: ATTACK,
-             wu: ATTACK, su: ATTACK, du: ATTACK, au: ATTACK,
+          jd: ACTION, kd: ACTION},
+    ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
+             wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
-             jd: ATTACK, kd: ATTACK}
+             jd: ACTION, kd: ACTION}
 }
 
 
