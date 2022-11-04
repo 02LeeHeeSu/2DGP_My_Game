@@ -73,25 +73,25 @@ class MainCharacter:
         self.direction = 1  # 방향
         self.dir_x, self.dir_y = 0, 0
 
-        self.Stand = load_image('Link/Stand/Stand.png')    # 서 있는 상태
+        self.Stand_image = load_image('Link/Stand/Stand.png')    # 서 있는 상태
 
         self.Run = False
-        self.Run_x = load_image('Link/Run/run_x.png')   # 달리기
-        self.Run_y = load_image('Link/Run/run_y.png')
+        self.Run_x_image = load_image('Link/Run/run_x.png')   # 달리기
+        self.Run_y_image = load_image('Link/Run/run_y.png')
         self.Run_frame_x, self.Run_frame_y = 0, 0
 
         self.Roll = False
-        self.Roll_x = load_image('Link/Roll/roll_x.png')    # 구르기
-        self.Roll_y = load_image('Link/Roll/roll_y.png')
+        self.Roll_x_image = load_image('Link/Roll/roll_x.png')    # 구르기
+        self.Roll_y_image = load_image('Link/Roll/roll_y.png')
         self.Roll_frame_x, self.Roll_frame_y = 0, 0
 
         self.Attack = False
-        self.Attack_x = load_image('Link/Attack/attack_x.png')  # 공격
-        self.Attack_y = load_image('Link/Attack/attack_y.png')
+        self.Attack_x_image = load_image('Link/Attack/attack_x.png')  # 공격
+        self.Attack_y_image = load_image('Link/Attack/attack_y.png')
         self.Attack_frame_x, self.Attack_frame_y = 0, 0
 
         self.Spin = False
-        self.Spin_Attack = load_image('Link/Attack/spin_attack.png')
+        self.Spin_Attack_image = load_image('Link/Attack/spin_attack.png')
         self.Spin_frame = 0
 
     def update(self):
