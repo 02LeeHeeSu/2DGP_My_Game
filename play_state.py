@@ -32,7 +32,6 @@ def enter():
 
 
 def update():
-    set_direction()
     Link.update()
     delay(0.04)
 
