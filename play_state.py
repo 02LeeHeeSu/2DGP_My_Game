@@ -23,9 +23,6 @@ def handle_events():
                 obj.handle_event(event)
 
 
-class Bow:
-    def __init__(self):
-        self.Use = False
 # 게임 초기화: 객체 생성
 Link = None
 inventory = None
