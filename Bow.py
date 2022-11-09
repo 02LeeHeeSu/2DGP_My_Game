@@ -1,5 +1,12 @@
 from pico2d import *
 
+ud, uu = range(2)
+
+key_event_table = {
+    (SDL_KEYDOWN, SDLK_u): ud,
+    (SDL_KEYUP, SDLK_u): uu
+}
+
 
 class IDLE:
     @staticmethod
