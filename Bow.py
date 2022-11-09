@@ -1,6 +1,42 @@
 from pico2d import *
 
 
+class IDLE:
+    @staticmethod
+    def enter(self, event):
+        pass
+
+    @staticmethod
+    def exit(self):
+        pass
+
+    @staticmethod
+    def do(self):
+        pass
+
+    @staticmethod
+    def draw(self):
+        pass
+
+
+class USE:
+    @staticmethod
+    def enter(self, event):
+        pass
+
+    @staticmethod
+    def exit(self):
+        pass
+
+    @staticmethod
+    def do(self):
+        pass
+
+    @staticmethod
+    def draw(self):
+        pass
+
+
 # class Bow:
 #     def __init__(self):
 #         self.Use = False
