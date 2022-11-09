@@ -44,6 +44,12 @@ class USE:
         pass
 
 
+next_state = {
+    IDLE: {ud: USE, uu: IDLE},
+    USE: {ud: USE, uu: IDLE}
+}
+
+
 # class Bow:
 #     def __init__(self):
 #         self.Use = False
