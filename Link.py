@@ -173,16 +173,20 @@ class ACTION:
     def do(self):
         if self.Attack:
             if self.direction == 0 or self.direction == 1:
-                self.Attack_frame_y = (self.Attack_frame_y + 1) % 7
-                if self.Attack_frame_y == 0:
+                if self.Attack_frame_y >= 6.0:
                     self.Attack = False
+                    self.Attack_frame_y = 0
                     self.add_event(dir_0)
 
+                self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
+
             elif self.direction == 2 or self.direction == 3:
-                self.Attack_frame_x = (self.Attack_frame_x + 1) % 7
-                if self.Attack_frame_x == 0:
+                if self.Attack_frame_x >= 6.0:
                     self.Attack = False
+                    self.Attack_frame_x = 0
                     self.add_event(dir_0)
+
+                self.Attack_frame_x = (self.Attack_frame_x + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
 
         if self.Spin:
             self.Spin_frame = (self.Spin_frame + 1) % 13
@@ -217,9 +221,9 @@ class ACTION:
     def draw(self):
         if self.Attack:
             if self.direction == 0 or self.direction == 1:
-                self.Attack_y_image.clip_draw(self.Attack_frame_y * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
+                self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
             elif self.direction == 2 or self.direction == 3:
-                self.Attack_x_image.clip_draw(self.Attack_frame_x * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
+                self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
             self.Spin_Attack_image.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
