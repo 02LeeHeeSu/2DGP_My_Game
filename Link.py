@@ -1,8 +1,10 @@
 from pico2d import *
-
 import game_framework
 
 width, height = 1440, 960
+
+# 방향
+direction = 1
 
 Pixel_Per_Meter = (10.0 / 0.15)
 KM_Per_Hour = 20.0
@@ -73,7 +75,7 @@ class STAND:
 
     @staticmethod
     def draw(self):
-        self.Stand_image.clip_draw(self.direction * 90, 0, 90, 120, self.x, self.y)
+        self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
 
 
 class RUN:
@@ -103,17 +105,19 @@ class RUN:
 
     @staticmethod
     def do(self):
+        global direction
+
         # 방향 설정
         if self.dir_x == 0 and self.dir_y == 0 and self.is_none_event():
             self.add_event(dir_0)
         if self.dir_y > 0:
-            self.direction = 0
+            direction = 0
         elif self.dir_y < 0:
-            self.direction = 1
+            direction = 1
         elif self.dir_x > 0:
-            self.direction = 2
+            direction = 2
         elif self.dir_x < 0:
-            self.direction = 3
+            direction = 3
 
         # 좌표 설정
         self.x += self.dir_x * Pixel_Per_Sec * game_framework.frame_time
@@ -127,10 +131,12 @@ class RUN:
 
     @staticmethod
     def draw(self):
-        if self.direction == 0 or self.direction == 1:
-            self.Run_y_image.clip_draw(int(self.Run_frame_y) * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
-        elif self.direction == 2 or self.direction == 3:
-            self.Run_x_image.clip_draw(int(self.Run_frame_x) * 115, dir_to_frame(self.direction) * 120, 115, 120, self.x, self.y)
+        global direction
+
+        if direction == 0 or direction == 1:
+            self.Run_y_image.clip_draw(int(self.Run_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
+        elif direction == 2 or direction == 3:
+            self.Run_x_image.clip_draw(int(self.Run_frame_x) * 115, dir_to_frame(direction) * 120, 115, 120, self.x, self.y)
 
 
 class ACTION:
@@ -150,8 +156,10 @@ class ACTION:
 
     @staticmethod
     def do(self):
+        global direction
+
         if self.Attack:
-            if self.direction == 0 or self.direction == 1:
+            if direction == 0 or direction == 1:
                 if self.Attack_frame_y >= 6.0:
                     self.Attack = False
                     self.Attack_frame_y = 0
@@ -159,7 +167,7 @@ class ACTION:
 
                 self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
 
-            elif self.direction == 2 or self.direction == 3:
+            elif direction == 2 or direction == 3:
                 if self.Attack_frame_x >= 6.0:
                     self.Attack = False
                     self.Attack_frame_x = 0
@@ -171,14 +179,14 @@ class ACTION:
             if self.Spin_frame >= 12.0:
                 self.Spin = False
                 self.Spin_frame = 0
-                self.direction = 1
+                direction = 1
                 self.add_event(dir_0)
 
             self.Spin_frame = (self.Spin_frame + FPSpin * Spin_Per_Time * game_framework.frame_time) % 13
 
         if self.Roll:
-            if self.direction == 0 or self.direction == 1:
-                if self.direction == 0:
+            if direction == 0 or direction == 1:
+                if direction == 0:
                     self.y += PPS_Roll * game_framework.frame_time
                 else:
                     self.y -= PPS_Roll * game_framework.frame_time
@@ -190,8 +198,8 @@ class ACTION:
 
                 self.Roll_frame_y = (self.Roll_frame_y + FPRoll * Roll_Per_Time * game_framework.frame_time) % 9
 
-            elif self.direction == 2 or self.direction == 3:
-                if self.direction == 2:
+            elif direction == 2 or direction == 3:
+                if direction == 2:
                     self.x += PPS_Roll * game_framework.frame_time
                 else:
                     self.x -= PPS_Roll * game_framework.frame_time
@@ -209,19 +217,21 @@ class ACTION:
     @staticmethod
     def draw(self):
         if self.Attack:
-            if self.direction == 0 or self.direction == 1:
-                self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(self.direction) * 265, 230, 265, self.x, self.y)
-            elif self.direction == 2 or self.direction == 3:
-                self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
+            if direction == 0 or direction == 1:
+                self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(direction) * 265, 230, 265, self.x, self.y)
+            elif direction == 2 or direction == 3:
+                self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
             self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y)
 
         if self.Roll:
-            if self.direction == 0 or self.direction == 1:
-                self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
-            elif self.direction == 2 or self.direction == 3:
-                self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
+            if direction == 0 or direction == 1:
+                self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
+            elif direction == 2 or direction == 3:
+                self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(direction) * 120, 100, 120, self.x, self.y)
+
+
 
 
 next_state = {
@@ -269,7 +279,6 @@ class MainCharacter:
 
         self.x, self.y = width // 2, height // 2   # 위치
 
-        self.direction = 1  # 방향
         self.dir_x, self.dir_y = 0, 0
 
         self.Stand_image = load_image('Link/Stand/Stand.png')    # 서 있는 상태
