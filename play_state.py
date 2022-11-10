@@ -41,7 +41,6 @@ def enter():
 def update():
     for obj in game_world.all_objects():
         obj.update()
-    delay(0.04)
 
 
 def draw_world():
