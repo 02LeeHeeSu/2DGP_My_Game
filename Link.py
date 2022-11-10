@@ -241,6 +241,48 @@ class ACTION:
                 self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(direction) * 120, 100, 120, self.x, self.y)
 
 
+class ITEM:
+    @staticmethod
+    def enter(self, event):
+        self.Bow_frame_x = 0
+        self.Bow_frame_y = 0
+
+    @staticmethod
+    def exit(self, event):
+        if event == uu or event == dir_0:
+            self.Bow_frame_x = 0
+            self.Bow_frame_y = 0
+
+            arrow_item = Arrow(self.x, self.y, PPS_Arrow * game_framework.frame_time, direction)
+            game_world.add_object(arrow_item, 1)
+
+    @staticmethod
+    def do(self):
+        if direction == 0 or direction == 1:
+            if self.Bow_frame_y >= 9.0:
+                self.Bow_frame_y = 9
+
+            self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
+
+        elif direction == 2 or direction == 3:
+            if self.Bow_frame_x >= 9.0:
+                self.Bow_frame_x = 9
+
+            self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
+
+    @staticmethod
+    def draw(self):
+        if direction == 0 or direction == 1:
+            self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
+
+        elif direction == 2:
+            # self.Bow_x_image.clip_draw(int(self.Bow_frame_x) * 140, 0, 140, 130, self.x, self.y)
+            self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
+                                                 0, '', self.x, self.y, 140, 130)
+
+        elif direction == 3:
+            self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
+                                                 0, 'h', self.x, self.y, 140, 130)
 
 
 next_state = {
