@@ -12,7 +12,8 @@ Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
 
 Time_Per_Run = 0.5
 Run_Per_Time = 1.0 / Time_Per_Run
-FPR = 10
+FPRun = 10
+
 
 
 def dir_to_frame(direction):
@@ -108,8 +109,8 @@ class RUN:
         self.y = clamp(60, self.y, height - 60)
 
         # 프레임 변화
-        self.Run_frame_x = (self.Run_frame_x + FPR * Run_Per_Time * game_framework.frame_time) % 10
-        self.Run_frame_y = (self.Run_frame_y + FPR * Run_Per_Time * game_framework.frame_time) % 10
+        self.Run_frame_x = (self.Run_frame_x + FPRun * Run_Per_Time * game_framework.frame_time) % 10
+        self.Run_frame_y = (self.Run_frame_y + FPRun * Run_Per_Time * game_framework.frame_time) % 10
 
     @staticmethod
     def draw(self):
