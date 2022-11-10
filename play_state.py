@@ -33,7 +33,7 @@ def enter():
     global Link, inventory, bow
     Link = MainCharacter()
     inventory = Slot()
-    bow = Bow()
+    # bow = Bow()
     game_world.add_object(Link, 1)
     game_world.add_object(inventory, 2)
 
