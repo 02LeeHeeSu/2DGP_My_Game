@@ -147,24 +147,6 @@ class ACTION:
             elif event == ld:
                 self.Roll = True
 
-        if event == wd:
-            self.dir_y += 1
-        elif event == sd:
-            self.dir_y -= 1
-        elif event == dd:
-            self.dir_x += 1
-        elif event == ad:
-            self.dir_x -= 1
-
-        elif event == wu:
-            self.dir_y -= 1
-        elif event == su:
-            self.dir_y += 1
-        elif event == du:
-            self.dir_x -= 1
-        elif event == au:
-            self.dir_x += 1
-
     @staticmethod
     def exit(self):
         pass
