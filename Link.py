@@ -34,11 +34,11 @@ Spin_Per_Time = 1 / Time_Per_Spin
 FPSpin = 13
 
 
-def dir_to_frame(direction):
-    if direction < 2:
-        return -direction + 1
+def dir_to_frame(d):
+    if d < 2:
+        return -d + 1
     else:
-        return -direction + 3
+        return -d + 3
 
 
 # 이벤트 정의
