@@ -26,14 +26,12 @@ def handle_events():
 # 게임 초기화: 객체 생성
 Link = None
 inventory = None
-bow = None
 
 
 def enter():
-    global Link, inventory, bow
+    global Link, inventory
     Link = MainCharacter()
     inventory = Slot()
-    # bow = Bow()
     game_world.add_object(Link, 1)
     game_world.add_object(inventory, 2)
 
