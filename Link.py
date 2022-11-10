@@ -189,11 +189,13 @@ class ACTION:
                 self.Attack_frame_x = (self.Attack_frame_x + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
 
         if self.Spin:
-            self.Spin_frame = (self.Spin_frame + 1) % 13
-            if self.Spin_frame == 0:
+            if self.Spin_frame >= 12.0:
                 self.Spin = False
+                self.Spin_frame = 0
                 self.direction = 1
                 self.add_event(dir_0)
+
+            self.Spin_frame = (self.Spin_frame + FPSpin * Spin_Per_Time * game_framework.frame_time) % 13
 
         if self.Roll:
             if self.direction == 0 or self.direction == 1:
@@ -226,7 +228,7 @@ class ACTION:
                 self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(self.direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
-            self.Spin_Attack_image.clip_draw(self.Spin_frame * 300, 0, 300, 255, self.x, self.y)
+            self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y)
 
         if self.Roll:
             if self.direction == 0 or self.direction == 1:
