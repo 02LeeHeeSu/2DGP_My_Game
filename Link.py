@@ -75,7 +75,7 @@ class STAND:
         self.dir_y = 0
 
     @staticmethod
-    def exit(self):
+    def exit(self, event):
         pass
 
     @staticmethod
@@ -109,7 +109,7 @@ class RUN:
             self.dir_x += 1
 
     @staticmethod
-    def exit(self):
+    def exit(self, event):
         pass
 
     @staticmethod
@@ -160,7 +160,7 @@ class ACTION:
                 self.Roll = True
 
     @staticmethod
-    def exit(self):
+    def exit(self, event):
         pass
 
     @staticmethod
@@ -371,7 +371,7 @@ class MainCharacter:
 
         if self.queue:
             event = self.queue.pop()
-            self.cur_state.exit(self)
+            self.cur_state.exit(self, event)
             self.cur_state = next_state[self.cur_state][event]
             self.cur_state.enter(self, event)
 
