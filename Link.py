@@ -9,11 +9,27 @@ KM_Per_Hour = 20.0
 Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
 Meter_Per_Sec = (Meter_Per_Minute / 60.0)
 Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
+PPS_Roll = 1.5 * Pixel_Per_Sec
 
+# 달리기 속도
 Time_Per_Run = 0.5
 Run_Per_Time = 1.0 / Time_Per_Run
 FPRun = 10
 
+# 구르기 속도
+Time_Per_Roll = 0.5
+Roll_Per_Time = 1 / Time_Per_Roll
+FPRoll = 9
+
+# 공격 속도
+Time_Per_Attack = 0.5
+Attack_Per_Time = 1 / Time_Per_Attack
+FPAttack = 7
+
+# 회전공격 속도
+Time_Per_Spin = 1.0
+Spin_Per_Time = 1 / Time_Per_Spin
+FPSpin = 13
 
 
 def dir_to_frame(direction):
