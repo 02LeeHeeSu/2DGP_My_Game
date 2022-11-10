@@ -1,7 +1,14 @@
 from pico2d import *
 
+import game_framework
 
 width, height = 1440, 960
+
+Pixel_Per_Meter = (10.0 / 0.15)
+KM_Per_Hour = 20.0
+Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
+Meter_Per_Sec = (Meter_Per_Minute / 60.0)
+Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
 
 
 def dir_to_frame(direction):
@@ -91,8 +98,8 @@ class RUN:
             self.direction = 3
 
         # 좌표 설정
-        self.x += self.dir_x * 15
-        self.y += self.dir_y * 15
+        self.x += self.dir_x * Pixel_Per_Sec * game_framework.frame_time
+        self.y += self.dir_y * Pixel_Per_Sec * game_framework.frame_time
         self.x = clamp(45, self.x, width - 45)
         self.y = clamp(60, self.y, height - 60)
 
