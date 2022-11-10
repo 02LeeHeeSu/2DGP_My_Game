@@ -42,7 +42,7 @@ def dir_to_frame(d):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, dir_0 = range(12)
+wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0 = range(14)
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
     (SDL_KEYDOWN, SDLK_s): sd,
@@ -54,7 +54,9 @@ key_event_table = {
     (SDL_KEYUP, SDLK_a): au,
     (SDL_KEYDOWN, SDLK_j): jd,
     (SDL_KEYDOWN, SDLK_k): kd,
-    (SDL_KEYDOWN, SDLK_l): ld
+    (SDL_KEYDOWN, SDLK_l): ld,
+    (SDL_KEYDOWN, SDLK_u): ud,
+    (SDL_KEYUP, SDLK_u): uu
 }
 
 
@@ -238,15 +240,24 @@ next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: STAND, su: STAND, du: STAND, au: STAND,
             dir_0: STAND,
-            jd: ACTION, kd: ACTION, ld: ACTION},
+            jd: ACTION, kd: ACTION, ld: ACTION,
+            ud: ITEM, uu: STAND},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
-          jd: ACTION, kd: ACTION, ld: ACTION},
+          jd: ACTION, kd: ACTION, ld: ACTION,
+          ud: ITEM, uu: STAND},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
-             jd: ACTION, kd: ACTION, ld: ACTION}
+             jd: ACTION, kd: ACTION, ld: ACTION,
+             ud: ACTION, uu: ACTION},
+
+    ITEM: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
+           wu: STAND, su: STAND, du: STAND, au: STAND,
+           dir_0: STAND,
+           jd: ACTION, kd: ACTION, ld: ACTION,
+           ud: ITEM, uu: STAND}
 }
 
 
