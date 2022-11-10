@@ -60,11 +60,8 @@ key_event_table = {
 class STAND:
     @staticmethod
     def enter(self, event):
-        if event == dir_0:
-            pass
-        else:
-            self.dir_x = 0
-            self.dir_y = 0
+        self.dir_x = 0
+        self.dir_y = 0
 
     @staticmethod
     def exit(self):
@@ -229,7 +226,7 @@ class ACTION:
 
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
-            wu: RUN, su: RUN, du: RUN, au: RUN,
+            wu: STAND, su: STAND, du: STAND, au: STAND,
             dir_0: STAND,
             jd: ACTION, kd: ACTION, ld: ACTION},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
