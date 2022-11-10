@@ -200,24 +200,32 @@ class ACTION:
         if self.Roll:
             if self.direction == 0 or self.direction == 1:
                 if self.direction == 0:
-                    self.y += 20
+                    self.y += PPS_Roll * game_framework.frame_time
                 else:
-                    self.y -= 20
+                    self.y -= PPS_Roll * game_framework.frame_time
 
-                self.Roll_frame_y = (self.Roll_frame_y + 1) % 9
-                if self.Roll_frame_y == 0:
+                if self.Roll_frame_y > 8.0:
                     self.Roll = False
+                    self.Roll_frame_y = 0
                     self.add_event(dir_0)
+
+                self.Roll_frame_y = (self.Roll_frame_y + FPRoll * Roll_Per_Time * game_framework.frame_time) % 9
+
             elif self.direction == 2 or self.direction == 3:
                 if self.direction == 2:
-                    self.x += 18
+                    self.x += PPS_Roll * game_framework.frame_time
                 else:
-                    self.x -= 18
+                    self.x -= PPS_Roll * game_framework.frame_time
 
-                self.Roll_frame_x = (self.Roll_frame_x + 1) % 10
-                if self.Roll_frame_x == 0:
+                if self.Roll_frame_x > 8.0:
                     self.Roll = False
+                    self.Roll_frame_x = 0
                     self.add_event(dir_0)
+
+                self.Roll_frame_x = (self.Roll_frame_x + FPRoll * Roll_Per_Time * game_framework.frame_time) % 9
+
+            self.x = clamp(45, self.x, width - 45)
+            self.y = clamp(60, self.y, height - 60)
 
     @staticmethod
     def draw(self):
@@ -232,9 +240,9 @@ class ACTION:
 
         if self.Roll:
             if self.direction == 0 or self.direction == 1:
-                self.Roll_y_image.clip_draw(self.Roll_frame_y * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
+                self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(self.direction) * 120, 90, 120, self.x, self.y)
             elif self.direction == 2 or self.direction == 3:
-                self.Roll_x_image.clip_draw(self.Roll_frame_x * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
+                self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(self.direction) * 120, 100, 120, self.x, self.y)
 
 
 next_state = {
