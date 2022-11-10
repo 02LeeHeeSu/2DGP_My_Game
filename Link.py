@@ -320,6 +320,10 @@ class MainCharacter:
         self.Spin_Attack_image = load_image('Link/Attack/spin_attack.png')
         self.Spin_frame = 0
 
+        self.Bow_x_image = load_image('Link/Item/bow_x.png')
+        self.Bow_y_image = load_image('Link/Item/bow_y.png')
+        self.Bow_frame_x, self.Bow_frame_y = 0, 0
+
     def update(self):
         self.cur_state.do(self)
 
