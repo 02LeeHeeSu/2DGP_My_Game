@@ -244,18 +244,25 @@ class ACTION:
 
 
 class ITEM:
+    enter_time = None
+    exit_time = None
+
     @staticmethod
     def enter(self, event):
+        ITEM.enter_time = get_time()
         self.Bow_frame_x = 0
         self.Bow_frame_y = 0
 
     @staticmethod
     def exit(self, event):
         if event == uu or event == dir_0:
+            ITEM.exit_time = get_time()
+            overtime = ITEM.exit_time - ITEM.enter_time
+
             self.Bow_frame_x = 0
             self.Bow_frame_y = 0
 
-            arrow_item = Arrow(self.x, self.y, PPS_Arrow * game_framework.frame_time, direction)
+            arrow_item = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
             game_world.add_object(arrow_item, 1)
 
     @staticmethod
