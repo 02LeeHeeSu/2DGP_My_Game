@@ -62,7 +62,7 @@ class Slot:
         self.queue = []
         self.cur_state = SELECTION
         self.cur_state.enter(self, None)
-        
+
         self.IsGetBow = True
         self.IsGetShield = True
         self.IsGetPotion = True
@@ -71,11 +71,11 @@ class Slot:
         self.slot_gap = 54
         self.slot_x = 557 - self.slot_gap
         self.slot_y = 65
-        self.slot = load_image('Item/slot.png')
-        self.selected = load_image('Item/selected.png')
-        self.Bow = load_image('Item/bow_slot.png')
-        self.Shield = load_image('Item/Shield_slot.png')
-        self.Potion = load_image('Item/potion_slot.png')
+        self.slot = load_image('Slot/slot.png')
+        self.selected = load_image('Slot/selected.png')
+        self.Bow = load_image('Slot/bow_slot.png')
+        self.Shield = load_image('Slot/Shield_slot.png')
+        self.Potion = load_image('Slot/potion_slot.png')
 
     def update(self):
         self.cur_state.do(self)
