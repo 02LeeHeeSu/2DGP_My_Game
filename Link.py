@@ -43,6 +43,12 @@ Bow_Per_Time = 1.0 / Time_Per_Bow
 FPBow = 10
 
 
+# 방패 사용 속도
+Time_Per_Shield = 0.2
+Shield_Per_Time = 1.0 / Time_Per_Shield
+FPShield = 5
+
+
 def dir_to_frame(d):
     if d < 2:
         return -d + 1
@@ -250,8 +256,12 @@ class ITEM:
     @staticmethod
     def enter(self, event):
         ITEM.enter_time = get_time()
+
         self.Bow_frame_x = 0
         self.Bow_frame_y = 0
+
+        self.Shield_frame_x = 0
+        self.Shield_frame_y = 0
 
     @staticmethod
     def exit(self, event):
@@ -279,6 +289,18 @@ class ITEM:
 
             self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
 
+        if direction == 0 or direction == 1:
+            if self.Shield_frame_y >= 4.0:
+                self.Shield_frame_y = 4
+
+            self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
+
+        elif direction == 2 or direction == 3:
+            if self.Shield_frame_x >= 4.0:
+                self.Shield_frame_x = 4
+
+            self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
+
     @staticmethod
     def draw(self):
         if direction == 0 or direction == 1:
@@ -292,6 +314,15 @@ class ITEM:
         elif direction == 3:
             self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                  0, 'h', self.x, self.y, 140, 130)
+
+        if direction == 0 or direction == 1:
+            self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
+
+        elif direction == 2:
+            self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', self.x, self.y, 115, 110)
+
+        elif direction == 3:
+            self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
 
 
 next_state = {
@@ -374,6 +405,10 @@ class MainCharacter:
         self.Bow_x_image = load_image('Link/Item/bow_x.png')
         self.Bow_y_image = load_image('Link/Item/bow_y.png')
         self.Bow_frame_x, self.Bow_frame_y = 0, 0
+
+        self.Shield_x_image = load_image('Link/Item/shield_x.png')
+        self.Shield_y_image = load_image('Link/Item/shield_y.png')
+        self.Shield_frame_x, self.Shield_frame_y = 0, 0
 
     def update(self):
         self.cur_state.do(self)
