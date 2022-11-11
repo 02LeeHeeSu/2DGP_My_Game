@@ -15,6 +15,7 @@ class Arrow:
         if Arrow.image is None:
             Arrow.image = load_image('Link/Item/arrow.png')
         self.x, self.y, self.velocity, self.d, self.ot = x, y, velocity, d, ot
+        self.init_x, self.init_y = x, y
 
     def draw(self):
         if self.d == 0:
@@ -42,5 +43,8 @@ class Arrow:
         elif self.d == 3:
             self.x -= self.velocity * game_framework.frame_time
 
-        if (self.x < 45 or self.x > width - 45) or (self.y < 60 or self.y > width - 60):
+        if self.x < self.init_x - (self.velocity * self.ot) or self.x > self.init_x + (self.velocity * self.ot):
+            game_world.remove_object(self)
+
+        if self.y < self.init_y - (self.velocity * self.ot) or self.y > self.init_y + (self.velocity * self.ot):
             game_world.remove_object(self)
