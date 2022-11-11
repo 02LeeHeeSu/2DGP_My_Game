@@ -277,6 +277,7 @@ class ITEM:
 
     @staticmethod
     def do(self):
+        # 활
         if direction == 0 or direction == 1:
             if self.Bow_frame_y >= 9.0:
                 self.Bow_frame_y = 9
@@ -289,6 +290,7 @@ class ITEM:
 
             self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
 
+        # 방패
         if direction == 0 or direction == 1:
             if self.Shield_frame_y >= 4.0:
                 self.Shield_frame_y = 4
@@ -303,11 +305,11 @@ class ITEM:
 
     @staticmethod
     def draw(self):
+        # 활
         if direction == 0 or direction == 1:
             self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
 
         elif direction == 2:
-            # self.Bow_x_image.clip_draw(int(self.Bow_frame_x) * 140, 0, 140, 130, self.x, self.y)
             self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                  0, '', self.x, self.y, 140, 130)
 
@@ -315,6 +317,7 @@ class ITEM:
             self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                  0, 'h', self.x, self.y, 140, 130)
 
+        # 방패
         if direction == 0 or direction == 1:
             self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
 
