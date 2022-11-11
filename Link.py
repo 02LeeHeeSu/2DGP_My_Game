@@ -255,7 +255,7 @@ class ITEM:
 
     @staticmethod
     def exit(self, event):
-        if event == uu or event == dir_0:
+        if event == uu:
             ITEM.exit_time = get_time()
             overtime = ITEM.exit_time - ITEM.enter_time
 
