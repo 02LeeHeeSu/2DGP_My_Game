@@ -31,6 +31,9 @@ class Arrow:
             self.image.clip_composite_draw(0, 0, 25, 75, 3.141592 / 2.0, '', self.x, self.y, 25, 75)
 
     def update(self):
+        if self.ot < 0.4:
+            game_world.remove_object(self)
+
         if self.d == 0:
             self.y += self.velocity * game_framework.frame_time
 
