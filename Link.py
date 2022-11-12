@@ -272,63 +272,74 @@ class ITEM:
             ITEM.exit_time = get_time()
             overtime = ITEM.exit_time - ITEM.enter_time
 
-            self.Bow_frame_x = 0
-            self.Bow_frame_y = 0
+            if slot.selected_num == 1 and slot.IsGetBow:
+                self.Bow_frame_x = 0
+                self.Bow_frame_y = 0
 
-            arrow_item = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
-            game_world.add_object(arrow_item, 1)
+                arrow_item = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(arrow_item, 1)
 
     @staticmethod
     def do(self):
         # 활
-        if direction == 0 or direction == 1:
-            if self.Bow_frame_y >= 9.0:
-                self.Bow_frame_y = 9
+        if slot.selected_num == 1 and slot.IsGetBow:
+            if direction == 0 or direction == 1:
+                if self.Bow_frame_y >= 9.0:
+                    self.Bow_frame_y = 9
 
-            self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
+                self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
 
-        elif direction == 2 or direction == 3:
-            if self.Bow_frame_x >= 9.0:
-                self.Bow_frame_x = 9
+            elif direction == 2 or direction == 3:
+                if self.Bow_frame_x >= 9.0:
+                    self.Bow_frame_x = 9
 
-            self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
+                self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % 10
 
         # 방패
-        if direction == 0 or direction == 1:
-            if self.Shield_frame_y >= 4.0:
-                self.Shield_frame_y = 4
+        if slot.selected_num == 2 and slot.IsGetShield:
+            if direction == 0 or direction == 1:
+                if self.Shield_frame_y >= 4.0:
+                    self.Shield_frame_y = 4
 
-            self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
+                self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
 
-        elif direction == 2 or direction == 3:
-            if self.Shield_frame_x >= 4.0:
-                self.Shield_frame_x = 4
+            elif direction == 2 or direction == 3:
+                if self.Shield_frame_x >= 4.0:
+                    self.Shield_frame_x = 4
 
-            self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
+                self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
+
+        if slot.selected_num == 3 and slot.IsGetPotion:
+            self.cur_hp += 4
+            self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
+            print(self.cur_hp)
+            self.convert_to_stand()
 
     @staticmethod
     def draw(self):
         # 활
-        if direction == 0 or direction == 1:
-            self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
+        if slot.selected_num == 1 and slot.IsGetBow:
+            if direction == 0 or direction == 1:
+                self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
 
-        elif direction == 2:
-            self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
-                                                 0, '', self.x, self.y, 140, 130)
+            elif direction == 2:
+                self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
+                                                     0, '', self.x, self.y, 140, 130)
 
-        elif direction == 3:
-            self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
-                                                 0, 'h', self.x, self.y, 140, 130)
+            elif direction == 3:
+                self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
+                                                     0, 'h', self.x, self.y, 140, 130)
 
         # 방패
-        if direction == 0 or direction == 1:
-            self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
+        if slot.selected_num == 2 and slot.IsGetShield:
+            if direction == 0 or direction == 1:
+                self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
 
-        elif direction == 2:
-            self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', self.x, self.y, 115, 110)
+            elif direction == 2:
+                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', self.x, self.y, 115, 110)
 
-        elif direction == 3:
-            self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
+            elif direction == 3:
+                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
 
 
 next_state = {
@@ -385,6 +396,9 @@ class MainCharacter:
         self.queue = []
         self.cur_state = STAND
         self.cur_state.enter(self, None)
+
+        self.max_hp = 12
+        self.cur_hp = 1
 
         self.x, self.y = width // 2, height // 2   # 위치
 
