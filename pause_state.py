@@ -4,6 +4,8 @@ import game_framework
 import title_state
 import play_state
 
+from canvas_size import width, height
+
 image = None
 
 
@@ -33,7 +35,7 @@ def handle_events():
 def draw():
     clear_canvas()
     play_state.draw_world()
-    image.draw(720, 480)
+    image.draw(width // 2, height // 2)
     update_canvas()
 
 

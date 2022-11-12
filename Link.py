@@ -4,7 +4,7 @@ import game_world
 from arrow import Arrow
 import slot
 
-width, height = 1440, 960
+from canvas_size import width, height
 
 # 방향
 direction = 1

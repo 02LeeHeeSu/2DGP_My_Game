@@ -3,6 +3,8 @@ from pico2d import *
 import game_framework
 import title_state
 
+from canvas_size import width, height
+
 image = None
 logo_time = 0.0
 
@@ -32,7 +34,7 @@ def draw():
     global image
 
     clear_canvas()
-    image.draw(720, 480)
+    image.draw(width // 2, height // 2)
     update_canvas()
 
 
