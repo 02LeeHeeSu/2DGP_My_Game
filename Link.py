@@ -352,7 +352,7 @@ next_state = {
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
           jd: ACTION, kd: ACTION, ld: ACTION,
-          ud: ITEM, uu: STAND},
+          ud: ITEM, uu: RUN},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
