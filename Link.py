@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 from arrow import Arrow
+import slot
 
 width, height = 1440, 960
 
