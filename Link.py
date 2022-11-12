@@ -347,6 +347,9 @@ class ITEM:
             elif direction == 3:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
 
+        if slot.selected_num == 3 and slot.IsGetPotion:
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+
 
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
