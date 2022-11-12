@@ -1,5 +1,10 @@
 from pico2d import *
 
+IsGetBow = True
+IsGetShield = True
+IsGetPotion = True
+selected_num = 1
+
 
 one, two, three, four = range(4)
 key_event_table = {
@@ -13,14 +18,16 @@ key_event_table = {
 class SELECTION:
     @staticmethod
     def enter(self, event):
+        global selected_num
+
         if event == one:
-            self.selected_num = 1
+            selected_num = 1
         elif event == two:
-            self.selected_num = 2
+            selected_num = 2
         elif event == three:
-            self.selected_num = 3
+            selected_num = 3
         elif event == four:
-            self.selected_num = 4
+            selected_num = 4
 
     @staticmethod
     def exit(self):
@@ -34,14 +41,14 @@ class SELECTION:
     def draw(self):
         self.slot.draw(720, 50)
 
-        if self.IsGetBow:
+        if IsGetBow:
             self.Bow.draw(self.slot_x + self.slot_gap * 1, self.slot_y)
-        if self.IsGetShield:
+        if IsGetShield:
             self.Shield.draw(self.slot_x + self.slot_gap * 2, self.slot_y)
-        if self.IsGetPotion:
+        if IsGetPotion:
             self.Potion.draw(self.slot_x + self.slot_gap * 3, self.slot_y)
 
-        self.selected.draw(self.slot_x + self.slot_gap * self.selected_num, self.slot_y)
+        self.selected.draw(self.slot_x + self.slot_gap * selected_num, self.slot_y)
     
     
 next_state = {
@@ -62,11 +69,6 @@ class Slot:
         self.queue = []
         self.cur_state = SELECTION
         self.cur_state.enter(self, None)
-
-        self.IsGetBow = True
-        self.IsGetShield = True
-        self.IsGetPotion = True
-        self.selected_num = 1  # 아이템 선택 번호
 
         self.slot_gap = 54
         self.slot_x = 557 - self.slot_gap
