@@ -8,8 +8,6 @@ from slot import Slot
 import game_framework
 import pause_state
 
-width, height = 1440, 960
-
 
 def handle_events():
     events = get_events()
