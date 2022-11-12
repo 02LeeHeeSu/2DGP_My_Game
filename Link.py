@@ -128,7 +128,7 @@ class RUN:
 
         # 방향 설정
         if self.dir_x == 0 and self.dir_y == 0 and self.is_none_event():
-            self.add_event(dir_0)
+            self.convert_to_stand()
         if self.dir_y > 0:
             direction = 0
         elif self.dir_y < 0:
@@ -182,7 +182,7 @@ class ACTION:
                 if self.Attack_frame_y >= 6.0:
                     self.Attack = False
                     self.Attack_frame_y = 0
-                    self.add_event(dir_0)
+                    self.convert_to_stand()
 
                 self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
 
@@ -190,7 +190,7 @@ class ACTION:
                 if self.Attack_frame_x >= 6.0:
                     self.Attack = False
                     self.Attack_frame_x = 0
-                    self.add_event(dir_0)
+                    self.convert_to_stand()
 
                 self.Attack_frame_x = (self.Attack_frame_x + FPAttack * Attack_Per_Time * game_framework.frame_time) % 7
 
@@ -199,7 +199,7 @@ class ACTION:
                 self.Spin = False
                 self.Spin_frame = 0
                 direction = 1
-                self.add_event(dir_0)
+                self.convert_to_stand()
 
             self.Spin_frame = (self.Spin_frame + FPSpin * Spin_Per_Time * game_framework.frame_time) % 13
 
@@ -213,7 +213,7 @@ class ACTION:
                 if self.Roll_frame_y > 8.0:
                     self.Roll = False
                     self.Roll_frame_y = 0
-                    self.add_event(dir_0)
+                    self.convert_to_stand()
 
                 self.Roll_frame_y = (self.Roll_frame_y + FPRoll * Roll_Per_Time * game_framework.frame_time) % 9
 
@@ -226,7 +226,7 @@ class ACTION:
                 if self.Roll_frame_x > 8.0:
                     self.Roll = False
                     self.Roll_frame_x = 0
-                    self.add_event(dir_0)
+                    self.convert_to_stand()
 
                 self.Roll_frame_x = (self.Roll_frame_x + FPRoll * Roll_Per_Time * game_framework.frame_time) % 9
 
@@ -359,6 +359,9 @@ class MainCharacter:
 
     def add_event(self, event):
         self.queue.insert(0, event)
+
+    def convert_to_stand(self):
+        self.add_event(dir_0)
 
     def is_none_event(self):
         if not self.queue:
