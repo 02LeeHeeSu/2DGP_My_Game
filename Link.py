@@ -50,6 +50,12 @@ Shield_Per_Time = 1.0 / Time_Per_Shield
 FPShield = 5
 
 
+# 사망 액션 속도
+Time_Per_Die = 0.5
+Die_Per_Time = 1.0 / Time_Per_Die
+FPDie = 5
+
+
 def dir_to_frame(d):
     if d < 2:
         return -d + 1
@@ -432,6 +438,9 @@ class MainCharacter:
         self.Shield_x_image = load_image('Link/Item/shield_x.png')
         self.Shield_y_image = load_image('Link/Item/shield_y.png')
         self.Shield_frame_x, self.Shield_frame_y = 0, 0
+
+        self.Die = load_image('Link/Die/die.png')
+        self.Die_frame = 0
 
     def update(self):
         self.cur_state.do(self)
