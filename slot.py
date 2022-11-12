@@ -7,6 +7,8 @@ selected_num = 1
 
 
 one, two, three, four = range(4)
+event_name = ['one', 'two', 'three', 'four']
+
 key_event_table = {
     (SDL_KEYDOWN, SDLK_1): one,
     (SDL_KEYDOWN, SDLK_2): two,
@@ -85,7 +87,10 @@ class Slot:
         if self.queue:
             event = self.queue.pop()
             self.cur_state.exit(self)
-            self.cur_state = next_state[self.cur_state][event]
+            try:
+                self.cur_state = next_state[self.cur_state][event]
+            except KeyError:
+                print(f'ERROR: State {self.cur_state.__name__}    Event {event_name[event]}')
             self.cur_state.enter(self, event)
 
     def draw(self):

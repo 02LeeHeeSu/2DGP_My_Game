@@ -58,6 +58,12 @@ def dir_to_frame(d):
 
 # 이벤트 정의
 wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0 = range(14)
+event_name = ['wd', 'sd', 'dd', 'ad',
+              'wu', 'su', 'du', 'au',
+              'jd', 'kd', 'ld',
+              'ud', 'uu',
+              'dir_0']
+
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
     (SDL_KEYDOWN, SDLK_s): sd,
@@ -419,7 +425,10 @@ class MainCharacter:
         if self.queue:
             event = self.queue.pop()
             self.cur_state.exit(self, event)
-            self.cur_state = next_state[self.cur_state][event]
+            try:
+                self.cur_state = next_state[self.cur_state][event]
+            except KeyError:
+                print(f'ERROR: State {self.cur_state.__name__}    Event {event_name[event]}')
             self.cur_state.enter(self, event)
 
     def draw(self):
