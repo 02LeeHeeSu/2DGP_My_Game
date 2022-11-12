@@ -113,14 +113,10 @@ class RUN:
         elif event == ad:
             self.dir_x -= 1
 
-        elif event == wu:
-            self.dir_y -= 1
-        elif event == su:
-            self.dir_y += 1
-        elif event == du:
-            self.dir_x -= 1
-        elif event == au:
-            self.dir_x += 1
+        elif event == wu or event == su:
+            self.dir_y = 0
+        elif event == du or event == au:
+            self.dir_x = 0
 
     @staticmethod
     def exit(self, event):
