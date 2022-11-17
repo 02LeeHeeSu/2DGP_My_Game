@@ -339,6 +339,9 @@ class ITEM:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                      0, 'h', self.x, self.y, 140, 130)
 
+        elif not slot.IsGetBow:
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
             if direction == 0 or direction == 1:
@@ -349,6 +352,9 @@ class ITEM:
 
             elif direction == 3:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
+
+        elif not slot.IsGetShield:
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
 
         if slot.selected_num == 3 and slot.IsGetPotion:
             self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
