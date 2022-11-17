@@ -1,8 +1,10 @@
 from pico2d import *
 import game_framework
 import game_world
+import heart
 from arrow import Arrow
 import slot
+from heart import cur_hp, max_hp
 
 from canvas_size import width, height
 
@@ -316,9 +318,10 @@ class ITEM:
                 self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
 
         if slot.selected_num == 3 and slot.IsGetPotion:
-            self.cur_hp += 4
-            self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
-            print(self.cur_hp)
+            self.current += 1
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+            heart.max_hp = self.maximum
             self.convert_to_stand()
 
     @staticmethod
