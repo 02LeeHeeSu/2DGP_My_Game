@@ -4,6 +4,7 @@ import game_world
 
 from Link import MainCharacter
 from slot import Slot
+from heart import Heart
 
 import game_framework
 import pause_state
@@ -24,13 +25,16 @@ def handle_events():
 # 게임 초기화: 객체 생성
 Link = None
 inventory = None
+HP = None
 
 
 def enter():
-    global Link, inventory
+    global Link, inventory, HP
     Link = MainCharacter()
     inventory = Slot()
+    HP = Heart()
     game_world.add_object(Link, 1)
+    game_world.add_object(HP, 1)
     game_world.add_object(inventory, 2)
 
 
