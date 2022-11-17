@@ -406,8 +406,9 @@ class MainCharacter:
         self.cur_state = STAND
         self.cur_state.enter(self, None)
 
-        self.max_hp = 12
-        self.cur_hp = 1
+        self.maximum = heart.max_hp
+        self.current = heart.cur_hp
+        self.current = clamp(0, self.current, self.maximum)
 
         self.x, self.y = width // 2, height // 2   # 위치
 
