@@ -322,6 +322,7 @@ class ITEM:
             self.current = clamp(0, self.current, self.maximum)
             heart.cur_hp = self.current
             heart.max_hp = self.maximum
+                self.current += self.maximum // 4
             self.convert_to_stand()
 
     @staticmethod
