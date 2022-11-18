@@ -30,12 +30,12 @@ Roll_Per_Time = 1 / Time_Per_Roll
 FPRoll = 9
 
 # 공격 속도
-Time_Per_Attack = 0.5
+Time_Per_Attack = 0.3
 Attack_Per_Time = 1 / Time_Per_Attack
 FPAttack = 7
 
 # 회전공격 속도
-Time_Per_Spin = 1.0
+Time_Per_Spin = 0.6
 Spin_Per_Time = 1 / Time_Per_Spin
 FPSpin = 13
 
