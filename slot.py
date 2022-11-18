@@ -5,6 +5,8 @@ IsGetShield = True
 IsGetPotion = True
 selected_num = 1
 
+PotionCoolTime = 0.0
+
 
 one, two, three, four = range(4)
 event_name = ['one', 'two', 'three', 'four']
