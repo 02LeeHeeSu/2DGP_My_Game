@@ -1,5 +1,7 @@
 from pico2d import *
 
+import game_framework
+
 IsGetBow = True
 IsGetShield = True
 IsGetPotion = True
@@ -39,7 +41,11 @@ class SELECTION:
 
     @staticmethod
     def do(self):
-        pass
+        global PotionCoolTime
+        if PotionCoolTime > 0:
+            PotionCoolTime -= game_framework.frame_time
+            if PotionCoolTime <= 0:
+                PotionCoolTime = 0.0
 
     @staticmethod
     def draw(self):
