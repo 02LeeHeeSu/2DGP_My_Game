@@ -80,6 +80,9 @@ class Slot:
         self.cur_state = SELECTION
         self.cur_state.enter(self, None)
 
+        self.size = 30
+        self.font = load_font('Slot/ENCR10B.TTF', self.size)
+
         self.slot_gap = 54
         self.slot_x = 557 - self.slot_gap
         self.slot_y = 65
@@ -103,3 +106,5 @@ class Slot:
 
     def draw(self):
         self.cur_state.draw(self)
+        if PotionCoolTime > 0:
+            self.font.draw(self.slot_x + self.slot_gap * 3 - 35, 120, f'{PotionCoolTime:.1f}', (255, 255, 255))
