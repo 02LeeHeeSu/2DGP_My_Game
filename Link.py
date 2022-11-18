@@ -318,11 +318,12 @@ class ITEM:
                 self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % 5
 
         if slot.selected_num == 3 and slot.IsGetPotion:
-            self.current += 1
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
-            heart.max_hp = self.maximum
+            if slot.PotionCoolTime == 0.0:
+                slot.PotionCoolTime = 30.0
                 self.current += self.maximum // 4
+                self.current = clamp(0, self.current, self.maximum)
+                heart.cur_hp = self.current
+                heart.max_hp = self.maximum
             self.convert_to_stand()
 
     @staticmethod
