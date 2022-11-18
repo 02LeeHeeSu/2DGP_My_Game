@@ -251,7 +251,7 @@ class ACTION:
                 self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
-            self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y)
+            self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y - 25)
 
         if self.Roll:
             if direction == 0 or direction == 1:
