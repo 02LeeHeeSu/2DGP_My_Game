@@ -2,11 +2,15 @@ from pico2d import *
 
 import game_world
 
+import server
+
 from Link import MainCharacter
 from slot import Slot
 from heart import Heart
+from chuchu import ChuChu
 
 import game_framework
+
 import pause_state
 
 
@@ -22,16 +26,18 @@ def handle_events():
                 obj.handle_event(event)
 
 
-
-
 def enter():
-    global Link, inventory, HP
-    Link = MainCharacter()
-    inventory = Slot()
-    HP = Heart()
-    game_world.add_object(Link, 1)
-    game_world.add_object(HP, 1)
-    game_world.add_object(inventory, 2)
+    server.Link = MainCharacter()
+    server.HP = Heart()
+    server.inventory = Slot()
+
+    server.chu = ChuChu()
+
+    game_world.add_object(server.Link, 1)
+    game_world.add_object(server.HP, 1)
+    game_world.add_object(server.inventory, 2)
+
+    game_world.add_object(server.chu, 1)
 
 
 def update():
