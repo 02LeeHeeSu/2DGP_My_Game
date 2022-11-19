@@ -1,6 +1,7 @@
 from pico2d import *
 
 import game_framework
+import game_world
 
 IsGetBow = True
 IsGetShield = True
@@ -76,6 +77,9 @@ class Slot:
             self.add_event(key_event)
             
     def __init__(self):
+        global PotionCoolTime
+        PotionCoolTime = 0.0
+
         self.queue = []
         self.cur_state = SELECTION
         self.cur_state.enter(self, None)
