@@ -22,10 +22,6 @@ def handle_events():
                 obj.handle_event(event)
 
 
-# 게임 초기화: 객체 생성
-Link = None
-inventory = None
-HP = None
 
 
 def enter():
