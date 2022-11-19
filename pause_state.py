@@ -1,5 +1,7 @@
 from pico2d import *
 
+import game_world
+
 import game_framework
 import title_state
 import play_state
@@ -28,6 +30,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 game_framework.change_state(title_state)
+                game_world.clear()
             if event.key == SDLK_SPACE:
                 game_framework.pop_state()
 
