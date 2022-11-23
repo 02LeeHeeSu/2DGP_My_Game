@@ -407,25 +407,6 @@ class MainCharacter:
         else:
             return False
 
-    def get_bb(self):
-        if self.Attack:
-            if direction == 0:
-                return self.x - 75, self.y, self.x + 75, self.y + 112.5
-            elif direction == 1:
-                return self.x - 75, self.y - 112.5, self.x + 75, self.y
-            elif direction == 2:
-                return self.x, self.y - 100, self.x + 115, self.y + 100
-            elif direction == 3:
-                return self.x - 115, self.y - 100, self.x, self.y + 100
-
-        if self.Spin:
-            return self.x - 150, self.y - 127.5 - 25, self.x + 150, self.y + 127.5 - 25
-
-        return self.x - 45, self.y - 60, self.x + 45, self.y + 60
-
-    def handle_collision(self, other, group):
-        pass
-
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
@@ -490,4 +471,3 @@ class MainCharacter:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
