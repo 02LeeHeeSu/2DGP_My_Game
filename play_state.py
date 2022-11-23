@@ -8,6 +8,7 @@ from link import MainCharacter
 from slot import Slot
 from heart import Heart
 from chuchu import ChuChu
+from octorok import Octorok
 
 import game_framework
 
@@ -32,6 +33,7 @@ def enter():
     server.inventory = Slot()
 
     server.chu = ChuChu()
+    server.octo = Octorok()
 
     game_world.add_object(server.link, 1)
     game_world.add_object(server.HP, 1)
