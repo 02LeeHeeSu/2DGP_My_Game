@@ -8,7 +8,7 @@ import server
 from canvas_size import width, height
 
 Pixel_Per_Meter = (10.0 / 0.15)
-KM_Per_Hour = 10.0
+KM_Per_Hour = 7.0
 Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
 Meter_Per_Sec = (Meter_Per_Minute / 60.0)
 Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
