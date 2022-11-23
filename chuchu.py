@@ -57,8 +57,8 @@ class ChuChu:
             return BehaviorTree.RUNNING
 
     def find_player(self):
-        distance = (server.Link.x - self.x) ** 2 + (server.Link.y - self.y) ** 2
-        if distance < (Pixel_Per_Meter * 10) ** 2:
+        distance = (server.link.x - self.x) ** 2 + (server.link.y - self.y) ** 2
+        if distance < (Pixel_Per_Meter * 5) ** 2:
             return BehaviorTree.SUCCESS
         else:
             self.speed = 0
