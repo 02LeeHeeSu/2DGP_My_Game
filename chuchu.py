@@ -67,8 +67,8 @@ class ChuChu:
     def move_to_player(self):
         self.speed = Pixel_Per_Sec
 
-        dx = server.Link.x - self.x
-        dy = server.Link.y - self.y
+        dx = server.link.x - self.x
+        dy = server.link.y - self.y
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
