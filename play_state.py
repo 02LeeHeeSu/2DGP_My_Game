@@ -4,7 +4,7 @@ import game_world
 
 import server
 
-from Link import MainCharacter
+from link import MainCharacter
 from slot import Slot
 from heart import Heart
 from chuchu import ChuChu
@@ -27,13 +27,13 @@ def handle_events():
 
 
 def enter():
-    server.Link = MainCharacter()
+    server.link = MainCharacter()
     server.HP = Heart()
     server.inventory = Slot()
 
     server.chu = ChuChu()
 
-    game_world.add_object(server.Link, 1)
+    game_world.add_object(server.link, 1)
     game_world.add_object(server.HP, 1)
     game_world.add_object(server.inventory, 2)
 
