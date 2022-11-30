@@ -2,6 +2,7 @@ from pico2d import *
 import game_world
 import game_framework
 
+from define_dir import defined_direction
 
 class Arrow:
     image = None

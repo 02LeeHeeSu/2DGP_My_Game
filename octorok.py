@@ -6,6 +6,7 @@ from pico2d import *
 
 import server
 
+from define_dir import defined_direction
 from canvas_size import width, height
 
 Pixel_Per_Meter = (10.0 / 0.15)
