@@ -150,7 +150,10 @@ class Octorok:
     def update(self):
         self.bt.run()
 
-        self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
+        self.frame_move = (self.frame_move + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
+
+        if self.Attack:
+            self.frame_attack = (self.frame_attack + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
         if self.dir == defined_direction['up']:
             self.y += self.speed * game_framework.frame_time
