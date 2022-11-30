@@ -72,34 +72,34 @@ class ChuChu:
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
-                self.dir = 2
+                self.dir = defined_direction['right']
             else:
-                self.dir = 0
+                self.dir = defined_direction['up']
 
         if dx >= 0 > dy:
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = 2
+                self.dir = defined_direction['right']
             else:
-                self.dir = 1
+                self.dir = defined_direction['down']
 
         if dx < 0 <= dy:
             dx = absolute(dx)
 
             if dx >= dy:
-                self.dir = 3
+                self.dir = defined_direction['left']
             else:
-                self.dir = 0
+                self.dir = defined_direction['up']
 
         if dx < 0 and dy < 0:
             dx = absolute(dx)
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = 3
+                self.dir = defined_direction['left']
             else:
-                self.dir = 1
+                self.dir = defined_direction['down']
 
         return BehaviorTree.SUCCESS
 
@@ -118,13 +118,13 @@ class ChuChu:
 
         self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
 
-        if self.dir == 0:
+        if self.dir == defined_direction['up']:
             self.y += self.speed * game_framework.frame_time
-        elif self.dir == 1:
+        elif self.dir == defined_direction['down']:
             self.y -= self.speed * game_framework.frame_time
-        elif self.dir == 2:
+        elif self.dir == defined_direction['right']:
             self.x += self.speed * game_framework.frame_time
-        elif self.dir == 3:
+        elif self.dir == defined_direction['left']:
             self.x -= self.speed * game_framework.frame_time
 
         self.x = clamp(50, self.x, width - 50)
