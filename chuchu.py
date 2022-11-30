@@ -36,6 +36,9 @@ class ChuChu:
             for name in animation_names:
                 ChuChu.images[name] = [load_image("Monsters/Chu_Chu/" + name + "%d" % i + ".png") for i in range(1, 16 + 1)]
 
+    def get_bb(self):
+        return self.x - 40, self.y - 52.5, self.x + 40, self.y + 52.5
+
     def __init__(self):
         self.x, self.y = 80, 105
         self.load_images()
@@ -131,6 +134,26 @@ class ChuChu:
 
     def draw(self):
         ChuChu.images['move'][int(self.frame)].draw(self.x, self.y, 80, 105)
+        draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
         pass
+
+    def handle_collision(self, other, group):
+        if group == 'Link:ChuChu':
+            if self.dir == defined_direction['up']:
+                self.y -= 100
+            elif self.dir == defined_direction['down']:
+                self.y += 100
+            elif self.dir == defined_direction['right']:
+                self.x -= 100
+            elif self.dir == defined_direction['left']:
+                self.x += 100
+        if group == 'Sword:ChuChu':
+            for obj in game_world.world[level['ChuChu']]:
+                if obj == self:
+                    game_world.remove_object(self, level['ChuChu'])
+        if group == 'Arrow:ChuChu':
+            for obj in game_world.world[level['ChuChu']]:
+                if obj == self:
+                    game_world.remove_object(self, level['ChuChu'])

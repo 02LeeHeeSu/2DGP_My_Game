@@ -12,6 +12,18 @@ class Arrow:
     def handle_event(self, event):
         pass
 
+    def get_bb(self):
+        if self.d == defined_direction['up'] or self.d == defined_direction['down']:
+            return self.x - 12.5, self.y - 37.5, self.x + 12.5, self.y + 37.5
+
+        elif self.d == defined_direction['right'] or self.d == defined_direction['left']:
+            return self.x - 37.5, self.y - 12.5, self.x + 37.5, self.y + 12.5
+
+    def handle_collision(self, other, group):
+        for obj in game_world.world[level['Arrow']]:
+            if obj == self:
+                game_world.remove_object(self, level['Arrow'])
+
     def __init__(self, x, y, velocity, d, ot):
         if Arrow.image is None:
             Arrow.image = load_image('Link/Item/arrow.png')
@@ -19,6 +31,7 @@ class Arrow:
         self.init_x, self.init_y = x, y
 
     def draw(self):
+        draw_rectangle(*self.get_bb())
         if self.d == defined_direction['up']:
             self.image.clip_draw(0, 0, 25, 75, self.x, self.y)
 

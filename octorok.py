@@ -42,6 +42,8 @@ class Octorok:
             Octorok.images = {}
             for name in animation_names:
                 Octorok.images[name] = [load_image("Monsters/Octorok/" + name + "%d" % i + "-" + "%d" % j + ".png") for i, j in [(0, 1), (0, 2), (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]]
+    def get_bb(self):
+        return self.x - 40, self.y - 45, self.x + 40, self.y + 45
 
     def __init__(self):
         self.hp = 1
@@ -144,3 +146,12 @@ class Octorok:
     def handle_event(self, event):
         pass
 
+    def handle_collision(self, other, group):
+        if group == 'Sword:Octorok':
+            for obj in game_world.world[level['Octorok']]:
+                if obj == self:
+                    game_world.remove_object(self, level['Octorok'])
+        if group == 'Arrow:Octorok':
+            for obj in game_world.world[level['Octorok']]:
+                if obj == self:
+                    game_world.remove_object(self, level['Octorok'])
