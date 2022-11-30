@@ -61,7 +61,11 @@ class Arrow:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - (self.velocity * self.ot) or self.x > self.init_x + (self.velocity * self.ot):
-            game_world.remove_object(self)
+            for obj in game_world.world[level['Arrow']]:
+                if obj == self:
+                    game_world.remove_object(self, level['Arrow'])
 
         if self.y < self.init_y - (self.velocity * self.ot) or self.y > self.init_y + (self.velocity * self.ot):
-            game_world.remove_object(self)
+            for obj in game_world.world[level['Arrow']]:
+                if obj == self:
+                    game_world.remove_object(self, level['Arrow'])
