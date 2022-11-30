@@ -1,19 +1,16 @@
-import random
-import game_framework
-from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 from pico2d import *
-
+import game_framework
+import game_world
 import server
 
-from canvas_size import width, height
 from define_dir import defined_direction
+from define_PPM import Pixel_Per_Meter, Pixel_Per_Sec_chu
 from depth import level
 
-Pixel_Per_Meter = (10.0 / 0.15)
-KM_Per_Hour = 7.0
-Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
-Meter_Per_Sec = (Meter_Per_Minute / 60.0)
-Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
+import random
+from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
+
+from canvas_size import width, height
 
 Time_Per_Move = 1.0
 Move_Per_Time = 1.0 / Time_Per_Move

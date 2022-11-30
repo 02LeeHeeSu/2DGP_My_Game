@@ -1,7 +1,11 @@
 from pico2d import *
 import game_framework
 import game_world
+
 from define_dir import defined_direction
+from define_PPM import Pixel_Per_Sec_link
+from depth import level
+
 import heart
 from arrow import Arrow
 import slot
