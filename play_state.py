@@ -1,16 +1,16 @@
 from pico2d import *
 
 import game_world
-
+import game_framework
 import server
+
+from depth import level
 
 from link import MainCharacter
 from slot import Slot
 from heart import Heart
 from chuchu import ChuChu
 from octorok import Octorok
-
-import game_framework
 
 import pause_state
 
