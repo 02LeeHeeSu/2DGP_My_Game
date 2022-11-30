@@ -16,13 +16,8 @@ from canvas_size import width, height
 # 방향
 direction = defined_direction['down']
 
-Pixel_Per_Meter = (10.0 / 0.15)
-KM_Per_Hour = 20.0
-Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
-Meter_Per_Sec = (Meter_Per_Minute / 60.0)
-Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
-PPS_Roll = 1.5 * Pixel_Per_Sec
-PPS_Arrow = 4.0 * Pixel_Per_Sec
+PPS_Roll = 1.5 * Pixel_Per_Sec_link
+PPS_Arrow = 4.0 * Pixel_Per_Sec_link
 
 # 달리기 속도
 Time_Per_Run = 0.5
@@ -153,8 +148,8 @@ class RUN:
             direction = defined_direction['left']
 
         # 좌표 설정
-        self.x += self.dir_x * Pixel_Per_Sec * game_framework.frame_time
-        self.y += self.dir_y * Pixel_Per_Sec * game_framework.frame_time
+        self.x += self.dir_x * Pixel_Per_Sec_link * game_framework.frame_time
+        self.y += self.dir_y * Pixel_Per_Sec_link * game_framework.frame_time
         self.x = clamp(45, self.x, width - 45)
         self.y = clamp(60, self.y, height - 60)
 
@@ -192,7 +187,6 @@ class ACTION:
         global direction
 
         if self.Attack:
-                if self.Attack_frame_y >= 6.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
                     self.Attack = False
                     self.Attack_frame_y = 0
