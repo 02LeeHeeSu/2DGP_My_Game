@@ -7,6 +7,7 @@ from define_dir import defined_direction
 from define_PPM import Pixel_Per_Meter, Pixel_Per_Sec_octo
 from depth import level
 
+from rock import Rock
 
 import random
 from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
@@ -147,6 +148,31 @@ class Octorok:
         wander_chase_node.add_children(chase_node, wander_node)
         self.bt = BehaviorTree(wander_chase_node)
 
+    def shoot_rock(self):
+        if self.dir == defined_direction['up']:
+            threw_rock = Rock(self.x, self.y + 45 + 20 + 1, PPS_rock, self.dir, self.attack_distance)
+            game_world.add_object(threw_rock, 1)
+            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+
+        elif self.dir == defined_direction['down']:
+            threw_rock = Rock(self.x, self.y - 45 - 20 - 1, PPS_rock, self.dir, self.attack_distance)
+            game_world.add_object(threw_rock, 1)
+            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+
+        elif self.dir == defined_direction['right']:
+            threw_rock = Rock(self.x + 40 + 20 + 1, self.y, PPS_rock, self.dir, self.attack_distance)
+            game_world.add_object(threw_rock, 1)
+            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+
+        elif self.dir == defined_direction['left']:
+            threw_rock = Rock(self.x - 40 - 20 - 1, self.y, PPS_rock, self.dir, self.attack_distance)
+            game_world.add_object(threw_rock, 1)
+            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+
     def update(self):
         self.bt.run()
 
@@ -154,6 +180,15 @@ class Octorok:
 
         if self.Attack:
             self.frame_attack = (self.frame_attack + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
+            self.attack_timer -= game_framework.frame_time
+
+            if self.attack_timer <= 0.0:
+                self.attack_timer = 1.0
+                self.is_shoot = False
+
+        if int(self.frame_attack) == 1 and not self.is_shoot:
+            self.is_shoot = True
+            self.shoot_rock()
 
         if self.dir == defined_direction['up']:
             self.y += self.speed * game_framework.frame_time
