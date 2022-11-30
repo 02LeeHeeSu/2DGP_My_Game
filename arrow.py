@@ -3,6 +3,8 @@ import game_world
 import game_framework
 
 from define_dir import defined_direction
+from depth import level
+
 
 class Arrow:
     image = None

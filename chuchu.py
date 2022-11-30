@@ -7,6 +7,7 @@ import server
 
 from canvas_size import width, height
 from define_dir import defined_direction
+from depth import level
 
 Pixel_Per_Meter = (10.0 / 0.15)
 KM_Per_Hour = 7.0
