@@ -106,12 +106,12 @@ class ChuChu:
         return BehaviorTree.SUCCESS
 
     def build_behavior_tree(self):
-        wander_node = LeafNode("Wander", self.wander)
-        find_player_node = LeafNode("Find Player", self.find_player)
-        move_to_player_node = LeafNode("Move to Player", self.move_to_player)
-        chase_node = SequenceNode("Chase")
+        wander_node = Leaf("Wander", self.wander)
+        find_player_node = Leaf("Find Player", self.find_player)
+        move_to_player_node = Leaf("Move to Player", self.move_to_player)
+        chase_node = Sequence("Chase")
         chase_node.add_children(find_player_node, move_to_player_node)
-        wander_chase_node = SelectorNode("WanderChase")
+        wander_chase_node = Selector("WanderChase")
         wander_chase_node.add_children(chase_node, wander_node)
         self.bt = BehaviorTree(wander_chase_node)
 
