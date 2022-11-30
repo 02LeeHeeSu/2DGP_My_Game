@@ -48,14 +48,24 @@ def enter():
     server.HP = Heart()
     server.inventory = Slot()
 
-    server.chu = ChuChu()
+    server.chu = [ChuChu() for i in range(3)]
     server.octo = Octorok()
 
-    game_world.add_object(server.link, 1)
-    game_world.add_object(server.HP, 1)
-    game_world.add_object(server.inventory, 2)
+    game_world.add_object(server.link, level['Link'])
+    game_world.add_object(server.HP, level['Heart'])
+    game_world.add_object(server.inventory, ['Slot'])
 
-    game_world.add_object(server.chu, 1)
+    game_world.add_objects(server.chu, level['ChuChu'])
+    game_world.add_object(server.octo, level['Octorok'])
+
+    game_world.add_collision_group(server.link, server.chu, 'Link:ChuChu')
+    game_world.add_collision_group(server.link, server.octo, 'Link:Octorok')
+    game_world.add_collision_group(None, server.chu, 'Arrow:ChuChu')
+    game_world.add_collision_group(None, server.octo, 'Arrow:Octorok')
+    game_world.add_collision_group(None, server.chu, 'Sword:ChuChu')
+    game_world.add_collision_group(None, server.octo, 'Sword:Octorok')
+    game_world.add_collision_group(None, server.link, 'Rock:Link')
+    game_world.add_collision_group(None, server.octo, 'Rock:Shield')
 
 
 def update():
