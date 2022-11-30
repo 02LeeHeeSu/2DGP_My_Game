@@ -16,7 +16,7 @@ class Arrow:
         self.init_x, self.init_y = x, y
 
     def draw(self):
-        if self.d == 0:
+        if self.d == defined_direction['up']:
             self.image.clip_draw(0, 0, 25, 75, self.x, self.y)
 
         elif self.d == defined_direction['down']:
@@ -41,7 +41,7 @@ class Arrow:
         if self.d == defined_direction['right']:
             self.x += self.velocity * game_framework.frame_time
 
-        elif self.d == 3:
+        elif self.d == defined_direction['left']:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - (self.velocity * self.ot) or self.x > self.init_x + (self.velocity * self.ot):
