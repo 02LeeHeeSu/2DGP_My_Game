@@ -48,13 +48,17 @@ class Octorok:
         return self.x - 40, self.y - 45, self.x + 40, self.y + 45
 
     def __init__(self):
-        self.hp = 1
-        self.x, self.y = width - 80, height - 105
+        self.x, self.y = width - 80, height - 90
         self.load_images()
         self.dir = random.randint(0, 3)
         self.speed = 0
-        self.timer = 1.0
-        self.frame = 0
+        self.wander_timer = 1.0
+        self.Attack = False
+        self.attack_distance = (Pixel_Per_Meter * 10) ** 2
+        self.attack_timer = 1.0
+        self.is_shoot = False
+        self.frame_move = 0
+        self.frame_attack = 0
         self.build_behavior_tree()
 
     def wander(self):
