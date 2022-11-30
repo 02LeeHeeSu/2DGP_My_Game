@@ -3,7 +3,7 @@ from canvas_size import height
 
 
 max_hp = 12
-cur_hp = 1
+cur_hp = 3
 cur_hp = clamp(0, cur_hp, max_hp)
 
 
@@ -31,7 +31,7 @@ class Heart:
         self.BrokeHeart = cur_hp % 4
 
     def draw(self):
-        for i in range(self.FullHeartNumber):
+        for i in range(0, self.FullHeartNumber):
             self.HeartImage.clip_draw(45 * 4, 0, 45, 40, 45 + 50 * i, height - 40)
 
         for i in range(self.FullHeartNumber + 1, self.MaximumHeartNumber):
