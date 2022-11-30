@@ -284,8 +284,11 @@ class ITEM:
                 self.Bow_frame_x = 0
                 self.Bow_frame_y = 0
 
-                arrow_item = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
-                game_world.add_object(arrow_item, 1)
+                arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(arrow_obj, 1)
+
+                game_world.add_collision_group(arrow_obj, None, 'Arrow:ChuChu')
+                game_world.add_collision_group(arrow_obj, None, 'Arrow:Octorok')
 
     @staticmethod
     def do(self):
