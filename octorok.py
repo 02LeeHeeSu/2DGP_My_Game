@@ -41,7 +41,9 @@ class Octorok:
         if Octorok.images is None:
             Octorok.images = {}
             for name in animation_names:
-                Octorok.images[name] = [load_image("Monsters/Octorok/" + name + "%d" % i + "-" + "%d" % j + ".png") for i, j in [(0, 1), (0, 2), (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]]
+                Octorok.images[name] = [load_image("Monsters/Octorok/" + name + "%d" % i + "-" + "%d" % j + ".png") for
+                                        i, j in [(0, 1), (0, 2), (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]]
+
     def get_bb(self):
         return self.x - 40, self.y - 45, self.x + 40, self.y + 45
 
