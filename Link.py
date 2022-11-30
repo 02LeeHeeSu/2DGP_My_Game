@@ -188,14 +188,15 @@ class ACTION:
 
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Attack_frame_y >= FPAttack - 1:
                     self.Attack = False
                     self.Attack_frame_y = 0
                     self.convert_to_stand()
 
                 self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
-                if self.Attack_frame_x >= 6.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Attack_frame_x >= FPAttack - 1:
                     self.Attack = False
                     self.Attack_frame_x = 0
                     self.convert_to_stand()
@@ -203,7 +204,7 @@ class ACTION:
                 self.Attack_frame_x = (self.Attack_frame_x + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
         if self.Spin:
-            if self.Spin_frame >= 12.0:
+            if self.Spin_frame >= FPSpin - 1:
                 self.Spin = False
                 self.Spin_frame = 0
                 direction = 1
@@ -218,7 +219,7 @@ class ACTION:
                 else:
                     self.y -= PPS_Roll * game_framework.frame_time
 
-                if self.Roll_frame_y > 8.0:
+                if self.Roll_frame_y > FPRoll - 1:
                     self.Roll = False
                     self.Roll_frame_y = 0
                     self.convert_to_stand()
@@ -231,7 +232,7 @@ class ACTION:
                 else:
                     self.x -= PPS_Roll * game_framework.frame_time
 
-                if self.Roll_frame_x > 8.0:
+                if self.Roll_frame_x > FPRoll - 1:
                     self.Roll = False
                     self.Roll_frame_x = 0
                     self.convert_to_stand()
@@ -290,28 +291,28 @@ class ITEM:
     def do(self):
         # 활
         if slot.selected_num == 1 and slot.IsGetBow:
-                if self.Bow_frame_y >= 9.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Bow_frame_y >= FPBow - 1:
                     self.Bow_frame_y = 9
 
                 self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
-                if self.Bow_frame_x >= 9.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Bow_frame_x >= FPBow - 1:
                     self.Bow_frame_x = 9
 
                 self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
-                if self.Shield_frame_y >= 4.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Shield_frame_y >= FPShield - 1:
                     self.Shield_frame_y = 4
 
                 self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
 
-                if self.Shield_frame_x >= 4.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Shield_frame_x >= FPShield - 1:
                     self.Shield_frame_x = 4
 
                 self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
