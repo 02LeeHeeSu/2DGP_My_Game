@@ -14,7 +14,7 @@ from heart import cur_hp, max_hp
 from canvas_size import width, height
 
 # 방향
-direction = 1
+direction = defined_direction['down']
 
 Pixel_Per_Meter = (10.0 / 0.15)
 KM_Per_Hour = 20.0
@@ -144,13 +144,13 @@ class RUN:
         if self.dir_x == 0 and self.dir_y == 0 and self.is_none_event():
             self.convert_to_stand()
         if self.dir_y > 0:
-            direction = 0
+            direction = defined_direction['up']
         elif self.dir_y < 0:
-            direction = 1
+            direction = defined_direction['down']
         elif self.dir_x > 0:
-            direction = 2
+            direction = defined_direction['right']
         elif self.dir_x < 0:
-            direction = 3
+            direction = defined_direction['left']
 
         # 좌표 설정
         self.x += self.dir_x * Pixel_Per_Sec * game_framework.frame_time
@@ -166,9 +166,9 @@ class RUN:
     def draw(self):
         global direction
 
-        if direction == 0 or direction == 1:
+        if direction == defined_direction['up'] or direction == defined_direction['down']:
             self.Run_y_image.clip_draw(int(self.Run_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
-        elif direction == 2 or direction == 3:
+        elif direction == defined_direction['right'] or direction == defined_direction['left']:
             self.Run_x_image.clip_draw(int(self.Run_frame_x) * 115, dir_to_frame(direction) * 120, 115, 120, self.x, self.y)
 
 
@@ -192,16 +192,16 @@ class ACTION:
         global direction
 
         if self.Attack:
-            if direction == 0 or direction == 1:
                 if self.Attack_frame_y >= 6.0:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                     self.Attack = False
                     self.Attack_frame_y = 0
                     self.convert_to_stand()
 
                 self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
-            elif direction == 2 or direction == 3:
                 if self.Attack_frame_x >= 6.0:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
                     self.Attack = False
                     self.Attack_frame_x = 0
                     self.convert_to_stand()
@@ -218,8 +218,8 @@ class ACTION:
             self.Spin_frame = (self.Spin_frame + FPSpin * Spin_Per_Time * game_framework.frame_time) % FPSpin
 
         if self.Roll:
-            if direction == 0 or direction == 1:
-                if direction == 0:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if direction == defined_direction['up']:
                     self.y += PPS_Roll * game_framework.frame_time
                 else:
                     self.y -= PPS_Roll * game_framework.frame_time
@@ -231,8 +231,8 @@ class ACTION:
 
                 self.Roll_frame_y = (self.Roll_frame_y + FPRoll * Roll_Per_Time * game_framework.frame_time) % FPRoll
 
-            elif direction == 2 or direction == 3:
-                if direction == 2:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if direction == defined_direction['right']:
                     self.x += PPS_Roll * game_framework.frame_time
                 else:
                     self.x -= PPS_Roll * game_framework.frame_time
@@ -250,18 +250,18 @@ class ACTION:
     @staticmethod
     def draw(self):
         if self.Attack:
-            if direction == 0 or direction == 1:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                 self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(direction) * 265, 230, 265, self.x, self.y)
-            elif direction == 2 or direction == 3:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(direction) * 225, 240, 225, self.x, self.y)
 
         if self.Spin:
             self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y - 25)
 
         if self.Roll:
-            if direction == 0 or direction == 1:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                 self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
-            elif direction == 2 or direction == 3:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(direction) * 120, 100, 120, self.x, self.y)
 
 
@@ -296,28 +296,28 @@ class ITEM:
     def do(self):
         # 활
         if slot.selected_num == 1 and slot.IsGetBow:
-            if direction == 0 or direction == 1:
                 if self.Bow_frame_y >= 9.0:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                     self.Bow_frame_y = 9
 
                 self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
-            elif direction == 2 or direction == 3:
                 if self.Bow_frame_x >= 9.0:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
                     self.Bow_frame_x = 9
 
                 self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
-            if direction == 0 or direction == 1:
                 if self.Shield_frame_y >= 4.0:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                     self.Shield_frame_y = 4
 
                 self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
 
-            elif direction == 2 or direction == 3:
                 if self.Shield_frame_x >= 4.0:
+            elif direction == defined_direction['right'] or direction == defined_direction['left']:
                     self.Shield_frame_x = 4
 
                 self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
@@ -335,14 +335,14 @@ class ITEM:
     def draw(self):
         # 활
         if slot.selected_num == 1 and slot.IsGetBow:
-            if direction == 0 or direction == 1:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                 self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
 
-            elif direction == 2:
+            elif direction == defined_direction['right']:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                      0, '', self.x, self.y, 140, 130)
 
-            elif direction == 3:
+            elif direction == defined_direction['left']:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                      0, 'h', self.x, self.y, 140, 130)
 
@@ -351,13 +351,13 @@ class ITEM:
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
-            if direction == 0 or direction == 1:
+            if direction == defined_direction['up'] or direction == defined_direction['down']:
                 self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
 
-            elif direction == 2:
+            elif direction == defined_direction['right']:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', self.x, self.y, 115, 110)
 
-            elif direction == 3:
+            elif direction == defined_direction['left']:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
 
         elif not slot.IsGetShield:
