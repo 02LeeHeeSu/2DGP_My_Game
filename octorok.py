@@ -80,7 +80,7 @@ class Octorok:
             self.speed = 0
             return BehaviorTree.FAIL
 
-    def move_to_player(self):
+    def look_and_attack_player(self):
         self.speed = 0.0
 
         dx = server.link.x - self.x
@@ -115,9 +115,27 @@ class Octorok:
             if dx >= dy:
                 self.dir = defined_direction['left']
             else:
-
-        return BehaviorTree.SUCCESS
                 self.dir = defined_direction['down']
+
+        x = absolute(server.link.x - self.x) ** 2
+        y = absolute(server.link.y - self.y) ** 2
+        distance = x + y
+
+        if distance < self.attack_distance:
+            if self.dir == defined_direction['up'] and self.x - 40 < x < self.x + 40:
+                self.Attack = True
+                return BehaviorTree.SUCCESS
+            elif self.dir == defined_direction['down'] and self.x - 40 < x < self.x + 40:
+                self.Attack = True
+                return BehaviorTree.SUCCESS
+            elif self.dir == defined_direction['right'] and self.y - 45 < y < self.y + 45:
+                self.Attack = True
+                return BehaviorTree.SUCCESS
+            elif self.dir == defined_direction['left'] and self.y - 45 < y < self.y + 45:
+                self.Attack = True
+                return BehaviorTree.SUCCESS
+            else:
+                return BehaviorTree.RUNNING
 
     def build_behavior_tree(self):
         wander_node = LeafNode("Wander", self.wander)
