@@ -7,6 +7,7 @@ from define_PPM import Pixel_Per_Sec_link
 from depth import level
 
 import heart
+from sword import Sword
 from arrow import Arrow
 import slot
 from heart import cur_hp, max_hp
@@ -168,6 +169,8 @@ class RUN:
 
 
 class ACTION:
+    sword_obj = None
+
     @staticmethod
     def enter(self, event):
         if self.is_none_action():
@@ -186,9 +189,20 @@ class ACTION:
     def do(self):
         global direction
 
+        if self.Attack or self.Spin:
+            if ACTION.sword_obj is None:
+                ACTION.sword_obj = Sword(direction)
+                game_world.add_object(ACTION.sword_obj, 1)
+                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:ChuChu')
+                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:Octorok')
+
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
                 if self.Attack_frame_y >= FPAttack - 1:
+                    for obj in game_world.world[level['Sword']]:
+                        if obj == ACTION.sword_obj:
+                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_y = 0
                     self.convert_to_stand()
@@ -197,6 +211,10 @@ class ACTION:
 
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 if self.Attack_frame_x >= FPAttack - 1:
+                    for obj in game_world.world[level['Sword']]:
+                        if obj == ACTION.sword_obj:
+                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_x = 0
                     self.convert_to_stand()
@@ -205,6 +223,10 @@ class ACTION:
 
         if self.Spin:
             if self.Spin_frame >= FPSpin - 1:
+                for obj in game_world.world[level['Sword']]:
+                    if obj == ACTION.sword_obj:
+                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                ACTION.sword_obj = None
                 self.Spin = False
                 self.Spin_frame = 0
                 direction = 1

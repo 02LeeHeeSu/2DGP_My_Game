@@ -1,8 +1,13 @@
 from pico2d import *
 import game_framework
 import game_world
+
 from define_dir import defined_direction
+from define_PPM import Pixel_Per_Sec_link
+from depth import level
+
 import heart
+from sword import Sword
 from arrow import Arrow
 import slot
 from heart import cur_hp, max_hp
@@ -12,13 +17,8 @@ from canvas_size import width, height
 # 방향
 direction = defined_direction['down']
 
-Pixel_Per_Meter = (10.0 / 0.15)
-KM_Per_Hour = 20.0
-Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
-Meter_Per_Sec = (Meter_Per_Minute / 60.0)
-Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
-PPS_Roll = 1.5 * Pixel_Per_Sec
-PPS_Arrow = 4.0 * Pixel_Per_Sec
+PPS_Roll = 1.5 * Pixel_Per_Sec_link
+PPS_Arrow = 4.0 * Pixel_Per_Sec_link
 
 # 달리기 속도
 Time_Per_Run = 0.5
@@ -149,8 +149,8 @@ class RUN:
             direction = defined_direction['left']
 
         # 좌표 설정
-        self.x += self.dir_x * Pixel_Per_Sec * game_framework.frame_time
-        self.y += self.dir_y * Pixel_Per_Sec * game_framework.frame_time
+        self.x += self.dir_x * Pixel_Per_Sec_link * game_framework.frame_time
+        self.y += self.dir_y * Pixel_Per_Sec_link * game_framework.frame_time
         self.x = clamp(45, self.x, width - 45)
         self.y = clamp(60, self.y, height - 60)
 
@@ -169,6 +169,8 @@ class RUN:
 
 
 class ACTION:
+    sword_obj = None
+
     @staticmethod
     def enter(self, event):
         if self.is_none_action():
@@ -187,17 +189,32 @@ class ACTION:
     def do(self):
         global direction
 
+        if self.Attack or self.Spin:
+            if ACTION.sword_obj is None:
+                ACTION.sword_obj = Sword(direction)
+                game_world.add_object(ACTION.sword_obj, 1)
+                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:ChuChu')
+                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:Octorok')
+
         if self.Attack:
-                if self.Attack_frame_y >= 6.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Attack_frame_y >= FPAttack - 1:
+                    for obj in game_world.world[level['Sword']]:
+                        if obj == ACTION.sword_obj:
+                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_y = 0
                     self.convert_to_stand()
 
                 self.Attack_frame_y = (self.Attack_frame_y + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
-                if self.Attack_frame_x >= 6.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Attack_frame_x >= FPAttack - 1:
+                    for obj in game_world.world[level['Sword']]:
+                        if obj == ACTION.sword_obj:
+                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_x = 0
                     self.convert_to_stand()
@@ -205,7 +222,11 @@ class ACTION:
                 self.Attack_frame_x = (self.Attack_frame_x + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
         if self.Spin:
-            if self.Spin_frame >= 12.0:
+            if self.Spin_frame >= FPSpin - 1:
+                for obj in game_world.world[level['Sword']]:
+                    if obj == ACTION.sword_obj:
+                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                ACTION.sword_obj = None
                 self.Spin = False
                 self.Spin_frame = 0
                 direction = 1
@@ -220,7 +241,7 @@ class ACTION:
                 else:
                     self.y -= PPS_Roll * game_framework.frame_time
 
-                if self.Roll_frame_y > 8.0:
+                if self.Roll_frame_y > FPRoll - 1:
                     self.Roll = False
                     self.Roll_frame_y = 0
                     self.convert_to_stand()
@@ -233,7 +254,7 @@ class ACTION:
                 else:
                     self.x -= PPS_Roll * game_framework.frame_time
 
-                if self.Roll_frame_x > 8.0:
+                if self.Roll_frame_x > FPRoll - 1:
                     self.Roll = False
                     self.Roll_frame_x = 0
                     self.convert_to_stand()
@@ -285,35 +306,38 @@ class ITEM:
                 self.Bow_frame_x = 0
                 self.Bow_frame_y = 0
 
-                arrow_item = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
-                game_world.add_object(arrow_item, 1)
+                arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(arrow_obj, 1)
+
+                game_world.add_collision_group(arrow_obj, None, 'Arrow:ChuChu')
+                game_world.add_collision_group(arrow_obj, None, 'Arrow:Octorok')
 
     @staticmethod
     def do(self):
         # 활
         if slot.selected_num == 1 and slot.IsGetBow:
-                if self.Bow_frame_y >= 9.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Bow_frame_y >= FPBow - 1:
                     self.Bow_frame_y = 9
 
                 self.Bow_frame_y = (self.Bow_frame_y + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
-                if self.Bow_frame_x >= 9.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Bow_frame_x >= FPBow - 1:
                     self.Bow_frame_x = 9
 
                 self.Bow_frame_x = (self.Bow_frame_x + FPBow * Bow_Per_Time * game_framework.frame_time) % FPBow
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
-                if self.Shield_frame_y >= 4.0:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
+                if self.Shield_frame_y >= FPShield - 1:
                     self.Shield_frame_y = 4
 
                 self.Shield_frame_y = (self.Shield_frame_y + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
 
-                if self.Shield_frame_x >= 4.0:
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
+                if self.Shield_frame_x >= FPShield - 1:
                     self.Shield_frame_x = 4
 
                 self.Shield_frame_x = (self.Shield_frame_x + FPShield * Shield_Per_Time * game_framework.frame_time) % FPShield
@@ -408,6 +432,15 @@ class MainCharacter:
         else:
             return False
 
+    def get_bb(self):
+        return self.x - 45, self.y - 60, self.x + 45, self.y + 60
+
+    def handle_collision(self, other, group):
+        if group == 'Link:ChuChu':
+            self.current -= 1
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
@@ -472,3 +505,4 @@ class MainCharacter:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_bb())
