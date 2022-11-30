@@ -62,10 +62,11 @@ class Octorok:
         self.build_behavior_tree()
 
     def wander(self):
-        self.timer -= game_framework.frame_time
-        if self.timer <= 0:
-            self.timer = 1.0
+        self.Attack = False
         self.speed = Pixel_Per_Sec_octo
+        self.wander_timer -= game_framework.frame_time
+        if self.wander_timer <= 0:
+            self.wander_timer = 1.0
             self.dir = random.randint(0, 3)
             return BehaviorTree.SUCCESS
         else:
