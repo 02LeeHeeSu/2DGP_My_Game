@@ -13,11 +13,7 @@ from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
 
 from canvas_size import width, height
 
-Pixel_Per_Meter = (10.0 / 0.15)
-KM_Per_Hour = 7.0
-Meter_Per_Minute = (KM_Per_Hour * 1000.0 / 60.0)
-Meter_Per_Sec = (Meter_Per_Minute / 60.0)
-Pixel_Per_Sec = (Meter_Per_Sec * Pixel_Per_Meter)
+PPS_rock = 4.0 * Pixel_Per_Sec_octo
 
 Time_Per_Move = 1.0
 Move_Per_Time = 1.0 / Time_Per_Move
@@ -58,10 +54,10 @@ class Octorok:
         self.build_behavior_tree()
 
     def wander(self):
-        self.speed = Pixel_Per_Sec
         self.timer -= game_framework.frame_time
         if self.timer <= 0:
             self.timer = 1.0
+        self.speed = Pixel_Per_Sec_octo
             self.dir = random.randint(0, 3)
             return BehaviorTree.SUCCESS
         else:

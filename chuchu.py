@@ -46,7 +46,7 @@ class ChuChu:
         self.build_behavior_tree()
 
     def wander(self):
-        self.speed = Pixel_Per_Sec
+        self.speed = Pixel_Per_Sec_chu
         self.timer -= game_framework.frame_time
         if self.timer <= 0:
             self.timer = 1.0
@@ -64,7 +64,7 @@ class ChuChu:
             return BehaviorTree.FAIL
 
     def move_to_player(self):
-        self.speed = Pixel_Per_Sec
+        self.speed = Pixel_Per_Sec_chu
 
         dx = server.link.x - self.x
         dy = server.link.y - self.y
