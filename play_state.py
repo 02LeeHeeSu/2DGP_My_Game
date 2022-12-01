@@ -71,7 +71,7 @@ def enter():
     game_world.add_collision_group(None, server.chu, 'Sword:ChuChu')
     game_world.add_collision_group(None, server.octo, 'Sword:Octorok')
     game_world.add_collision_group(None, server.link, 'Rock:Link')
-    game_world.add_collision_group(None, server.octo, 'Rock:Shield')
+    game_world.add_collision_group(None, server.octo, 'Rock:Octorok')
 
 
 def update():
