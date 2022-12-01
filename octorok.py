@@ -1,4 +1,7 @@
 from pico2d import *
+import random
+import math
+
 import game_framework
 import game_world
 import server
@@ -32,6 +35,10 @@ def absolute(a):
         return -a
 
 
+def calculate_distance(a, b):
+    return math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+
+
 animation_names = ['move', 'attack']
 
 
@@ -55,35 +62,13 @@ class Octorok:
         self.speed = 0
         self.wander_timer = 1.0
         self.Attack = False
-        self.attack_distance = (Pixel_Per_Meter * 10) ** 2
-        self.attack_timer = 1.0
-        self.is_shoot = False
+        self.attack_distance = Pixel_Per_Meter * 10
+        self.attack_timer = Time_Per_Attack
         self.frame_move = 0
         self.frame_attack = 0
         self.build_behavior_tree()
 
-    def wander(self):
-        self.Attack = False
-        self.speed = Pixel_Per_Sec_octo
-        self.wander_timer -= game_framework.frame_time
-        if self.wander_timer <= 0:
-            self.wander_timer = 1.0
-            self.dir = random.randint(0, 3)
-            return BehaviorTree.SUCCESS
-        else:
-            return BehaviorTree.RUNNING
-
-    def find_player(self):
-        distance = (server.link.x - self.x) ** 2 + (server.link.y - self.y) ** 2
-        if distance < (Pixel_Per_Meter * 10) ** 2:
-            return BehaviorTree.SUCCESS
-        else:
-            self.speed = 0
-            return BehaviorTree.FAIL
-
-    def look_and_attack_player(self):
-        self.speed = 0.0
-
+    def look_player(self):
         dx = server.link.x - self.x
         dy = server.link.y - self.y
 
@@ -118,35 +103,73 @@ class Octorok:
             else:
                 self.dir = defined_direction['down']
 
-        x = absolute(server.link.x - self.x) ** 2
-        y = absolute(server.link.y - self.y) ** 2
-        distance = x + y
+    def look_random(self):
+        dx = random.randint(40, width - 40) - self.x
+        dy = random.randint(55, height - 55) - self.y
 
-        if distance < self.attack_distance:
-            if self.dir == defined_direction['up'] and self.x - 40 < x < self.x + 40:
-                self.Attack = True
-                return BehaviorTree.SUCCESS
-            elif self.dir == defined_direction['down'] and self.x - 40 < x < self.x + 40:
-                self.Attack = True
-                return BehaviorTree.SUCCESS
-            elif self.dir == defined_direction['right'] and self.y - 45 < y < self.y + 45:
-                self.Attack = True
-                return BehaviorTree.SUCCESS
-            elif self.dir == defined_direction['left'] and self.y - 45 < y < self.y + 45:
-                self.Attack = True
-                return BehaviorTree.SUCCESS
+        if dx >= 0 and dy >= 0:
+            if dx >= dy:
+                self.dir = defined_direction['right']
             else:
-                return BehaviorTree.RUNNING
+                self.dir = defined_direction['up']
+
+        if dx >= 0 > dy:
+            dy = absolute(dy)
+
+            if dx >= dy:
+                self.dir = defined_direction['right']
+            else:
+                self.dir = defined_direction['down']
+
+        if dx < 0 <= dy:
+            dx = absolute(dx)
+
+            if dx >= dy:
+                self.dir = defined_direction['left']
+            else:
+                self.dir = defined_direction['up']
+
+        if dx < 0 and dy < 0:
+            dx = absolute(dx)
+            dy = absolute(dy)
+
+            if dx >= dy:
+                self.dir = defined_direction['left']
+            else:
+                self.dir = defined_direction['down']
+
+    def check_attack_distance_is_in_range(self):
+        distance = calculate_distance(server.link, self)
+
+        if distance > self.attack_distance:
+            if self.wander_timer <= 0.0:
+                self.look_random()
+            self.speed = Pixel_Per_Sec_octo
+            self.Attack = False
+
+        self.look_player()
+
+        if distance <= self.attack_distance:
+            if self.dir == defined_direction['up'] or self.dir == defined_direction['down']:
+                if self.x - 45 <= server.link.x <= self.x + 45:
+                    self.speed = 0
+                    self.Attack = True
+                    return BehaviorTree.SUCCESS
+                else:
+                    return BehaviorTree.FAIL
+
+            if self.dir == defined_direction['right'] or self.dir == defined_direction['left']:
+                if self.y - 60 <= server.link.y <= self.y + 60:
+                    self.speed = 0
+                    self.Attack = True
+                    return BehaviorTree.SUCCESS
+                else:
+                    return BehaviorTree.FAIL
 
     def build_behavior_tree(self):
-        wander_node = Leaf("Wander", self.wander)
-        find_player_node = Leaf("Find Player", self.find_player)
-        look_at_player_node = Leaf("Look and attack Player", self.look_and_attack_player)
-        chase_node = Sequence("Chase")
-        chase_node.add_children(find_player_node, look_at_player_node)
-        wander_chase_node = Selector("WanderChase")
-        wander_chase_node.add_children(chase_node, wander_node)
-        self.bt = BehaviorTree(wander_chase_node)
+        check_node = Leaf('Check attack distance is in range', self.check_attack_distance_is_in_range)
+
+        self.bt = BehaviorTree(check_node)
 
     def shoot_rock(self):
         if self.dir == defined_direction['up']:
@@ -176,19 +199,19 @@ class Octorok:
     def update(self):
         self.bt.run()
 
+        self.wander_timer -= game_framework.frame_time
+
         self.frame_move = (self.frame_move + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
 
         if self.Attack:
             self.frame_attack = (self.frame_attack + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
             self.attack_timer -= game_framework.frame_time
-
             if self.attack_timer <= 0.0:
-                self.attack_timer = 1.0
-                self.is_shoot = False
-
-        if int(self.frame_attack) == 1 and not self.is_shoot:
-            self.is_shoot = True
-            self.shoot_rock()
+                self.shoot_rock()
+                self.attack_timer = Time_Per_Attack
+        else:
+            self.attack_timer = Time_Per_Attack
+            self.frame_attack = 0
 
         if self.dir == defined_direction['up']:
             self.y += self.speed * game_framework.frame_time

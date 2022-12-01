@@ -1,4 +1,6 @@
 from pico2d import *
+import math
+
 import game_framework
 import game_world
 import server
@@ -24,6 +26,10 @@ def absolute(a):
         return -a
 
 
+def calculate_distance(a, b):
+    return math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+
+
 animation_names = ['move']
 
 
@@ -41,36 +47,19 @@ class ChuChu:
 
     def __init__(self):
         self.x, self.y = 80, 105
+        self.tx, self.ty = random.randint(40, width - 40), random.randint(55, height - 55)
         self.load_images()
         self.dir = random.randint(0, 3)
-        self.speed = 0
+        self.speed = Pixel_Per_Sec_chu
         self.timer = 1.0
         self.frame = 0
         self.build_behavior_tree()
-
-    def wander(self):
-        self.speed = Pixel_Per_Sec_chu
-        self.timer -= game_framework.frame_time
-        if self.timer <= 0:
-            self.timer = 1.0
-            self.dir = random.randint(0, 3)
-            return BehaviorTree.SUCCESS
-        else:
-            return BehaviorTree.RUNNING
-
-    def find_player(self):
-        distance = (server.link.x - self.x) ** 2 + (server.link.y - self.y) ** 2
-        if distance < (Pixel_Per_Meter * 5) ** 2:
-            return BehaviorTree.SUCCESS
-        else:
-            self.speed = 0
-            return BehaviorTree.FAIL
-
-    def move_to_player(self):
-        self.speed = Pixel_Per_Sec_chu
-
-        dx = server.link.x - self.x
-        dy = server.link.y - self.y
+    
+    def look_random(self):
+        self.tx = random.randint(40, width - 40)
+        self.ty = random.randint(55, height - 55)
+        dx = self.tx - self.x
+        dy = self.ty - self.y
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
@@ -103,20 +92,23 @@ class ChuChu:
             else:
                 self.dir = defined_direction['down']
 
-        return BehaviorTree.SUCCESS
+    def move_to_random(self):
+        if self.timer <= 0:
+            self.look_random()
+            self.timer = 1.0
+            return BehaviorTree.SUCCESS
+
+        return BehaviorTree.FAIL
 
     def build_behavior_tree(self):
-        wander_node = Leaf("Wander", self.wander)
-        find_player_node = Leaf("Find Player", self.find_player)
-        move_to_player_node = Leaf("Move to Player", self.move_to_player)
-        chase_node = Sequence("Chase")
-        chase_node.add_children(find_player_node, move_to_player_node)
-        wander_chase_node = Selector("WanderChase")
-        wander_chase_node.add_children(chase_node, wander_node)
-        self.bt = BehaviorTree(wander_chase_node)
+        move_node = Leaf('move to random position', self.move_to_random)
+
+        self.bt = BehaviorTree(move_node)
 
     def update(self):
         self.bt.run()
+
+        self.timer -= game_framework.frame_time
 
         self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
 
