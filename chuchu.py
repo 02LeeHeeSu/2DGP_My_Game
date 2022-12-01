@@ -150,6 +150,6 @@ class ChuChu:
             elif self.dir == defined_direction['left']:
                 self.x += 100
         if group == 'Sword:ChuChu':
-            game_world.remove_object(self, level['ChuChu'])
+            game_world.remove_object(self, level['Monsters'])
         if group == 'Arrow:ChuChu':
-            game_world.remove_object(self, level['ChuChu'])
+            game_world.remove_object(self, level['Monsters'])

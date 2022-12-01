@@ -199,8 +199,8 @@ class ACTION:
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
                 if self.Attack_frame_y >= FPAttack - 1:
-                    if ACTION.sword_obj in game_world.world[level['Sword']]:
-                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Objects']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Objects'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_y = 0
@@ -210,8 +210,8 @@ class ACTION:
 
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 if self.Attack_frame_x >= FPAttack - 1:
-                    if ACTION.sword_obj in game_world.world[level['Sword']]:
-                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Objects']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Objects'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_x = 0
@@ -221,8 +221,8 @@ class ACTION:
 
         if self.Spin:
             if self.Spin_frame >= FPSpin - 1:
-                if ACTION.sword_obj in game_world.world[level['Sword']]:
-                    game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                if ACTION.sword_obj in game_world.world[level['Objects']]:
+                    game_world.remove_object(ACTION.sword_obj, level['Objects'])
                 ACTION.sword_obj = None
                 self.Spin = False
                 self.Spin_frame = 0
@@ -302,12 +302,16 @@ class ITEM:
             if slot.selected_num == 1 and slot.IsGetBow:
                 self.Bow_frame_x = 0
                 self.Bow_frame_y = 0
+                server.arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(server.arrow_obj, level['Objects'])
 
                 arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
                 game_world.add_object(arrow_obj, 1)
 
                 game_world.add_collision_group(arrow_obj, None, 'Arrow:ChuChu')
                 game_world.add_collision_group(arrow_obj, None, 'Arrow:Octorok')
+        if slot.selected_num == 2 and slot.IsGetShield:
+            game_world.remove_object(server.shield_obj, level['Objects'])
 
     @staticmethod
     def do(self):

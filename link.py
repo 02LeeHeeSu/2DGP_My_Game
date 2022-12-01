@@ -2,6 +2,8 @@ from pico2d import *
 import game_framework
 import game_world
 
+import server
+
 from define_dir import defined_direction
 from define_PPM import Pixel_Per_Sec_link
 from depth import level
@@ -9,6 +11,7 @@ from depth import level
 import heart
 from sword import Sword
 from arrow import Arrow
+from shield import Shield
 import slot
 from heart import cur_hp, max_hp
 
@@ -67,12 +70,13 @@ def dir_to_frame(d):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0 = range(14)
+wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0, one, two, three, four = range(18)
 event_name = ['wd', 'sd', 'dd', 'ad',
               'wu', 'su', 'du', 'au',
               'jd', 'kd', 'ld',
               'ud', 'uu',
-              'dir_0']
+              'dir_0',
+              'one', 'two', 'three', 'four']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
@@ -87,7 +91,11 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_k): kd,
     (SDL_KEYDOWN, SDLK_l): ld,
     (SDL_KEYDOWN, SDLK_u): ud,
-    (SDL_KEYUP, SDLK_u): uu
+    (SDL_KEYUP, SDLK_u): uu,
+    (SDL_KEYDOWN, SDLK_1): one,
+    (SDL_KEYDOWN, SDLK_2): two,
+    (SDL_KEYDOWN, SDLK_3): three,
+    (SDL_KEYDOWN, SDLK_4): four
 }
 
 
@@ -108,7 +116,9 @@ class STAND:
 
     @staticmethod
     def draw(self):
-        self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
 
 class RUN:
@@ -151,8 +161,8 @@ class RUN:
         # 좌표 설정
         self.x += self.dir_x * Pixel_Per_Sec_link * game_framework.frame_time
         self.y += self.dir_y * Pixel_Per_Sec_link * game_framework.frame_time
-        self.x = clamp(45, self.x, width - 45)
-        self.y = clamp(60, self.y, height - 60)
+        self.x = clamp(45, self.x, server.bg.w - 45)
+        self.y = clamp(60, self.y, server.bg.h - 60)
 
         # 프레임 변화
         self.Run_frame_x = (self.Run_frame_x + FPRun * Run_Per_Time * game_framework.frame_time) % FPRun
@@ -160,12 +170,14 @@ class RUN:
 
     @staticmethod
     def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         global direction
 
         if direction == defined_direction['up'] or direction == defined_direction['down']:
-            self.Run_y_image.clip_draw(int(self.Run_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
+            self.Run_y_image.clip_draw(int(self.Run_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, sx, sy)
         elif direction == defined_direction['right'] or direction == defined_direction['left']:
-            self.Run_x_image.clip_draw(int(self.Run_frame_x) * 115, dir_to_frame(direction) * 120, 115, 120, self.x, self.y)
+            self.Run_x_image.clip_draw(int(self.Run_frame_x) * 115, dir_to_frame(direction) * 120, 115, 120, sx, sy)
 
 
 class ACTION:
@@ -199,8 +211,8 @@ class ACTION:
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
                 if self.Attack_frame_y >= FPAttack - 1:
-                    if ACTION.sword_obj in game_world.world[level['Sword']]:
-                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Objects']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Objects'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_y = 0
@@ -210,8 +222,8 @@ class ACTION:
 
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 if self.Attack_frame_x >= FPAttack - 1:
-                    if ACTION.sword_obj in game_world.world[level['Sword']]:
-                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Objects']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Objects'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_x = 0
@@ -221,8 +233,8 @@ class ACTION:
 
         if self.Spin:
             if self.Spin_frame >= FPSpin - 1:
-                if ACTION.sword_obj in game_world.world[level['Sword']]:
-                    game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                if ACTION.sword_obj in game_world.world[level['Objects']]:
+                    game_world.remove_object(ACTION.sword_obj, level['Objects'])
                 ACTION.sword_obj = None
                 self.Spin = False
                 self.Spin_frame = 0
@@ -258,25 +270,27 @@ class ACTION:
 
                 self.Roll_frame_x = (self.Roll_frame_x + FPRoll * Roll_Per_Time * game_framework.frame_time) % FPRoll
 
-            self.x = clamp(45, self.x, width - 45)
-            self.y = clamp(60, self.y, height - 60)
+            self.x = clamp(45, self.x, server.bg.w - 45)
+            self.y = clamp(60, self.y, server.bg.h - 60)
 
     @staticmethod
     def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
-                self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(direction) * 265, 230, 265, self.x, self.y)
+                self.Attack_y_image.clip_draw(int(self.Attack_frame_y) * 230, dir_to_frame(direction) * 265, 230, 265, sx, sy)
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
-                self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(direction) * 225, 240, 225, self.x, self.y)
+                self.Attack_x_image.clip_draw(int(self.Attack_frame_x) * 240, dir_to_frame(direction) * 225, 240, 225, sx, sy)
 
         if self.Spin:
-            self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, self.x, self.y - 25)
+            self.Spin_Attack_image.clip_draw(int(self.Spin_frame) * 300, 0, 300, 255, sx, sy - 25)
 
         if self.Roll:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
-                self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, self.x, self.y)
+                self.Roll_y_image.clip_draw(int(self.Roll_frame_y) * 90, dir_to_frame(direction) * 120, 90, 120, sx, sy)
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
-                self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(direction) * 120, 100, 120, self.x, self.y)
+                self.Roll_x_image.clip_draw(int(self.Roll_frame_x) * 100, dir_to_frame(direction) * 120, 100, 120, sx, sy)
 
 
 class ITEM:
@@ -293,6 +307,11 @@ class ITEM:
         self.Shield_frame_x = 0
         self.Shield_frame_y = 0
 
+        if slot.selected_num == 2 and slot.IsGetShield:
+            server.shield_obj = Shield(self.x, self.y, direction)
+            game_world.add_object(server.shield_obj, 1)
+            game_world.add_collision_group(None, server.shield_obj, 'Rock:Shield')
+
     @staticmethod
     def exit(self, event):
         if event == uu:
@@ -300,14 +319,14 @@ class ITEM:
             overtime = ITEM.exit_time - ITEM.enter_time
 
             if slot.selected_num == 1 and slot.IsGetBow:
-                self.Bow_frame_x = 0
-                self.Bow_frame_y = 0
+                server.arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(server.arrow_obj, level['Objects'])
 
-                arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
-                game_world.add_object(arrow_obj, 1)
+                game_world.add_collision_group(server.arrow_obj, None, 'Arrow:ChuChu')
+                game_world.add_collision_group(server.arrow_obj, None, 'Arrow:Octorok')
 
-                game_world.add_collision_group(arrow_obj, None, 'Arrow:ChuChu')
-                game_world.add_collision_group(arrow_obj, None, 'Arrow:Octorok')
+        if slot.selected_num == 2 and slot.IsGetShield:
+            game_world.remove_object(server.shield_obj, level['Objects'])
 
     @staticmethod
     def do(self):
@@ -350,38 +369,40 @@ class ITEM:
 
     @staticmethod
     def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         # 활
         if slot.selected_num == 1 and slot.IsGetBow:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
-                self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, self.x, self.y)
+                self.Bow_y_image.clip_draw(int(self.Bow_frame_y) * 140, dir_to_frame(direction) * 130, 140, 130, sx, sy)
 
             elif direction == defined_direction['right']:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
-                                                     0, '', self.x, self.y, 140, 130)
+                                                     0, '', sx, sy, 140, 130)
 
             elif direction == defined_direction['left']:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
-                                                     0, 'h', self.x, self.y, 140, 130)
+                                                     0, 'h', sx, sy, 140, 130)
 
         elif not slot.IsGetBow:
-            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
-                self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, self.x, self.y)
+                self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, sx, sy)
 
             elif direction == defined_direction['right']:
-                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', self.x, self.y, 115, 110)
+                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', sx, sy, 115, 110)
 
             elif direction == defined_direction['left']:
-                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', self.x, self.y, 115, 110)
+                self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', sx, sy, 115, 110)
 
         elif not slot.IsGetShield:
-            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
         if slot.selected_num == 3 and slot.IsGetPotion:
-            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+            self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
 
 next_state = {
@@ -389,23 +410,27 @@ next_state = {
             wu: STAND, su: STAND, du: STAND, au: STAND,
             dir_0: STAND,
             jd: ACTION, kd: ACTION, ld: ACTION,
-            ud: ITEM, uu: STAND},
+            ud: ITEM, uu: STAND,
+            one: STAND, two: STAND, three: STAND, four: STAND},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
           jd: ACTION, kd: ACTION, ld: ACTION,
-          ud: ITEM, uu: RUN},
+          ud: ITEM, uu: RUN,
+          one: RUN, two: RUN, three: RUN, four: RUN},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
              jd: ACTION, kd: ACTION, ld: ACTION,
-             ud: ACTION, uu: ACTION},
+             ud: ACTION, uu: ACTION,
+             one: ACTION, two: ACTION, three: ACTION, four: ACTION},
 
     ITEM: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
            wu: STAND, su: STAND, du: STAND, au: STAND,
            dir_0: STAND,
            jd: ACTION, kd: ACTION, ld: ACTION,
-           ud: ITEM, uu: STAND}
+           ud: ITEM, uu: STAND,
+           one: STAND, two: STAND, three: STAND, four: STAND}
 }
 
 
@@ -430,7 +455,19 @@ class MainCharacter:
             return False
 
     def get_bb(self):
-        return self.x - 45, self.y - 60, self.x + 45, self.y + 60
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        if self.cur_state == ITEM:
+            if slot.selected_num == 2 and slot.IsGetShield:
+                if direction == defined_direction['up']:
+                    return sx - 45, sy - 60, sx + 45, sy
+                elif direction == defined_direction['down']:
+                    return sx - 45, sy, sx + 45, sy + 60
+                elif direction == defined_direction['right']:
+                    return sx - 45, sy - 60, sx, sy + 60
+                elif direction == defined_direction['left']:
+                    return sx, sy - 60, sx + 45, sy + 60
+        return sx - 45, sy - 60, sx + 45, sy + 60
 
     def handle_collision(self, other, group):
         if group == 'Link:ChuChu':

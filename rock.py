@@ -21,10 +21,10 @@ class Rock:
 
     def handle_collision(self, other, group):
         if group == 'Rock:Link':
-            for obj in game_world.world[level['Rock']]:
-                if obj == self:
-                    game_world.remove_object(self, level['Rock'])
-        elif group == 'Rock:Shield':
+            if self in game_world.world[level['Objects']]:
+                game_world.remove_object(self, level['Objects'])
+
+        if group == 'Rock:Shield':
             if self.direction == defined_direction['up']:
                 self.direction = defined_direction['down']
 
@@ -36,6 +36,9 @@ class Rock:
 
             elif self.direction == defined_direction['left']:
                 self.direction = defined_direction['right']
+
+        if group == 'Rock:Octorok':
+            game_world.remove_object(self, level['Objects'])
 
     def __init__(self, x, y, velocity, direction, distance):
         if Rock.image is None:
@@ -64,8 +67,7 @@ class Rock:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - self.distance or self.x > self.init_x + self.distance:
-            game_world.remove_object(self, level['Rock'])
+            game_world.remove_object(self, level['Objects'])
 
         if self.y < self.init_y - self.distance or self.y > self.init_y + self.distance:
-            game_world.remove_object(self, level['Rock'])
-            
+            game_world.remove_object(self, level['Objects'])

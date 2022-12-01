@@ -214,6 +214,8 @@ class Octorok:
 
     def handle_collision(self, other, group):
         if group == 'Sword:Octorok':
-            game_world.remove_object(self, level['Octorok'])
+            game_world.remove_object(self, level['Monsters'])
         if group == 'Arrow:Octorok':
-            game_world.remove_object(self, level['Octorok'])
+            game_world.remove_object(self, level['Monsters'])
+        if group == 'Rock:Octorok':
+            game_world.remove_object(self, level['Monsters'])
