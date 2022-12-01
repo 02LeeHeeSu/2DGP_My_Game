@@ -48,8 +48,9 @@ def enter():
     server.HP = Heart()
     server.inventory = Slot()
 
-    server.chu = [ChuChu() for i in range(3)]
-    server.octo = Octorok()
+    server.chu = [ChuChu(0, 0) for i in range(3)]
+    server.octo = Octorok(0, 0)
+
 
     game_world.add_object(server.link, level['Link'])
     game_world.add_object(server.HP, level['Heart'])
