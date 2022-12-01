@@ -43,10 +43,13 @@ class ChuChu:
                 ChuChu.images[name] = [load_image("Monsters/Chu_Chu/" + name + "%d" % i + ".png") for i in range(1, 16 + 1)]
 
     def get_bb(self):
-        return self.x - 40, self.y - 52.5, self.x + 40, self.y + 52.5
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
-    def __init__(self):
-        self.x, self.y = 80, 105
+        return sx - 40, sy - 52.5, sx + 40, sy + 52.5
+
+    def __init__(self, cur_room_x, cur_room_y):
+        self.x = random.randint(server.bg.w * cur_room_x + 80, server.bg.w * (cur_room_x + 1) - 80)
+        self.y = random.randint(server.bg.h * cur_room_y + 80, server.bg.h * (cur_room_y + 1) - 80)
         self.tx, self.ty = random.randint(40, width - 40), random.randint(55, height - 55)
         self.load_images()
         self.dir = random.randint(0, 3)

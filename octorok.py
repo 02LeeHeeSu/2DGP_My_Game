@@ -53,10 +53,13 @@ class Octorok:
                                         i, j in [(0, 1), (0, 2), (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]]
 
     def get_bb(self):
-        return self.x - 40, self.y - 45, self.x + 40, self.y + 45
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
-    def __init__(self):
-        self.x, self.y = width - 80, height - 90
+        return sx - 40, sy - 45, sx + 40, sy + 45
+
+    def __init__(self, cur_room_x, cur_room_y):
+        self.x = random.randint(width * cur_room_x + 80, width * (cur_room_x + 1) - 80)
+        self.y = random.randint(height * cur_room_y + 80, height * (cur_room_y + 1) - 80)
         self.load_images()
         self.dir = random.randint(0, 3)
         self.speed = 0
