@@ -151,25 +151,25 @@ class Octorok:
     def shoot_rock(self):
         if self.dir == defined_direction['up']:
             threw_rock = Rock(self.x, self.y + 45 + 20 + 1, PPS_rock, self.dir, self.attack_distance)
-            game_world.add_object(threw_rock, 1)
+            game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
 
         elif self.dir == defined_direction['down']:
             threw_rock = Rock(self.x, self.y - 45 - 20 - 1, PPS_rock, self.dir, self.attack_distance)
-            game_world.add_object(threw_rock, 1)
+            game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
 
         elif self.dir == defined_direction['right']:
             threw_rock = Rock(self.x + 40 + 20 + 1, self.y, PPS_rock, self.dir, self.attack_distance)
-            game_world.add_object(threw_rock, 1)
+            game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
 
         elif self.dir == defined_direction['left']:
             threw_rock = Rock(self.x - 40 - 20 - 1, self.y, PPS_rock, self.dir, self.attack_distance)
-            game_world.add_object(threw_rock, 1)
+            game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
 
