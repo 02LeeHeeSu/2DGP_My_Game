@@ -8,18 +8,20 @@ from depth import level
 
 class Sword:
     def get_bb(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+        
         if server.link.Attack:
             if self.direction == defined_direction['up']:
-                return self.x - 75, self.y, self.x + 75, self.y + 112.5
+                return sx - 75, sy, sx + 75, sy + 112.5
             elif self.direction == defined_direction['down']:
-                return self.x - 75, self.y - 112.5, self.x + 75, self.y
+                return sx - 75, sy - 112.5, sx + 75, sy
             elif self.direction == defined_direction['right']:
-                return self.x, self.y - 100, self.x + 115, self.y + 100
+                return sx, sy - 100, sx + 115, sy + 100
             elif self.direction == defined_direction['left']:
-                return self.x - 115, self.y - 100, self.x, self.y + 100
+                return sx - 115, sy - 100, sx, sy + 100
 
         if server.link.Spin:
-            return self.x - 150, self.y - 127.5 - 25, self.x + 150, self.y + 127.5 - 25
+            return sx - 150, sy - 127.5 - 25, sx + 150, sy + 127.5 - 25
 
         else:
             return 0, 0, 0, 0
@@ -38,5 +40,5 @@ class Sword:
         pass
 
     def handle_collision(self, other, group):
-        game_world.remove_object(self, level['Sword'])
+        pass
 

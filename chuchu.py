@@ -128,7 +128,9 @@ class ChuChu:
         self.y = clamp(50, self.y, height - 50)
 
     def draw(self):
-        ChuChu.images['move'][int(self.frame)].draw(self.x, self.y, 80, 105)
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        ChuChu.images['move'][int(self.frame)].draw(sx, sy, 80, 105)
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):

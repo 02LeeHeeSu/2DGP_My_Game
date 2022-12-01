@@ -2,6 +2,8 @@ from pico2d import *
 import game_world
 import game_framework
 
+import server
+
 from define_dir import defined_direction
 from depth import level
 
@@ -17,7 +19,9 @@ class Rock:
         pass
 
     def get_bb(self):
-        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        return sx - 20, sy - 20, sx + 20, sy + 20
 
     def handle_collision(self, other, group):
         if group == 'Rock:Link':
@@ -48,7 +52,8 @@ class Rock:
         self.frame = 0
 
     def draw(self):
-        self.image.clip_draw(int(self.frame) * 40, 0, 40, 40, self.x, self.y)
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+        self.image.clip_draw(int(self.frame) * 40, 0, 40, 40, sx, sy)
         draw_rectangle(*self.get_bb())
 
     def update(self):

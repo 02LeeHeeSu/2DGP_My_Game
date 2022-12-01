@@ -2,6 +2,8 @@ from pico2d import *
 import game_world
 import game_framework
 
+import server
+
 from define_dir import defined_direction
 from depth import level
 
@@ -13,11 +15,13 @@ class Arrow:
         pass
 
     def get_bb(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         if self.d == defined_direction['up'] or self.d == defined_direction['down']:
-            return self.x - 12.5, self.y - 37.5, self.x + 12.5, self.y + 37.5
+            return sx - 12.5, sy - 37.5, sx + 12.5, sy + 37.5
 
         elif self.d == defined_direction['right'] or self.d == defined_direction['left']:
-            return self.x - 37.5, self.y - 12.5, self.x + 37.5, self.y + 12.5
+            return sx - 37.5, sy - 12.5, sx + 37.5, sy + 12.5
 
     def handle_collision(self, other, group):
         if self in game_world.world[level['Objects']]:
@@ -30,18 +34,20 @@ class Arrow:
         self.init_x, self.init_y = x, y
 
     def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         draw_rectangle(*self.get_bb())
         if self.d == defined_direction['up']:
-            self.image.clip_draw(0, 0, 25, 75, self.x, self.y)
+            self.image.clip_draw(0, 0, 25, 75, sx, sy)
 
         elif self.d == defined_direction['down']:
-            self.image.clip_composite_draw(0, 0, 25, 75, 0, 'v', self.x, self.y, 25, 75)
+            self.image.clip_composite_draw(0, 0, 25, 75, 0, 'v', sx, sy, 25, 75)
 
         if self.d == defined_direction['right']:
-            self.image.clip_composite_draw(0, 0, 25, 75, -3.141592 / 2.0, '', self.x, self.y, 25, 75)
+            self.image.clip_composite_draw(0, 0, 25, 75, -3.141592 / 2.0, '', sx, sy, 25, 75)
 
         elif self.d == defined_direction['left']:
-            self.image.clip_composite_draw(0, 0, 25, 75, 3.141592 / 2.0, '', self.x, self.y, 25, 75)
+            self.image.clip_composite_draw(0, 0, 25, 75, 3.141592 / 2.0, '', sx, sy, 25, 75)
 
     def update(self):
         if self.ot < 0.4:

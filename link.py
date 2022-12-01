@@ -309,7 +309,7 @@ class ITEM:
 
         if slot.selected_num == 2 and slot.IsGetShield:
             server.shield_obj = Shield(self.x, self.y, direction)
-            game_world.add_object(server.shield_obj, 1)
+            game_world.add_object(server.shield_obj, level['Objects'])
             game_world.add_collision_group(None, server.shield_obj, 'Rock:Shield')
 
     @staticmethod

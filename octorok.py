@@ -233,10 +233,12 @@ class Octorok:
         self.y = clamp(50, self.y, height - 50)
 
     def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
         if self.Attack:
-            Octorok.images['attack'][int(self.frame_move) + self.dir * 2].draw(self.x, self.y, 80, 90)
+            Octorok.images['attack'][int(self.frame_move) + self.dir * 2].draw(sx, sy, 80, 90)
         else:
-            Octorok.images['move'][int(self.frame_move) + self.dir * 2].draw(self.x, self.y, 80, 90)
+            Octorok.images['move'][int(self.frame_move) + self.dir * 2].draw(sx, sy, 80, 90)
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
