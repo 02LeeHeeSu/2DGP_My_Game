@@ -6,6 +6,8 @@ import server
 
 from depth import level
 
+from background import Background
+
 from link import MainCharacter
 from slot import Slot
 from heart import Heart
@@ -44,6 +46,8 @@ def collide(a, b):
 
 
 def enter():
+    server.bg = Background()
+
     server.link = MainCharacter()
     server.HP = Heart()
     server.inventory = Slot()
@@ -51,6 +55,7 @@ def enter():
     server.chu = [ChuChu(0, 0) for i in range(3)]
     server.octo = Octorok(0, 0)
 
+    game_world.add_object(server.bg, level['Background'])
 
     game_world.add_object(server.link, level['Link'])
     game_world.add_object(server.HP, level['Heart'])
