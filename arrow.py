@@ -20,9 +20,7 @@ class Arrow:
             return self.x - 37.5, self.y - 12.5, self.x + 37.5, self.y + 12.5
 
     def handle_collision(self, other, group):
-        for obj in game_world.world[level['Arrow']]:
-            if obj == self:
-                game_world.remove_object(self, level['Arrow'])
+        game_world.remove_object(self, level['Arrow'])
 
     def __init__(self, x, y, velocity, d, ot):
         if Arrow.image is None:
@@ -61,11 +59,7 @@ class Arrow:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - (self.velocity * self.ot) or self.x > self.init_x + (self.velocity * self.ot):
-            for obj in game_world.world[level['Arrow']]:
-                if obj == self:
-                    game_world.remove_object(self, level['Arrow'])
+            game_world.remove_object(self, level['Arrow'])
 
         if self.y < self.init_y - (self.velocity * self.ot) or self.y > self.init_y + (self.velocity * self.ot):
-            for obj in game_world.world[level['Arrow']]:
-                if obj == self:
-                    game_world.remove_object(self, level['Arrow'])
+            game_world.remove_object(self, level['Arrow'])

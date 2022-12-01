@@ -38,7 +38,5 @@ class Sword:
         pass
 
     def handle_collision(self, other, group):
-        for obj in game_world.world[level['Sword']]:
-            if obj == self:
-                game_world.remove_object(self, level['Sword'])
+        game_world.remove_object(self, level['Sword'])
 

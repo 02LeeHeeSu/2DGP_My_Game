@@ -199,9 +199,8 @@ class ACTION:
         if self.Attack:
             if direction == defined_direction['up'] or direction == defined_direction['down']:
                 if self.Attack_frame_y >= FPAttack - 1:
-                    for obj in game_world.world[level['Sword']]:
-                        if obj == ACTION.sword_obj:
-                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Sword']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_y = 0
@@ -211,9 +210,8 @@ class ACTION:
 
             elif direction == defined_direction['right'] or direction == defined_direction['left']:
                 if self.Attack_frame_x >= FPAttack - 1:
-                    for obj in game_world.world[level['Sword']]:
-                        if obj == ACTION.sword_obj:
-                            game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                    if ACTION.sword_obj in game_world.world[level['Sword']]:
+                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
                     ACTION.sword_obj = None
                     self.Attack = False
                     self.Attack_frame_x = 0
@@ -223,9 +221,8 @@ class ACTION:
 
         if self.Spin:
             if self.Spin_frame >= FPSpin - 1:
-                for obj in game_world.world[level['Sword']]:
-                    if obj == ACTION.sword_obj:
-                        game_world.remove_object(ACTION.sword_obj, level['Sword'])
+                if ACTION.sword_obj in game_world.world[level['Sword']]:
+                    game_world.remove_object(ACTION.sword_obj, level['Sword'])
                 ACTION.sword_obj = None
                 self.Spin = False
                 self.Spin_frame = 0

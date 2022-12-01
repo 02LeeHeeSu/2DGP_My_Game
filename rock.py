@@ -64,11 +64,8 @@ class Rock:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - self.distance or self.x > self.init_x + self.distance:
-            for obj in game_world.world[level['Rock']]:
-                if obj == self:
-                    game_world.remove_object(self, level['Rock'])
+            game_world.remove_object(self, level['Rock'])
 
         if self.y < self.init_y - self.distance or self.y > self.init_y + self.distance:
-            for obj in game_world.world[level['Rock']]:
-                if obj == self:
-                    game_world.remove_object(self, level['Rock'])
+            game_world.remove_object(self, level['Rock'])
+            
