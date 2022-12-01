@@ -1,6 +1,13 @@
 # game world
+# 0: Background
+# 1: Link and many objects
+# 2: Monsters
+# 3: UI
 
-world = [[], [], []]
+world = [[],
+         [],
+         [],
+         []]
 collision_group = dict()
 
 
