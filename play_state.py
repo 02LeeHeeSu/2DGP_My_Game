@@ -57,12 +57,12 @@ def enter():
 
     game_world.add_object(server.bg, level['Background'])
 
-    game_world.add_object(server.link, level['Link'])
-    game_world.add_object(server.HP, level['Heart'])
-    game_world.add_object(server.inventory, ['Slot'])
+    game_world.add_object(server.link, level['Objects'])
+    game_world.add_object(server.HP, level['UI'])
+    game_world.add_object(server.inventory, level['UI'])
 
-    game_world.add_objects(server.chu, level['ChuChu'])
-    game_world.add_object(server.octo, level['Octorok'])
+    game_world.add_objects(server.chu, level['Monsters'])
+    game_world.add_object(server.octo, level['Monsters'])
 
     game_world.add_collision_group(server.link, server.chu, 'Link:ChuChu')
     game_world.add_collision_group(server.link, server.octo, 'Link:Octorok')
