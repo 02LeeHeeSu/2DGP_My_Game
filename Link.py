@@ -70,12 +70,13 @@ def dir_to_frame(d):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0 = range(14)
+wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0, one, two, three, four = range(18)
 event_name = ['wd', 'sd', 'dd', 'ad',
               'wu', 'su', 'du', 'au',
               'jd', 'kd', 'ld',
               'ud', 'uu',
-              'dir_0']
+              'dir_0',
+              'one', 'two', 'three', 'four']
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_w): wd,
@@ -90,7 +91,11 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_k): kd,
     (SDL_KEYDOWN, SDLK_l): ld,
     (SDL_KEYDOWN, SDLK_u): ud,
-    (SDL_KEYUP, SDLK_u): uu
+    (SDL_KEYUP, SDLK_u): uu,
+    (SDL_KEYDOWN, SDLK_1): one,
+    (SDL_KEYDOWN, SDLK_2): two,
+    (SDL_KEYDOWN, SDLK_3): three,
+    (SDL_KEYDOWN, SDLK_4): four
 }
 
 
@@ -111,7 +116,9 @@ class STAND:
 
     @staticmethod
     def draw(self):
-        self.Stand_image.clip_draw(direction * 90, 0, 90, 120, self.x, self.y)
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
 
 class RUN:
@@ -403,23 +410,27 @@ next_state = {
             wu: STAND, su: STAND, du: STAND, au: STAND,
             dir_0: STAND,
             jd: ACTION, kd: ACTION, ld: ACTION,
-            ud: ITEM, uu: STAND},
+            ud: ITEM, uu: STAND,
+            one: STAND, two: STAND, three: STAND, four: STAND},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
           dir_0: STAND,
           jd: ACTION, kd: ACTION, ld: ACTION,
-          ud: ITEM, uu: RUN},
+          ud: ITEM, uu: RUN,
+          one: RUN, two: RUN, three: RUN, four: RUN},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
              dir_0: STAND,
              jd: ACTION, kd: ACTION, ld: ACTION,
-             ud: ACTION, uu: ACTION},
+             ud: ACTION, uu: ACTION,
+             one: ACTION, two: ACTION, three: ACTION, four: ACTION},
 
     ITEM: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
            wu: STAND, su: STAND, du: STAND, au: STAND,
            dir_0: STAND,
            jd: ACTION, kd: ACTION, ld: ACTION,
-           ud: ITEM, uu: STAND}
+           ud: ITEM, uu: STAND,
+           one: STAND, two: STAND, three: STAND, four: STAND}
 }
 
 
