@@ -308,9 +308,8 @@ class ITEM:
         self.Shield_frame_y = 0
 
         if slot.selected_num == 2 and slot.IsGetShield:
-            server.shield_obj = Shield(self.x, self.y, direction)
-            game_world.add_object(server.shield_obj, level['Objects'])
-            game_world.add_collision_group(None, server.shield_obj, 'Rock:Shield')
+            ITEM.shield_obj = Shield(self.x, self.y, direction)
+            game_world.add_object(ITEM.shield_obj, level['Objects'])
 
     @staticmethod
     def exit(self, event):
@@ -319,14 +318,11 @@ class ITEM:
             overtime = ITEM.exit_time - ITEM.enter_time
 
             if slot.selected_num == 1 and slot.IsGetBow:
-                server.arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
-                game_world.add_object(server.arrow_obj, level['Objects'])
-
-                game_world.add_collision_group(server.arrow_obj, None, 'Arrow:ChuChu')
-                game_world.add_collision_group(server.arrow_obj, None, 'Arrow:Octorok')
+                ITEM.arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
+                game_world.add_object(ITEM.arrow_obj, level['Objects'])
 
         if slot.selected_num == 2 and slot.IsGetShield:
-            game_world.remove_object(server.shield_obj, level['Objects'])
+            game_world.remove_object(ITEM.shield_obj, level['Objects'])
 
     @staticmethod
     def do(self):
