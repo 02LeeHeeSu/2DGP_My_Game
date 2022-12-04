@@ -9,12 +9,12 @@ import stage_info
 from depth import level
 
 import door
-from item import Item
+import item
 
 
 def open_door():
     if item.Item_Queue:
-        dropped_item = Item()
+        dropped_item = item.Item()
         game_world.add_object(dropped_item, level['Objects'])
         game_world.add_collision_group(None, dropped_item, 'Link:Item')
 
