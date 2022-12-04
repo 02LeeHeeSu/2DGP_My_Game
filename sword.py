@@ -11,14 +11,14 @@ class Sword:
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
         
         if server.link.Attack:
-                return sx - 75, sy, sx + 75, sy + 112.5
-                return sx - 75, sy - 112.5, sx + 75, sy
-                return sx, sy - 100, sx + 115, sy + 100
-                return sx - 115, sy - 100, sx, sy + 100
             if self.direction == up:
+                return sx - 75, sy, sx + 75, sy + 100
             elif self.direction == down:
+                return sx - 75, sy - 100, sx + 75, sy
             elif self.direction == right:
+                return sx, sy - 75, sx + 100, sy + 75
             elif self.direction == left:
+                return sx - 100, sy - 75, sx, sy + 75
 
         if server.link.Spin:
             return sx - 150, sy - 127.5 - 25, sx + 150, sy + 127.5 - 25
