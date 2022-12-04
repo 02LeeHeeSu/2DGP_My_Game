@@ -4,9 +4,10 @@ import game_world
 import game_framework
 import server
 
+import stage_info
 from depth import level
 
-from background import Background
+import background
 
 from link import MainCharacter
 from slot import Slot
@@ -44,7 +45,9 @@ def collide(a, b):
 
 
 def enter():
-    server.bg = Background()
+    server.bg = background.Background()
+
+    stage_info.init_monsters_info()
 
     server.link = MainCharacter()
     server.HP = Heart()
