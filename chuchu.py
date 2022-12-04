@@ -5,12 +5,12 @@ import game_framework
 import game_world
 import server
 
-from define_PPM import Pixel_Per_Meter, Pixel_Per_Sec_chu
 from define_dir import up, down, right, left
+from define_PPM import Pixel_Per_Sec_chu
 from depth import level
 
 import random
-from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
+from BehaviorTree import BehaviorTree, Leaf
 
 from canvas_size import width, height
 
@@ -47,9 +47,9 @@ class ChuChu:
 
         return sx - 40, sy - 52.5, sx + 40, sy + 52.5
 
-    def __init__(self, cur_room_x, cur_room_y):
-        self.x = random.randint(server.bg.w * cur_room_x + 80, server.bg.w * (cur_room_x + 1) - 80)
-        self.y = random.randint(server.bg.h * cur_room_y + 80, server.bg.h * (cur_room_y + 1) - 80)
+    def __init__(self):
+        self.x = random.randint(40 + 192 + 45 + 1, server.bg.w - 40 - 192 - 45 - 1)
+        self.y = random.randint(55 + 192 + 60 + 1, server.bg.h - 55 - 192 - 60 - 1)
         self.tx, self.ty = random.randint(40, width - 40), random.randint(55, height - 55)
         self.load_images()
         self.dir = random.randint(up, left)
@@ -59,8 +59,8 @@ class ChuChu:
         self.build_behavior_tree()
     
     def look_random(self):
-        self.tx = random.randint(40, width - 40)
-        self.ty = random.randint(55, height - 55)
+        self.tx = random.randint(40, server.bg.w - 40)
+        self.ty = random.randint(55, server.bg.h - 55)
         dx = self.tx - self.x
         dy = self.ty - self.y
 
@@ -124,8 +124,8 @@ class ChuChu:
         elif self.dir == left:
             self.x -= self.speed * game_framework.frame_time
 
-        self.x = clamp(50, self.x, width - 50)
-        self.y = clamp(50, self.y, height - 50)
+        self.x = clamp(192 + 40, self.x, server.bg.w - 192 - 40)
+        self.y = clamp(192 + 55, self.y, server.bg.h - 192 - 55)
 
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
@@ -141,11 +141,18 @@ class ChuChu:
             game_world.remove_object(self, level['Monsters'])
         if group == 'Arrow:Monster':
             game_world.remove_object(self, level['Monsters'])
+        if group == 'Shield:Monster':
             if self.dir == up:
                 self.y -= 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
             elif self.dir == down:
                 self.y += 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
             elif self.dir == right:
                 self.x -= 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
             elif self.dir == left:
                 self.x += 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+        if group == 'Rock:ChuChu':
+            self.speed = 0
