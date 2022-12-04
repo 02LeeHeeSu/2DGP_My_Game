@@ -2,8 +2,8 @@ from pico2d import *
 from canvas_size import height
 
 
-max_hp = 12
-cur_hp = 12
+max_hp = 4
+cur_hp = 4
 cur_hp = clamp(0, cur_hp, max_hp)
 
 
