@@ -168,6 +168,8 @@ class Octorok:
                 else:
                     return BehaviorTree.FAIL
 
+        return BehaviorTree.FAIL
+
     def build_behavior_tree(self):
         check_node = Leaf('Check attack distance is in range', self.check_attack_distance_is_in_range)
 
@@ -232,8 +234,8 @@ class Octorok:
         elif self.dir == left:
             self.x -= self.speed * game_framework.frame_time
 
-        self.x = clamp(50, self.x, width - 50)
-        self.y = clamp(50, self.y, height - 50)
+        self.x = clamp(192 + 40, self.x, server.bg.w - 192 - 40)
+        self.y = clamp(192 + 45, self.y, server.bg.h - 192 - 45)
 
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
