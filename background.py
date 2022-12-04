@@ -7,12 +7,7 @@ import server
 from door import Door
 
 
-x_index = {'left': 0, 'center': 1, 'right': 2}
-y_index = {'bottom': 0, 'center': 1, 'top': 2}
 
-room_info = [[{'x': 'left', 'y': 'bottom'}, {'x': 'left', 'y': 'center'}, {'x': 'left', 'y': 'top'}],
-             [{'x': 'center', 'y': 'bottom'}, {'x': 'center', 'y': 'center'}, {'x': 'center', 'y': 'top'}],
-             [{'x': 'right', 'y': 'bottom'}, {'x': 'right', 'y': 'center'}, {'x': 'right', 'y': 'top'}]]
 
 
 class Background:
