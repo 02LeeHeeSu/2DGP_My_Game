@@ -5,8 +5,8 @@ import game_framework
 import game_world
 import server
 
-from define_dir import defined_direction
 from define_PPM import Pixel_Per_Meter, Pixel_Per_Sec_chu
+from define_dir import up, down, right, left
 from depth import level
 
 import random
