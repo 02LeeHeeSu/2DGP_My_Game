@@ -52,7 +52,7 @@ class ChuChu:
         self.y = random.randint(server.bg.h * cur_room_y + 80, server.bg.h * (cur_room_y + 1) - 80)
         self.tx, self.ty = random.randint(40, width - 40), random.randint(55, height - 55)
         self.load_images()
-        self.dir = random.randint(0, 3)
+        self.dir = random.randint(up, left)
         self.speed = Pixel_Per_Sec_chu
         self.timer = 1.0
         self.frame = 0
@@ -66,34 +66,34 @@ class ChuChu:
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx >= 0 > dy:
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
         if dx < 0 <= dy:
             dx = absolute(dx)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx < 0 and dy < 0:
             dx = absolute(dx)
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
     def move_to_random(self):
         if self.timer <= 0:
@@ -115,13 +115,13 @@ class ChuChu:
 
         self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
 
-        if self.dir == defined_direction['up']:
+        if self.dir == up:
             self.y += self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['down']:
+        elif self.dir == down:
             self.y -= self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['right']:
+        elif self.dir == right:
             self.x += self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['left']:
+        elif self.dir == left:
             self.x -= self.speed * game_framework.frame_time
 
         self.x = clamp(50, self.x, width - 50)
@@ -138,13 +138,13 @@ class ChuChu:
 
     def handle_collision(self, other, group):
         if group == 'Link:ChuChu':
-            if self.dir == defined_direction['up']:
+            if self.dir == up:
                 self.y -= 100
-            elif self.dir == defined_direction['down']:
+            elif self.dir == down:
                 self.y += 100
-            elif self.dir == defined_direction['right']:
+            elif self.dir == right:
                 self.x -= 100
-            elif self.dir == defined_direction['left']:
+            elif self.dir == left:
                 self.x += 100
         if group == 'Sword:ChuChu':
             game_world.remove_object(self, level['Monsters'])

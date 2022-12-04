@@ -2,7 +2,7 @@ from pico2d import *
 
 import server
 
-from define_dir import defined_direction
+from define_dir import up, down, right, left
 
 
 class Shield:
@@ -12,13 +12,13 @@ class Shield:
     def get_bb(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
         
-        if self.d == defined_direction['up']:
+        if self.d == up:
             return sx - 45, sy + 35 - 25, sx + 45, sy + 35 + 25
-        elif self.d == defined_direction['down']:
+        elif self.d == down:
             return sx - 45, sy - 35 - 25, sx + 45, sy - 35 + 25
-        elif self.d == defined_direction['right']:
+        elif self.d == right:
             return sx + 45 - 12.5, sy - 55, sx + 45 + 12.5, sy + 55
-        elif self.d == defined_direction['left']:
+        elif self.d == left:
             return sx - 45 - 12.5, sy - 55, sx - 45 + 12.5, sy + 55
 
     def handle_collision(self, other, group):

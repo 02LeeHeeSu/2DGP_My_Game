@@ -6,14 +6,13 @@ import game_framework
 import game_world
 import server
 
-from define_dir import defined_direction
+from define_dir import up, down, right, left
 from define_PPM import Pixel_Per_Meter, Pixel_Per_Sec_octo
 from depth import level
 
 from rock import Rock
 
-import random
-from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
+from BehaviorTree import BehaviorTree, Leaf
 
 from canvas_size import width, height
 
@@ -57,11 +56,11 @@ class Octorok:
 
         return sx - 40, sy - 45, sx + 40, sy + 45
 
-    def __init__(self, cur_room_x, cur_room_y):
-        self.x = random.randint(width * cur_room_x + 80, width * (cur_room_x + 1) - 80)
-        self.y = random.randint(height * cur_room_y + 80, height * (cur_room_y + 1) - 80)
+    def __init__(self):
+        self.x = random.randint(40 + 192 + 45 + 1, server.bg.w - 40 - 192 - 45 - 1)
+        self.y = random.randint(45 + 192 + 60 + 1, server.bg.h - 45 - 192 - 60 - 1)
         self.load_images()
-        self.dir = random.randint(0, 3)
+        self.dir = random.randint(up, left)
         self.speed = 0
         self.wander_timer = 1.0
         self.Attack = False
@@ -77,69 +76,69 @@ class Octorok:
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx >= 0 > dy:
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
         if dx < 0 <= dy:
             dx = absolute(dx)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx < 0 and dy < 0:
             dx = absolute(dx)
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
     def look_random(self):
         dx = random.randint(40, width - 40) - self.x
-        dy = random.randint(55, height - 55) - self.y
+        dy = random.randint(45, height - 45) - self.y
 
         if dx >= 0 and dy >= 0:
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx >= 0 > dy:
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['right']
+                self.dir = right
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
         if dx < 0 <= dy:
             dx = absolute(dx)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['up']
+                self.dir = up
 
         if dx < 0 and dy < 0:
             dx = absolute(dx)
             dy = absolute(dy)
 
             if dx >= dy:
-                self.dir = defined_direction['left']
+                self.dir = left
             else:
-                self.dir = defined_direction['down']
+                self.dir = down
 
     def check_attack_distance_is_in_range(self):
         distance = calculate_distance(server.link, self)
@@ -153,7 +152,7 @@ class Octorok:
         self.look_player()
 
         if distance <= self.attack_distance:
-            if self.dir == defined_direction['up'] or self.dir == defined_direction['down']:
+            if self.dir == up or self.dir == down:
                 if self.x - 45 <= server.link.x <= self.x + 45:
                     self.speed = 0
                     self.Attack = True
@@ -161,7 +160,7 @@ class Octorok:
                 else:
                     return BehaviorTree.FAIL
 
-            if self.dir == defined_direction['right'] or self.dir == defined_direction['left']:
+            if self.dir == right or self.dir == left:
                 if self.y - 60 <= server.link.y <= self.y + 60:
                     self.speed = 0
                     self.Attack = True
@@ -175,28 +174,28 @@ class Octorok:
         self.bt = BehaviorTree(check_node)
 
     def shoot_rock(self):
-        if self.dir == defined_direction['up']:
+        if self.dir == up:
             threw_rock = Rock(self.x, self.y + 45 + 20 + 1, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
-        elif self.dir == defined_direction['down']:
+        elif self.dir == down:
             threw_rock = Rock(self.x, self.y - 45 - 20 - 1, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
-        elif self.dir == defined_direction['right']:
+        elif self.dir == right:
             threw_rock = Rock(self.x + 40 + 20 + 1, self.y, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
-        elif self.dir == defined_direction['left']:
+        elif self.dir == left:
             threw_rock = Rock(self.x - 40 - 20 - 1, self.y, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
             game_world.add_collision_group(threw_rock, None, 'Rock:Link')
@@ -220,13 +219,13 @@ class Octorok:
             self.attack_timer = Time_Per_Attack
             self.frame_attack = 0
 
-        if self.dir == defined_direction['up']:
+        if self.dir == up:
             self.y += self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['down']:
+        elif self.dir == down:
             self.y -= self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['right']:
+        elif self.dir == right:
             self.x += self.speed * game_framework.frame_time
-        elif self.dir == defined_direction['left']:
+        elif self.dir == left:
             self.x -= self.speed * game_framework.frame_time
 
         self.x = clamp(50, self.x, width - 50)
