@@ -64,13 +64,6 @@ def enter():
     game_world.add_collision_group(server.link, None, 'Link:Monster')
     game_world.add_collision_group(server.link, None, 'Link:Item')
 
-    game_world.add_collision_group(None, None, 'Sword:Monster')
-    game_world.add_collision_group(None, None, 'Arrow:Monster')
-    game_world.add_collision_group(None, None, 'Shield:Monster')
-
-    game_world.add_collision_group(None, None, 'Rock:ChuChu')
-    game_world.add_collision_group(None, None, 'Rock:Octorok')
-
 
 def update():
     for obj in game_world.all_objects():
