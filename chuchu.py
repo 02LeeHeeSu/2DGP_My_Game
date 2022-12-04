@@ -137,7 +137,10 @@ class ChuChu:
         pass
 
     def handle_collision(self, other, group):
-        if group == 'Link:ChuChu':
+        if group == 'Sword:Monster':
+            game_world.remove_object(self, level['Monsters'])
+        if group == 'Arrow:Monster':
+            game_world.remove_object(self, level['Monsters'])
             if self.dir == up:
                 self.y -= 100
             elif self.dir == down:
@@ -146,7 +149,3 @@ class ChuChu:
                 self.x -= 100
             elif self.dir == left:
                 self.x += 100
-        if group == 'Sword:ChuChu':
-            game_world.remove_object(self, level['Monsters'])
-        if group == 'Arrow:ChuChu':
-            game_world.remove_object(self, level['Monsters'])

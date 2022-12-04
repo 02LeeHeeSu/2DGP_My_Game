@@ -204,9 +204,8 @@ class ACTION:
         if self.Attack or self.Spin:
             if ACTION.sword_obj is None:
                 ACTION.sword_obj = Sword(direction)
-                game_world.add_object(ACTION.sword_obj, 1)
-                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:ChuChu')
-                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:Octorok')
+                game_world.add_object(ACTION.sword_obj, level['Objects'])
+                game_world.add_collision_group(ACTION.sword_obj, None, 'Sword:Monster')
 
         if self.Attack:
             if direction == up or direction == down:
@@ -310,6 +309,8 @@ class ITEM:
         if slot.selected_num == 2 and slot.IsGetShield:
             ITEM.shield_obj = Shield(self.x, self.y, direction)
             game_world.add_object(ITEM.shield_obj, level['Objects'])
+            game_world.add_collision_group(None, ITEM.shield_obj, 'Rock:Shield')
+            game_world.add_collision_group(ITEM.shield_obj, None, 'Shield:Monster')
 
     @staticmethod
     def exit(self, event):
@@ -320,6 +321,7 @@ class ITEM:
             if slot.selected_num == 1 and slot.IsGetBow:
                 ITEM.arrow_obj = Arrow(self.x, self.y, PPS_Arrow, direction, overtime)
                 game_world.add_object(ITEM.arrow_obj, level['Objects'])
+                game_world.add_collision_group(ITEM.arrow_obj, None, 'Arrow:Monster')
 
         if slot.selected_num == 2 and slot.IsGetShield:
             game_world.remove_object(ITEM.shield_obj, level['Objects'])
@@ -466,7 +468,25 @@ class MainCharacter:
         return sx - 45, sy - 60, sx + 45, sy + 60
 
     def handle_collision(self, other, group):
-        if group == 'Link:ChuChu':
+        if group == 'Link:Monster':
+            if direction == up:
+                self.y -= 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif direction == down:
+                self.y += 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif direction == right:
+                self.x -= 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+            elif direction == left:
+                self.x += 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+                
+            self.current -= 2
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+
+        if group == 'Link:Rock':
             self.current -= 1
             self.current = clamp(0, self.current, self.maximum)
             heart.cur_hp = self.current

@@ -11,8 +11,6 @@ from background import Background
 from link import MainCharacter
 from slot import Slot
 from heart import Heart
-from chuchu import ChuChu
-from octorok import Octorok
 
 import pause_state
 
@@ -52,26 +50,23 @@ def enter():
     server.HP = Heart()
     server.inventory = Slot()
 
-    server.chu = [ChuChu(0, 0) for i in range(3)]
-    server.octo = Octorok(0, 0)
-
     game_world.add_object(server.bg, level['Background'])
 
     game_world.add_object(server.link, level['Objects'])
     game_world.add_object(server.HP, level['UI'])
     game_world.add_object(server.inventory, level['UI'])
 
-    game_world.add_objects(server.chu, level['Monsters'])
-    game_world.add_object(server.octo, level['Monsters'])
+    game_world.add_collision_group(server.link, None, 'Link:Door')
+    game_world.add_collision_group(server.link, None, 'Link:Rock')
+    game_world.add_collision_group(server.link, None, 'Link:Monster')
+    game_world.add_collision_group(server.link, None, 'Link:Item')
 
-    game_world.add_collision_group(server.link, server.chu, 'Link:ChuChu')
-    game_world.add_collision_group(server.link, server.octo, 'Link:Octorok')
-    game_world.add_collision_group(None, server.chu, 'Arrow:ChuChu')
-    game_world.add_collision_group(None, server.octo, 'Arrow:Octorok')
-    game_world.add_collision_group(None, server.chu, 'Sword:ChuChu')
-    game_world.add_collision_group(None, server.octo, 'Sword:Octorok')
-    game_world.add_collision_group(None, server.link, 'Rock:Link')
-    game_world.add_collision_group(None, server.octo, 'Rock:Octorok')
+    game_world.add_collision_group(None, None, 'Sword:Monster')
+    game_world.add_collision_group(None, None, 'Arrow:Monster')
+    game_world.add_collision_group(None, None, 'Shield:Monster')
+
+    game_world.add_collision_group(None, None, 'Rock:ChuChu')
+    game_world.add_collision_group(None, None, 'Rock:Octorok')
 
 
 def update():
@@ -106,7 +101,6 @@ def pause():
 
 def resume():
     pass
-
 
 # def test_self():
 #     import sys

@@ -177,29 +177,33 @@ class Octorok:
         if self.dir == up:
             threw_rock = Rock(self.x, self.y + 45 + 20 + 1, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
-            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(None, threw_rock, 'Link:Rock')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+            game_world.add_collision_group(threw_rock, None, 'Rock:ChuChu')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
         elif self.dir == down:
             threw_rock = Rock(self.x, self.y - 45 - 20 - 1, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
-            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(None, threw_rock, 'Link:Rock')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+            game_world.add_collision_group(threw_rock, None, 'Rock:ChuChu')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
         elif self.dir == right:
             threw_rock = Rock(self.x + 40 + 20 + 1, self.y, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
-            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(None, threw_rock, 'Link:Rock')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+            game_world.add_collision_group(threw_rock, None, 'Rock:ChuChu')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
         elif self.dir == left:
             threw_rock = Rock(self.x - 40 - 20 - 1, self.y, PPS_rock, self.dir, self.attack_distance)
             game_world.add_object(threw_rock, level['Objects'])
-            game_world.add_collision_group(threw_rock, None, 'Rock:Link')
+            game_world.add_collision_group(None, threw_rock, 'Link:Rock')
             game_world.add_collision_group(threw_rock, None, 'Rock:Shield')
+            game_world.add_collision_group(threw_rock, None, 'Rock:ChuChu')
             game_world.add_collision_group(threw_rock, None, 'Rock:Octorok')
 
     def update(self):
@@ -244,9 +248,22 @@ class Octorok:
         pass
 
     def handle_collision(self, other, group):
-        if group == 'Sword:Octorok':
+        if group == 'Sword:Monster':
             game_world.remove_object(self, level['Monsters'])
-        if group == 'Arrow:Octorok':
+        if group == 'Arrow:Monster':
             game_world.remove_object(self, level['Monsters'])
+        if group == 'Shield:Monster':
+            if self.dir == up:
+                self.y -= 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif self.dir == down:
+                self.y += 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif self.dir == right:
+                self.x -= 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+            elif self.dir == left:
+                self.x += 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
         if group == 'Rock:Octorok':
             game_world.remove_object(self, level['Monsters'])
