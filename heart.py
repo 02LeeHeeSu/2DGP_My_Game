@@ -3,7 +3,7 @@ from canvas_size import height
 
 
 max_hp = 12
-cur_hp = 3
+cur_hp = 12
 cur_hp = clamp(0, cur_hp, max_hp)
 
 
