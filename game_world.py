@@ -4,10 +4,7 @@
 # 2: Monsters
 # 3: UI
 
-world = [[],
-         [],
-         [],
-         []]
+world = [[], [], [], [], []]
 collision_group = dict()
 
 
