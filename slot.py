@@ -67,7 +67,6 @@ class SELECTION:
                     is_activated_robe = False
                     game_world.add_collision_group(server.link, None, 'Link:Rock')
                     game_world.add_collision_group(server.link, None, 'Link:Monster')
-                    game_world.add_collision_group(server.link, None, 'Link:Rock')
 
     @staticmethod
     def draw(self):
