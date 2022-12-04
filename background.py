@@ -18,9 +18,9 @@ class Background:
         self.h = self.image[self.x][self.y].h
 
     def draw(self):
-        self.image[self.x_index][self.y_index].clip_draw_to_origin(self.window_left, self.window_bottom,
-                                                                   width, height,
-                                                                   0, 0)
+        self.image[self.x][self.y].clip_draw_to_origin(self.window_left, self.window_bottom,
+                                                       width, height,
+                                                       0, 0)
 
     def update(self):
         self.window_left = clamp(0, int(server.link.x) - width // 2, self.w - width - 1)
