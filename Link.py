@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
+import item
 
 import server
 
@@ -296,6 +297,9 @@ class ITEM:
     enter_time = None
     exit_time = None
 
+    arrow_obj = None
+    shield_obj = None
+
     @staticmethod
     def enter(self, event):
         ITEM.enter_time = get_time()
@@ -358,11 +362,21 @@ class ITEM:
 
         if slot.selected_num == 3 and slot.IsGetPotion:
             if slot.PotionCoolTime == 0.0:
-                slot.PotionCoolTime = 5.0
+                slot.PotionCoolTime = 10.0
                 self.current += self.maximum // 4
                 self.current = clamp(0, self.current, self.maximum)
                 heart.cur_hp = self.current
                 heart.max_hp = self.maximum
+            self.convert_to_stand()
+
+        if slot.selected_num == 4 and slot.IsGetRobe:
+            if slot.RobeCoolTime == 0.0:
+                slot.is_activated_robe = True
+                slot.RobeCoolTime = 30.0
+                slot.Activated_Robe_Time = 5.0
+                game_world.remove_collision_object(self)
+                game_world.add_collision_group(self, None, 'Link:Door')
+                game_world.add_collision_group(self, None, 'Link:Item')
             self.convert_to_stand()
 
     @staticmethod
@@ -382,24 +396,24 @@ class ITEM:
                 self.Bow_x_image.clip_composite_draw(int(self.Bow_frame_x) * 140, 0, 140, 130,
                                                      0, 'h', sx, sy, 140, 130)
 
-        elif not slot.IsGetBow:
+        elif slot.selected_num == 1 and not slot.IsGetBow:
             self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
         # 방패
         if slot.selected_num == 2 and slot.IsGetShield:
-            if direction == defined_direction['up'] or direction == defined_direction['down']:
+            if direction == up or direction == down:
                 self.Shield_y_image.clip_draw(int(self.Shield_frame_y) * 90, dir_to_frame(direction) * 125, 90, 125, sx, sy)
 
-            elif direction == defined_direction['right']:
+            elif direction == right:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, 'h', sx, sy, 115, 110)
 
-            elif direction == defined_direction['left']:
+            elif direction == left:
                 self.Shield_x_image.clip_composite_draw(int(self.Shield_frame_x) * 115, 0, 115, 110, 0, '', sx, sy, 115, 110)
 
-        elif not slot.IsGetShield:
+        elif slot.selected_num == 2 and not slot.IsGetShield:
             self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
-        if slot.selected_num == 3 and slot.IsGetPotion:
+        if slot.selected_num == 3 or slot.selected_num == 4:
             self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
 
@@ -468,6 +482,19 @@ class MainCharacter:
         return sx - 45, sy - 60, sx + 45, sy + 60
 
     def handle_collision(self, other, group):
+        if group == 'Link:Item':
+            if other.item == item.Bow:
+                slot.IsGetBow = True
+            elif other.item == item.Shield:
+                slot.IsGetShield = True
+            elif other.item == item.Potion:
+                slot.IsGetPotion = True
+            elif other.item == item.Robe:
+                slot.IsGetRobe = True
+            elif other.item == item.Life:
+                self.maximum += 4
+                heart.max_hp = self.maximum
+
         if group == 'Link:Monster':
             if direction == up:
                 self.y -= 100
@@ -481,7 +508,7 @@ class MainCharacter:
             elif direction == left:
                 self.x += 100
                 self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
-                
+
             self.current -= 2
             self.current = clamp(0, self.current, self.maximum)
             heart.cur_hp = self.current
