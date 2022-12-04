@@ -1,4 +1,5 @@
 level = {'Background': 0,
-         'Objects': 1,
-         'Monsters': 2,
-         'UI': 3}
+         'Door': 1,
+         'Objects': 2,
+         'Monsters': 3,
+         'UI': 4}
