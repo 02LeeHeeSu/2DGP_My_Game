@@ -3,12 +3,18 @@ from pico2d import *
 import game_framework
 import game_world
 
-IsGetBow = True
-IsGetShield = True
-IsGetPotion = True
+import server
+
+IsGetBow = False
+IsGetShield = False
+IsGetPotion = False
+IsGetRobe = False
 selected_num = 1
 
 PotionCoolTime = 0.0
+RobeCoolTime = 0.0
+Activated_Robe_Time = 0.0
+is_activated_robe = False
 
 
 one, two, three, four = range(4)
@@ -42,11 +48,26 @@ class SELECTION:
 
     @staticmethod
     def do(self):
-        global PotionCoolTime
+        global PotionCoolTime, RobeCoolTime, Activated_Robe_Time, is_activated_robe
         if PotionCoolTime > 0:
             PotionCoolTime -= game_framework.frame_time
             if PotionCoolTime <= 0:
                 PotionCoolTime = 0.0
+
+        if RobeCoolTime > 0:
+            RobeCoolTime -= game_framework.frame_time
+            if RobeCoolTime <= 0:
+                RobeCoolTime = 0.0
+
+            Activated_Robe_Time -= game_framework.frame_time
+            if Activated_Robe_Time <= 0:
+                Activated_Robe_Time = 0.0
+
+                if is_activated_robe:
+                    is_activated_robe = False
+                    game_world.add_collision_group(server.link, None, 'Link:Rock')
+                    game_world.add_collision_group(server.link, None, 'Link:Monster')
+                    game_world.add_collision_group(server.link, None, 'Link:Rock')
 
     @staticmethod
     def draw(self):
@@ -58,6 +79,8 @@ class SELECTION:
             self.Shield.draw(self.slot_x + self.slot_gap * 2, self.slot_y)
         if IsGetPotion:
             self.Potion.draw(self.slot_x + self.slot_gap * 3, self.slot_y)
+        if IsGetRobe:
+            self.Robe.draw(self.slot_x + self.slot_gap * 4, self.slot_y)
 
         self.selected.draw(self.slot_x + self.slot_gap * selected_num, self.slot_y)
     
@@ -95,6 +118,7 @@ class Slot:
         self.Bow = load_image('Slot/bow_slot.png')
         self.Shield = load_image('Slot/Shield_slot.png')
         self.Potion = load_image('Slot/potion_slot.png')
+        self.Robe = load_image('Slot/robe_slot.png')
 
     def update(self):
         self.cur_state.do(self)
@@ -111,4 +135,9 @@ class Slot:
     def draw(self):
         self.cur_state.draw(self)
         if PotionCoolTime > 0:
-            self.font.draw(self.slot_x + self.slot_gap * 3 - 35, 120, f'{PotionCoolTime:.1f}', (255, 255, 255))
+            self.font.draw(self.slot_x + self.slot_gap * 3 - 5 * 3, 120, f'{PotionCoolTime:.0f}', (255, 255, 0))
+        if RobeCoolTime > 0:
+            self.font.draw(self.slot_x + self.slot_gap * 4 - 5 * 4, 120, f'{RobeCoolTime:.0f}', (255, 255, 255))
+        if Activated_Robe_Time > 0:
+            sx, sy = server.link.x - server.bg.window_left, server.link.y - server.bg.window_bottom
+            self.font.draw(sx, sy + 60, f'{Activated_Robe_Time:.0f}', (255, 255, 255))
