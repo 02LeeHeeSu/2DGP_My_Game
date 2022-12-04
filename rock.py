@@ -4,7 +4,7 @@ import game_framework
 
 import server
 
-from define_dir import defined_direction
+from define_dir import up, down, right, left
 from depth import level
 
 Time_Per_Attack = 1.0
@@ -24,22 +24,25 @@ class Rock:
         return sx - 20, sy - 20, sx + 20, sy + 20
 
     def handle_collision(self, other, group):
-        if group == 'Rock:Link':
+        if group == 'Link:Rock':
             if self in game_world.world[level['Objects']]:
                 game_world.remove_object(self, level['Objects'])
 
         if group == 'Rock:Shield':
-            if self.direction == defined_direction['up']:
-                self.direction = defined_direction['down']
+            if self.direction == up:
+                self.direction = down
 
-            elif self.direction == defined_direction['down']:
-                self.direction = defined_direction['up']
+            elif self.direction == down:
+                self.direction = up
 
-            elif self.direction == defined_direction['right']:
-                self.direction = defined_direction['left']
+            elif self.direction == right:
+                self.direction = left
 
-            elif self.direction == defined_direction['left']:
-                self.direction = defined_direction['right']
+            elif self.direction == left:
+                self.direction = right
+
+        if group == 'Rock:ChuChu':
+            game_world.remove_object(self, level['Objects'])
 
         if group == 'Rock:Octorok':
             game_world.remove_object(self, level['Objects'])
@@ -59,16 +62,16 @@ class Rock:
     def update(self):
         self.frame = (self.frame + FPAttack * Attack_Per_Time * game_framework.frame_time) % FPAttack
 
-        if self.direction == defined_direction['up']:
+        if self.direction == up:
             self.y += self.velocity * game_framework.frame_time
 
-        elif self.direction == defined_direction['down']:
+        elif self.direction == down:
             self.y -= self.velocity * game_framework.frame_time
 
-        if self.direction == defined_direction['right']:
+        if self.direction == right:
             self.x += self.velocity * game_framework.frame_time
 
-        elif self.direction == defined_direction['left']:
+        elif self.direction == left:
             self.x -= self.velocity * game_framework.frame_time
 
         if self.x < self.init_x - self.distance or self.x > self.init_x + self.distance:
