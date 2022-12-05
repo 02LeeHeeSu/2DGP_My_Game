@@ -2,8 +2,8 @@ from pico2d import *
 from canvas_size import height
 
 
-max_hp = 4
-cur_hp = 4
+max_hp = 12
+cur_hp = 12
 cur_hp = clamp(0, cur_hp, max_hp)
 
 
@@ -15,10 +15,6 @@ def cal_integer(x):
 
 
 class Heart:
-
-    def handle_event(self, event):
-        pass
-
     def __init__(self):
         self.HeartImage = load_image('Heart/heart.png')
         self.MaximumHeartNumber = cal_integer(max_hp)   # 전체 하트 개수
@@ -39,3 +35,6 @@ class Heart:
 
         if self.MaximumHeartNumber > self.FullHeartNumber:
             self.HeartImage.clip_draw(45 * self.BrokeHeart, 0, 45, 40, 45 + 50 * self.FullHeartNumber, height - 40)
+
+    def handle_event(self, event):
+        pass
