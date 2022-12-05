@@ -23,8 +23,7 @@ def exit():
 def update():
     global logo_time
 
-    delay(0.05)
-    logo_time += 0.05
+    logo_time += game_framework.frame_time
 
     if logo_time > 1.0:
         game_framework.change_state(title_state)
