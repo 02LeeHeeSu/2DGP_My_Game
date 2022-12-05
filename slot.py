@@ -9,12 +9,15 @@ IsGetBow = False
 IsGetShield = False
 IsGetPotion = False
 IsGetRobe = False
+IsGetLife = [False, False, False]
 selected_num = 1
 
 PotionCoolTime = 0.0
 RobeCoolTime = 0.0
 Activated_Robe_Time = 0.0
 is_activated_robe = False
+
+number_of_got_life = 0
 
 
 one, two, three, four = range(4)
@@ -67,6 +70,7 @@ class SELECTION:
                     is_activated_robe = False
                     game_world.add_collision_group(server.link, None, 'Link:Rock')
                     game_world.add_collision_group(server.link, None, 'Link:Monster')
+                    game_world.add_collision_group(server.link, None, 'Link:Sphere')
 
     @staticmethod
     def draw(self):
@@ -80,9 +84,10 @@ class SELECTION:
             self.Potion.draw(self.slot_x + self.slot_gap * 3, self.slot_y)
         if IsGetRobe:
             self.Robe.draw(self.slot_x + self.slot_gap * 4, self.slot_y)
-
+        for i in range(number_of_got_life):
+            self.Life.draw(self.slot_x + self.slot_gap * (i + 5), self.slot_y)
         self.selected.draw(self.slot_x + self.slot_gap * selected_num, self.slot_y)
-    
+
     
 next_state = {
     SELECTION: {one: SELECTION, two: SELECTION, three: SELECTION, four: SELECTION}
@@ -90,14 +95,6 @@ next_state = {
     
 
 class Slot:
-    def add_event(self, event):
-        self.queue.insert(0, event)
-    
-    def handle_event(self, event):
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
-            
     def __init__(self):
         global PotionCoolTime
         PotionCoolTime = 0.0
@@ -107,7 +104,7 @@ class Slot:
         self.cur_state.enter(self, None)
 
         self.size = 30
-        self.font = load_font('Slot/ENCR10B.TTF', self.size)
+        self.font = load_font('Font/ENCR10B.TTF', self.size)
 
         self.slot_gap = 54
         self.slot_x = 557 - self.slot_gap
@@ -118,6 +115,7 @@ class Slot:
         self.Shield = load_image('Slot/Shield_slot.png')
         self.Potion = load_image('Slot/potion_slot.png')
         self.Robe = load_image('Slot/robe_slot.png')
+        self.Life = load_image('Slot/life_slot.png')
 
     def update(self):
         self.cur_state.do(self)
@@ -140,3 +138,11 @@ class Slot:
         if Activated_Robe_Time > 0:
             sx, sy = server.link.x - server.bg.window_left, server.link.y - server.bg.window_bottom
             self.font.draw(sx, sy + 60, f'{Activated_Robe_Time:.0f}', (255, 255, 255))
+
+    def add_event(self, event):
+        self.queue.insert(0, event)
+
+    def handle_event(self, event):
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
