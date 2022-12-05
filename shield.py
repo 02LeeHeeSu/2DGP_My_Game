@@ -6,6 +6,16 @@ from define_dir import up, down, right, left
 
 
 class Shield:
+    def __init__(self, x, y, d):
+        self.x, self.y, self.d = x, y, d
+        self.sound = load_wav('Sound/Objects/Shield_Deflect.wav')
+
+    def update(self):
+        pass
+
+    def draw(self):
+        draw_rectangle(*self.get_bb())
+
     def handle_event(self, event):
         pass
 
@@ -22,13 +32,4 @@ class Shield:
             return sx - 45 - 12.5, sy - 55, sx - 45 + 12.5, sy + 55
 
     def handle_collision(self, other, group):
-        pass
-
-    def __init__(self, x, y, d):
-        self.x, self.y, self.d = x, y, d
-
-    def draw(self):
-        draw_rectangle(*self.get_bb())
-
-    def update(self):
-        pass
+        self.sound.play()
