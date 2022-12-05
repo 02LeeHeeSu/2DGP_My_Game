@@ -58,30 +58,23 @@ def change_room(direction):
 
 class Door:
     image = None
-
-    def handle_event(self, event):
-        pass
-
-    def get_bb(self):
-        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-
-        return sx - 66, sy - 66, sx + 66, sy + 66
-
-    def handle_collision(self, other, group):
-        if group == 'Link:Door':
-            game_world.world[level['Door']].clear()
-            game_world.collision_group['Link:Door'][1].clear()
-            change_room(self.d)
+    open_sound = None
 
     def __init__(self, d):
         if Door.image is None:
             Door.image = load_image('Door/door.png')
         self.x, self.y = door_place[d]
         self.d = d
+        if Door.open_sound is None:
+            Door.open_sound = load_wav('Sound/Objects/DungeonDoor.wav')
+        Door.open_sound.play()
+
+    def update(self):
+        pass
 
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-        
+
         if self.d == up:
             self.image.clip_composite_draw(0, 0, 300, 264, 0, 'v', sx, sy, 300, 264)
 
@@ -96,5 +89,16 @@ class Door:
 
         draw_rectangle(*self.get_bb())
 
-    def update(self):
+    def handle_event(self, event):
         pass
+
+    def get_bb(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        return sx - 66, sy - 66, sx + 66, sy + 66
+
+    def handle_collision(self, other, group):
+        if group == 'Link:Door':
+            game_world.world[level['Door']].clear()
+            game_world.collision_group['Link:Door'][1].clear()
+            change_room(self.d)
