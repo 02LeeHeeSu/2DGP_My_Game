@@ -16,8 +16,6 @@ from shield import Shield
 import slot
 from heart import cur_hp, max_hp
 
-from canvas_size import width, height
-
 # 방향
 direction = down
 
@@ -162,8 +160,8 @@ class RUN:
         # 좌표 설정
         self.x += self.dir_x * Pixel_Per_Sec_link * game_framework.frame_time
         self.y += self.dir_y * Pixel_Per_Sec_link * game_framework.frame_time
-        self.x = clamp(45, self.x, server.bg.w - 45)
-        self.y = clamp(60, self.y, server.bg.h - 60)
+        self.x = clamp(45 + 192 + 1, self.x, server.bg.w - 45 - 192 - 1)
+        self.y = clamp(60 + 192 + 1, self.y, server.bg.h - 60 - 192 - 1)
 
         # 프레임 변화
         self.Run_frame_x = (self.Run_frame_x + FPRun * Run_Per_Time * game_framework.frame_time) % FPRun
@@ -189,8 +187,10 @@ class ACTION:
         if self.is_none_action():
             if event == jd:
                 self.Attack = True
+                self.attack_sound.play()
             elif event == kd:
                 self.Spin = True
+                self.spin_sound.play()
             elif event == ld:
                 self.Roll = True
 
@@ -270,8 +270,8 @@ class ACTION:
 
                 self.Roll_frame_x = (self.Roll_frame_x + FPRoll * Roll_Per_Time * game_framework.frame_time) % FPRoll
 
-            self.x = clamp(45, self.x, server.bg.w - 45)
-            self.y = clamp(60, self.y, server.bg.h - 60)
+            self.x = clamp(45 + 192 + 1, self.x, server.bg.w - 45 - 192 - 1)
+            self.y = clamp(60 + 192 + 1, self.y, server.bg.h - 60 - 192 - 1)
 
     @staticmethod
     def draw(self):
@@ -311,10 +311,20 @@ class ITEM:
         self.Shield_frame_y = 0
 
         if slot.selected_num == 2 and slot.IsGetShield:
+            self.shield_sound.play()
             ITEM.shield_obj = Shield(self.x, self.y, direction)
             game_world.add_object(ITEM.shield_obj, level['Objects'])
             game_world.add_collision_group(None, ITEM.shield_obj, 'Rock:Shield')
+            game_world.add_collision_group(None, ITEM.shield_obj, 'Sphere:Shield')
             game_world.add_collision_group(ITEM.shield_obj, None, 'Shield:Monster')
+
+        if slot.selected_num == 3 and slot.IsGetPotion:
+            if slot.PotionCoolTime == 0.0:
+                self.potion_sound.play()
+
+        if slot.selected_num == 4 and slot.IsGetRobe:
+            if slot.RobeCoolTime == 0.0:
+                self.robe_sound.play()
 
     @staticmethod
     def exit(self, event):
@@ -447,82 +457,6 @@ next_state = {
 
 
 class MainCharacter:
-
-    def add_event(self, event):
-        self.queue.insert(0, event)
-
-    def convert_to_stand(self):
-        self.add_event(dir_0)
-
-    def is_none_event(self):
-        if not self.queue:
-            return True
-        else:
-            return False
-
-    def is_none_action(self):
-        if not (self.Attack or self. Spin or self.Roll):
-            return True
-        else:
-            return False
-
-    def get_bb(self):
-        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-
-        if self.cur_state == ITEM:
-            if slot.selected_num == 2 and slot.IsGetShield:
-                if direction == up:
-                    return sx - 45, sy - 60, sx + 45, sy
-                elif direction == down:
-                    return sx - 45, sy, sx + 45, sy + 60
-                elif direction == right:
-                    return sx - 45, sy - 60, sx, sy + 60
-                elif direction == left:
-                    return sx, sy - 60, sx + 45, sy + 60
-        return sx - 45, sy - 60, sx + 45, sy + 60
-
-    def handle_collision(self, other, group):
-        if group == 'Link:Item':
-            if other.item == item.Bow:
-                slot.IsGetBow = True
-            elif other.item == item.Shield:
-                slot.IsGetShield = True
-            elif other.item == item.Potion:
-                slot.IsGetPotion = True
-            elif other.item == item.Robe:
-                slot.IsGetRobe = True
-            elif other.item == item.Life:
-                self.maximum += 4
-                heart.max_hp = self.maximum
-
-        if group == 'Link:Monster':
-            if direction == up:
-                self.y -= 100
-                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
-            elif direction == down:
-                self.y += 100
-                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
-            elif direction == right:
-                self.x -= 100
-                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
-            elif direction == left:
-                self.x += 100
-                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
-
-            self.current -= 2
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
-
-        if group == 'Link:Rock':
-            self.current -= 1
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
-
-    def handle_event(self, event):
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
-
     def __init__(self):
         self.queue = []
         self.cur_state = STAND
@@ -532,7 +466,7 @@ class MainCharacter:
         self.current = heart.cur_hp
         self.current = clamp(0, self.current, self.maximum)
 
-        self.x, self.y = width // 2, height // 2   # 위치
+        self.x, self.y = server.bg.w // 2, 192 + 60 + 1  # 위치
 
         self.dir_x, self.dir_y = 0, 0
 
@@ -568,6 +502,27 @@ class MainCharacter:
         self.Die = load_image('Link/Die/die.png')
         self.Die_frame = 0
 
+        self.attack_sound = load_wav('Sound/Link/Link_Attack.wav')
+        self.attack_sound.set_volume(32)
+
+        self.spin_sound = load_wav('Sound/Link/Link_Spin.wav')
+        self.spin_sound.set_volume(32)
+
+        self.hurt_sound = load_wav('Sound/Link/Link_Hurt.wav')
+        self.hurt_sound.set_volume(32)
+
+        self.die_sound = load_wav('Sound/Link/Link_Die.wav')
+        self.die_sound.set_volume(32)
+
+        self.shield_sound = load_wav('Sound/Link/Link_Shield.wav')
+        self.shield_sound.set_volume(100)
+
+        self.potion_sound = load_wav('Sound/Link/Link_Use_Potion.wav')
+        self.potion_sound.set_volume(100)
+
+        self.robe_sound = load_wav('Sound/Link/Link_Use_Robe.wav')
+        self.robe_sound.set_volume(100)
+
     def update(self):
         self.cur_state.do(self)
 
@@ -583,3 +538,103 @@ class MainCharacter:
     def draw(self):
         self.cur_state.draw(self)
         draw_rectangle(*self.get_bb())
+
+    def get_bb(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        if self.cur_state == ITEM:
+            if slot.selected_num == 2 and slot.IsGetShield:
+                if direction == up:
+                    return sx - 45, sy - 60, sx + 45, sy
+                elif direction == down:
+                    return sx - 45, sy, sx + 45, sy + 60
+                elif direction == right:
+                    return sx - 45, sy - 60, sx, sy + 60
+                elif direction == left:
+                    return sx, sy - 60, sx + 45, sy + 60
+        return sx - 45, sy - 60, sx + 45, sy + 60
+
+    def handle_event(self, event):
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
+
+    def handle_collision(self, other, group):
+        if group == 'Link:Item':
+            if other.item == item.Bow:
+                slot.IsGetBow = True
+            elif other.item == item.Shield:
+                slot.IsGetShield = True
+            elif other.item == item.Potion:
+                slot.IsGetPotion = True
+            elif other.item == item.Robe:
+                slot.IsGetRobe = True
+            elif other.item == item.Life:
+                slot.IsGetLife[slot.number_of_got_life] = True
+                slot.number_of_got_life += 1
+                self.maximum += 4
+                self.current += 4
+                self.current = clamp(0, self.current, self.maximum)
+                heart.cur_hp = self.current
+                heart.max_hp = self.maximum
+
+        if group == 'Link:Monster':
+            self.hurt_sound.play()
+
+            if self.cur_state is not STAND:
+                self.convert_to_stand()
+
+            if direction == up:
+                self.y -= 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif direction == down:
+                self.y += 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif direction == right:
+                self.x -= 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+            elif direction == left:
+                self.x += 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+
+            self.current -= 2
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+
+        if group == 'Link:Sphere':
+            self.hurt_sound.play()
+
+            if self.cur_state is not STAND:
+                self.convert_to_stand()
+
+            self.current -= 2
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+
+        if group == 'Link:Rock':
+            self.hurt_sound.play()
+
+            if self.cur_state is not STAND:
+                self.convert_to_stand()
+
+            self.current -= 1
+            self.current = clamp(0, self.current, self.maximum)
+            heart.cur_hp = self.current
+
+    def add_event(self, event):
+        self.queue.insert(0, event)
+
+    def convert_to_stand(self):
+        self.add_event(dir_0)
+
+    def is_none_event(self):
+        if not self.queue:
+            return True
+        else:
+            return False
+
+    def is_none_action(self):
+        if not (self.Attack or self. Spin or self.Roll):
+            return True
+        else:
+            return False
