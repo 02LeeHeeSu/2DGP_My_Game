@@ -26,6 +26,25 @@ def get_item():
 
 class Item:
     image = None
+    open_sound = None
+
+    def __init__(self):
+        if Item.image is None:
+            Item.image = load_image('Dropped_Item/dropped_item.png')
+        self.x, self.y = 912, 224 * 6 / 2
+        self.item = get_item()
+        if Item.open_sound is None:
+            Item.open_sound = load_wav('Sound/Objects/Chest_Open.wav')
+
+    def update(self):
+        pass
+
+    def draw(self):
+        draw_rectangle(*self.get_bb())
+
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        Item.image.draw(sx, sy, 40, 40)
 
     def handle_event(self, event):
         pass
@@ -37,20 +56,6 @@ class Item:
 
     def handle_collision(self, other, group):
         if group == 'Link:Item':
-            game_world.remove_object(self, level['Objects'])
-
-    def __init__(self):
-        if Item.image is None:
-            Item.image = load_image('Dropped_Item/dropped_item.png')
-        self.x, self.y = 912, 224 * 6 / 2
-        self.item = get_item()
-
-    def draw(self):
-        draw_rectangle(*self.get_bb())
-
-        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-
-        Item.image.draw(sx, sy, 40, 40)
-
-    def update(self):
-        pass
+            Item.open_sound.play()
+            if self in game_world.world[level['Objects']]:
+                game_world.remove_object(self, level['Objects'])
