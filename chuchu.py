@@ -12,8 +12,6 @@ from depth import level
 import random
 from BehaviorTree import BehaviorTree, Leaf
 
-from canvas_size import width, height
-
 Time_Per_Move = 1.0
 Move_Per_Time = 1.0 / Time_Per_Move
 FPMove = 16
@@ -35,6 +33,45 @@ animation_names = ['move']
 
 class ChuChu:
     images = None
+    hit_sound = None
+
+    def __init__(self):
+        self.x = random.randint(40 + 192 * 2 + 45 + 1, server.bg.w - 40 - 192 * 2 - 45 - 1)
+        self.y = random.randint(55 + 192 * 2 + 60 + 1, server.bg.h - 55 - 192 * 2 - 60 - 1)
+        self.tx, self.ty = self.x, self.y
+        self.load_images()
+        self.dir = random.randint(up, left)
+        self.speed = Pixel_Per_Sec_chu
+        self.timer = 1.0
+        self.frame = 0
+        self.build_behavior_tree()
+        if ChuChu.hit_sound is None:
+            ChuChu.hit_sound = load_wav('Sound/Enemy/Enemy_Hit.wav')
+
+    def update(self):
+        self.bt.run()
+
+        self.timer -= game_framework.frame_time
+
+        self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
+
+        if self.dir == up:
+            self.y += self.speed * game_framework.frame_time
+        elif self.dir == down:
+            self.y -= self.speed * game_framework.frame_time
+        elif self.dir == right:
+            self.x += self.speed * game_framework.frame_time
+        elif self.dir == left:
+            self.x -= self.speed * game_framework.frame_time
+
+        self.x = clamp(192 + 40, self.x, server.bg.w - 192 - 40)
+        self.y = clamp(192 + 55, self.y, server.bg.h - 192 - 55)
+
+    def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        ChuChu.images['move'][int(self.frame)].draw(sx, sy, 80, 105)
+        draw_rectangle(*self.get_bb())
 
     def load_images(self):
         if ChuChu.images is None:
@@ -42,25 +79,42 @@ class ChuChu:
             for name in animation_names:
                 ChuChu.images[name] = [load_image("Monsters/Chu_Chu/" + name + "%d" % i + ".png") for i in range(1, 16 + 1)]
 
+    def handle_event(self, event):
+        pass
+
     def get_bb(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
         return sx - 40, sy - 52.5, sx + 40, sy + 52.5
 
-    def __init__(self):
-        self.x = random.randint(40 + 192 + 45 + 1, server.bg.w - 40 - 192 - 45 - 1)
-        self.y = random.randint(55 + 192 + 60 + 1, server.bg.h - 55 - 192 - 60 - 1)
-        self.tx, self.ty = random.randint(40, width - 40), random.randint(55, height - 55)
-        self.load_images()
-        self.dir = random.randint(up, left)
-        self.speed = Pixel_Per_Sec_chu
-        self.timer = 1.0
-        self.frame = 0
-        self.build_behavior_tree()
+    def handle_collision(self, other, group):
+        if group == 'Sword:Monster':
+            ChuChu.hit_sound.play()
+            if self in game_world.world[level['Monsters']]:
+                game_world.remove_object(self, level['Monsters'])
+        if group == 'Arrow:Monster':
+            ChuChu.hit_sound.play()
+            if self in game_world.world[level['Monsters']]:
+                game_world.remove_object(self, level['Monsters'])
+        if group == 'Shield:Monster':
+            if self.dir == up:
+                self.y -= 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif self.dir == down:
+                self.y += 100
+                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
+            elif self.dir == right:
+                self.x -= 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+            elif self.dir == left:
+                self.x += 100
+                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
+        if group == 'Rock:ChuChu':
+            self.speed = 0
     
     def look_random(self):
-        self.tx = random.randint(40, server.bg.w - 40)
-        self.ty = random.randint(55, server.bg.h - 55)
+        self.tx = random.randint(40 + 192 * 2 + 45 + 1, server.bg.w - 40 - 192 * 2 - 45 - 1)
+        self.ty = random.randint(55 + 192 * 2 + 60 + 1, server.bg.h - 55 - 192 * 2 - 60 - 1)
         dx = self.tx - self.x
         dy = self.ty - self.y
 
@@ -107,52 +161,3 @@ class ChuChu:
         move_node = Leaf('move to random position', self.move_to_random)
 
         self.bt = BehaviorTree(move_node)
-
-    def update(self):
-        self.bt.run()
-
-        self.timer -= game_framework.frame_time
-
-        self.frame = (self.frame + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
-
-        if self.dir == up:
-            self.y += self.speed * game_framework.frame_time
-        elif self.dir == down:
-            self.y -= self.speed * game_framework.frame_time
-        elif self.dir == right:
-            self.x += self.speed * game_framework.frame_time
-        elif self.dir == left:
-            self.x -= self.speed * game_framework.frame_time
-
-        self.x = clamp(192 + 40, self.x, server.bg.w - 192 - 40)
-        self.y = clamp(192 + 55, self.y, server.bg.h - 192 - 55)
-
-    def draw(self):
-        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-
-        ChuChu.images['move'][int(self.frame)].draw(sx, sy, 80, 105)
-        draw_rectangle(*self.get_bb())
-
-    def handle_event(self, event):
-        pass
-
-    def handle_collision(self, other, group):
-        if group == 'Sword:Monster':
-            game_world.remove_object(self, level['Monsters'])
-        if group == 'Arrow:Monster':
-            game_world.remove_object(self, level['Monsters'])
-        if group == 'Shield:Monster':
-            if self.dir == up:
-                self.y -= 100
-                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
-            elif self.dir == down:
-                self.y += 100
-                self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
-            elif self.dir == right:
-                self.x -= 100
-                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
-            elif self.dir == left:
-                self.x += 100
-                self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
-        if group == 'Rock:ChuChu':
-            self.speed = 0
