@@ -303,6 +303,11 @@ class ITEM:
     def enter(self, event):
         ITEM.enter_time = get_time()
 
+        self.Bow_frame_x = 0
+        self.Bow_frame_y = 0
+        self.Shield_frame_x = 0
+        self.Shield_frame_y = 0
+
         if slot.selected_num == 2 and slot.IsGetShield:
             self.shield_sound.play()
             ITEM.shield_obj = Shield(self.x, self.y, direction)
