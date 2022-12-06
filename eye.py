@@ -25,7 +25,6 @@ class Eye:
         self.x = random.randint(50 + 192 + 1, server.bg.w - 50 - 192 - 1)
         self.y = server.bg.h - 50 - 192 - 1
         self.shoot_timer = 1.0
-        self.font = load_font('Font/ENCR10B.TTF', 32)
         self.build_behavior_tree()
         if Eye.hit_sound is None:
             Eye.hit_sound = load_wav('Sound/Enemy/Enemy_Hit.wav')
@@ -58,9 +57,6 @@ class Eye:
             if self in game_world.world[level['Monsters']]:
                 game_world.remove_object(self, level['Monsters'])
         if group == 'Eye:Sphere':
-            sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
-
-            self.font.draw(sx, sy - 100, 'stunned!', (255, 255, 255))
             self.shoot_timer += 3.0
 
     # AI
