@@ -13,11 +13,26 @@ monsters_info = [[[], [], []],
                  [[], [], []],
                  [[], [], []]]
 
+got_item_info = [[False, False, False],
+                 [False, False, False],
+                 [False, False, False]]
+
 left, bottom = 0, 0
 center = 1
 right, top = 2, 2
 
 cur_room = [left, bottom]
+
+
+def init_stage():
+    global cur_room, got_item_info
+    cur_room = [left, bottom]
+    got_item_info = [[False, False, False],
+                     [False, False, False],
+                     [False, False, False]]
+
+    init_monsters_info()
+    add_monsters()
 
 
 def init_monsters_info():

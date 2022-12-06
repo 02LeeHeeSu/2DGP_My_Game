@@ -29,6 +29,15 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
+                import slot
+                import stage_info
+                import item
+
+                slot.init_slot()
+                stage_info.init_stage()
+                item.init_item()
+                game_world.clear()
+
                 game_framework.change_state(title_state)
                 game_world.clear()
             if event.key == SDLK_SPACE:

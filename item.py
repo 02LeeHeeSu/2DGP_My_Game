@@ -16,6 +16,11 @@ Bow, Shield, Potion, Robe, Life = range(1, 5 + 1)
 Item_Queue = [Bow, Shield, Potion, Robe, Life, Life, Life]
 
 
+def init_item():
+    global Item_Queue
+    Item_Queue = [Bow, Shield, Potion, Robe, Life, Life, Life]
+
+
 def get_item():
     if Item_Queue:
         item = random.choice(Item_Queue)

@@ -31,6 +31,27 @@ key_event_table = {
 }
 
 
+def init_slot():
+    global IsGetBow, IsGetShield, IsGetPotion, IsGetRobe, IsGetLife
+    global selected_num
+    global PotionCoolTime, RobeCoolTime, Activated_Robe_Time, is_activated_robe, number_of_got_life
+
+    IsGetBow = False
+    IsGetShield = False
+    IsGetPotion = False
+    IsGetRobe = False
+    IsGetLife = [False, False, False]
+    selected_num = 1
+
+    PotionCoolTime = 0.0
+    RobeCoolTime = 0.0
+    Activated_Robe_Time = 0.0
+    is_activated_robe = False
+
+    number_of_got_life = 0
+
+
+
 class SELECTION:
     @staticmethod
     def enter(self, event):
