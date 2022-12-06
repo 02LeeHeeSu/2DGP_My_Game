@@ -6,12 +6,17 @@ import play_state
 from canvas_size import width, height
 
 image = None
+sound = None
 
 
 def enter():
     global image
+    global sound
 
     image = load_image('Clear/game_clear.png')
+    sound = load_music('Sound/Background/Game Clear.mp3')
+    sound.set_volume(128)
+    sound.play()
 
 
 def exit():
