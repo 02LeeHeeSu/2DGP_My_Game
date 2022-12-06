@@ -531,7 +531,6 @@ class MainCharacter:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom

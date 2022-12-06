@@ -87,8 +87,6 @@ class Door:
         elif self.d == left:
             self.image.clip_composite_draw(0, 0, 300, 264, -3.141592 / 2.0, '', sx, sy, 300, 264)
 
-        draw_rectangle(*self.get_bb())
-
     def handle_event(self, event):
         pass
 

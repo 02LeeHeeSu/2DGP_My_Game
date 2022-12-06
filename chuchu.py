@@ -71,7 +71,6 @@ class ChuChu:
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
         ChuChu.images['move'][int(self.frame)].draw(sx, sy, 80, 105)
-        draw_rectangle(*self.get_bb())
 
     def load_images(self):
         if ChuChu.images is None:

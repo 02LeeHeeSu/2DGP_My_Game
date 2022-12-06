@@ -40,8 +40,6 @@ class Item:
         pass
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
-
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
         Item.image.draw(sx, sy, 40, 40)

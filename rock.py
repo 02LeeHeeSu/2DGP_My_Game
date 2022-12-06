@@ -10,7 +10,7 @@ from depth import level
 Time_Per_Attack = 1.0
 Attack_Per_Time = 1.0 / Time_Per_Attack
 FPAttack = 3
-1
+
 
 class Rock:
     image = None
@@ -46,7 +46,6 @@ class Rock:
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
         self.image.clip_draw(int(self.frame) * 40, 0, 40, 40, sx, sy)
-        draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
         pass

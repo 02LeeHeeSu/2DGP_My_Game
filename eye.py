@@ -39,7 +39,6 @@ class Eye:
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
         Eye.image.draw(sx, sy, 50, 50)
-        draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
         pass

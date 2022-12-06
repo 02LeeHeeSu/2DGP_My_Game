@@ -96,7 +96,6 @@ class Octorok:
             Octorok.images['attack'][int(self.frame_move) + self.dir * 2].draw(sx, sy, 80, 90)
         else:
             Octorok.images['move'][int(self.frame_move) + self.dir * 2].draw(sx, sy, 80, 90)
-        draw_rectangle(*self.get_bb())
 
     def load_images(self):
         if Octorok.images is None:

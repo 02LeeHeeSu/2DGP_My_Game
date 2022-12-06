@@ -47,7 +47,6 @@ class Arrow:
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
 
-        draw_rectangle(*self.get_bb())
         if self.d == up:
             self.image.clip_draw(0, 0, 25, 75, sx, sy)
 

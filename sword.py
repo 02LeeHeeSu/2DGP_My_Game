@@ -18,7 +18,7 @@ class Sword:
         self.x, self.y = server.link.x, server.link.y
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        pass
 
     def handle_event(self, event):
         pass

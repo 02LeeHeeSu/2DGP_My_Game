@@ -88,8 +88,6 @@ class Vaati:
         if self.is_stopped:
             self.weakness.draw(sx, sy - 50, 60, 110)
 
-        draw_rectangle(*self.get_bb())
-
     def load_images(self):
         if Vaati.images is None:
             Vaati.images = {}
