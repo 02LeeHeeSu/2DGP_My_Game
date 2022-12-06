@@ -76,7 +76,9 @@ class Vaati:
         self.y = clamp(192 + 135, self.y, server.bg.h - 192 - 135)
 
         if self.hp <= 0:
-            game_world.remove_object(self, level['Monsters'])
+            game_world.clear()
+            import clear_state
+            game_framework.change_state(clear_state)
 
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
