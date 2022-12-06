@@ -14,7 +14,6 @@ from sword import Sword
 from arrow import Arrow
 from shield import Shield
 import slot
-from heart import cur_hp, max_hp
 
 # 방향
 direction = down
@@ -367,10 +366,8 @@ class ITEM:
         if slot.selected_num == 3 and slot.IsGetPotion:
             if slot.PotionCoolTime == 0.0:
                 slot.PotionCoolTime = 10.0
-                self.current += self.maximum // 4
-                self.current = clamp(0, self.current, self.maximum)
-                heart.cur_hp = self.current
-                heart.max_hp = self.maximum
+                self.cur_hp += self.max_hp // 4
+                self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
             self.convert_to_stand()
 
         if slot.selected_num == 4 and slot.IsGetRobe:
@@ -456,9 +453,9 @@ class MainCharacter:
         self.cur_state = STAND
         self.cur_state.enter(self, None)
 
-        self.maximum = heart.max_hp
-        self.current = heart.cur_hp
-        self.current = clamp(0, self.current, self.maximum)
+        self.max_hp = 12
+        self.cur_hp = 12
+        self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
 
         self.x, self.y = server.bg.w // 2, 192 + 60 + 1  # 위치
 
@@ -565,11 +562,9 @@ class MainCharacter:
             elif other.item == item.Life:
                 slot.IsGetLife[slot.number_of_got_life] = True
                 slot.number_of_got_life += 1
-                self.maximum += 4
-                self.current += 4
-                self.current = clamp(0, self.current, self.maximum)
-                heart.cur_hp = self.current
-                heart.max_hp = self.maximum
+                self.max_hp += 4
+                self.cur_hp += 4
+                self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
 
         if group == 'Link:Monster':
             self.hurt_sound.play()
@@ -587,23 +582,20 @@ class MainCharacter:
                 self.x += 100
                 self.x = clamp(192 + 45, self.x, server.bg.w - 192 - 45)
 
-            self.current -= 2
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
+            self.cur_hp -= 2
+            self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
 
         if group == 'Link:Sphere':
             self.hurt_sound.play()
 
-            self.current -= 2
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
+            self.cur_hp -= 2
+            self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
 
         if group == 'Link:Rock':
             self.hurt_sound.play()
 
-            self.current -= 1
-            self.current = clamp(0, self.current, self.maximum)
-            heart.cur_hp = self.current
+            self.cur_hp -= 1
+            self.cur_hp = clamp(0, self.cur_hp, self.max_hp)
 
     def add_event(self, event):
         self.queue.insert(0, event)
