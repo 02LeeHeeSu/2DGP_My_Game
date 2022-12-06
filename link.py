@@ -304,12 +304,6 @@ class ITEM:
     def enter(self, event):
         ITEM.enter_time = get_time()
 
-        self.Bow_frame_x = 0
-        self.Bow_frame_y = 0
-
-        self.Shield_frame_x = 0
-        self.Shield_frame_y = 0
-
         if slot.selected_num == 2 and slot.IsGetShield:
             self.shield_sound.play()
             ITEM.shield_obj = Shield(self.x, self.y, direction)
@@ -581,9 +575,6 @@ class MainCharacter:
         if group == 'Link:Monster':
             self.hurt_sound.play()
 
-            if self.cur_state is not STAND:
-                self.convert_to_stand()
-
             if direction == up:
                 self.y -= 100
                 self.y = clamp(192 + 60, self.y, server.bg.h - 192 - 60)
@@ -604,18 +595,12 @@ class MainCharacter:
         if group == 'Link:Sphere':
             self.hurt_sound.play()
 
-            if self.cur_state is not STAND:
-                self.convert_to_stand()
-
             self.current -= 2
             self.current = clamp(0, self.current, self.maximum)
             heart.cur_hp = self.current
 
         if group == 'Link:Rock':
             self.hurt_sound.play()
-
-            if self.cur_state is not STAND:
-                self.convert_to_stand()
 
             self.current -= 1
             self.current = clamp(0, self.current, self.maximum)
