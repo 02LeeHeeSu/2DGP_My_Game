@@ -4,6 +4,7 @@ import game_world
 import item
 
 import server
+import stage_info
 
 from define_dir import up, down, right, left
 from define_PPM import Pixel_Per_Sec_link
@@ -55,7 +56,7 @@ FPShield = 5
 
 
 # 사망 액션 속도
-Time_Per_Die = 0.5
+Time_Per_Die = 1.0
 Die_Per_Time = 1.0 / Time_Per_Die
 FPDie = 5
 
@@ -68,12 +69,12 @@ def dir_to_frame(d):
 
 
 # 이벤트 정의
-wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0, one, two, three, four = range(18)
+wd, sd, dd, ad, wu, su, du, au, jd, kd, ld, ud, uu, dir_0, die, one, two, three, four = range(19)
 event_name = ['wd', 'sd', 'dd', 'ad',
               'wu', 'su', 'du', 'au',
               'jd', 'kd', 'ld',
               'ud', 'uu',
-              'dir_0',
+              'dir_0', 'die'
               'one', 'two', 'three', 'four']
 
 key_event_table = {
@@ -423,32 +424,73 @@ class ITEM:
             self.Stand_image.clip_draw(direction * 90, 0, 90, 120, sx, sy)
 
 
+class Die:
+    @staticmethod
+    def enter(self, event):
+        pass
+
+    @staticmethod
+    def exit(self, event):
+        pass
+
+    @staticmethod
+    def do(self):
+        self.die_timer -= game_framework.frame_time
+        self.Die_frame = (self.Die_frame + FPDie * Die_Per_Time * game_framework.frame_time) % FPDie
+
+        if not self.Die:
+            self.die_sound.play()
+            self.Die = True
+
+        if self.die_timer <= 0.0:
+            slot.init_slot()
+            stage_info.init_stage()
+            item.init_item()
+            game_world.clear()
+
+            import die_state
+            game_framework.change_state(die_state)
+
+    @staticmethod
+    def draw(self):
+        sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        self.Die_image.clip_draw(int(self.Die_frame) * 125, 0, 125, 120, sx, sy)
+
+
 next_state = {
     STAND: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
             wu: STAND, su: STAND, du: STAND, au: STAND,
-            dir_0: STAND,
+            dir_0: STAND, die: Die,
             jd: ACTION, kd: ACTION, ld: ACTION,
             ud: ITEM, uu: STAND,
             one: STAND, two: STAND, three: STAND, four: STAND},
     RUN: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
           wu: RUN, su: RUN, du: RUN, au: RUN,
-          dir_0: STAND,
+          dir_0: STAND, die: Die,
           jd: ACTION, kd: ACTION, ld: ACTION,
           ud: ITEM, uu: RUN,
           one: RUN, two: RUN, three: RUN, four: RUN},
     ACTION: {wd: ACTION, sd: ACTION, dd: ACTION, ad: ACTION,
              wu: ACTION, su: ACTION, du: ACTION, au: ACTION,
-             dir_0: STAND,
+             dir_0: STAND, die: Die,
              jd: ACTION, kd: ACTION, ld: ACTION,
              ud: ACTION, uu: ACTION,
              one: ACTION, two: ACTION, three: ACTION, four: ACTION},
 
     ITEM: {wd: RUN, sd: RUN, dd: RUN, ad: RUN,
            wu: STAND, su: STAND, du: STAND, au: STAND,
-           dir_0: STAND,
+           dir_0: STAND, die: Die,
            jd: ACTION, kd: ACTION, ld: ACTION,
            ud: ITEM, uu: STAND,
-           one: STAND, two: STAND, three: STAND, four: STAND}
+           one: STAND, two: STAND, three: STAND, four: STAND},
+
+    Die: {wd: Die, sd: Die, dd: Die, ad: Die,
+           wu: Die, su: Die, du: Die, au: Die,
+           dir_0: Die, die: Die,
+           jd: Die, kd: Die, ld: Die,
+           ud: Die, uu: Die,
+           one: Die, two: Die, three: Die, four: Die}
 }
 
 
@@ -495,8 +537,10 @@ class MainCharacter:
         self.Shield_y_image = load_image('Link/Item/shield_y.png')
         self.Shield_frame_x, self.Shield_frame_y = 0, 0
 
-        self.Die = load_image('Link/Die/die.png')
+        self.Die = False
+        self.Die_image = load_image('Link/Die/die.png')
         self.Die_frame = 0
+        self.die_timer = Die_Per_Time
 
         self.attack_sound = load_wav('Sound/Link/Link_Attack.wav')
         self.attack_sound.set_volume(32)
@@ -521,6 +565,9 @@ class MainCharacter:
 
     def update(self):
         self.cur_state.do(self)
+
+        if self.cur_hp <= 0:
+            self.convert_to_die()
 
         if self.queue:
             event = self.queue.pop()
@@ -607,6 +654,9 @@ class MainCharacter:
 
     def convert_to_stand(self):
         self.add_event(dir_0)
+
+    def convert_to_die(self):
+        self.add_event(die)
 
     def is_none_event(self):
         if not self.queue:
