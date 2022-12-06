@@ -14,7 +14,9 @@ import item
 
 
 def open_door():
-    if item.Item_Queue:
+    x, y = stage_info.cur_room[0], stage_info.cur_room[1]
+    if item.Item_Queue and not stage_info.got_item_info[x][y]:
+        stage_info.got_item_info[x][y] = True
         dropped_item = item.Item()
         game_world.add_object(dropped_item, level['Objects'])
         game_world.add_collision_group(None, dropped_item, 'Link:Item')
@@ -59,7 +61,7 @@ class Background:
             self.Musics[0].stop()
             self.Musics[1].repeat_play()
 
-        if server.link.current <= server.link.maximum / 3 and self.low_health_timer <= 0.0:
+        if server.link.cur_hp <= server.link.max_hp / 3 and self.low_health_timer <= 0.0:
             self.low_health_timer = 1.0
             self.Musics[2].play()
     def draw(self):
