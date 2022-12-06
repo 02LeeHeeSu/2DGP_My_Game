@@ -39,6 +39,7 @@ class Vaati:
         self.hp = 20
         self.x, self.y = server.bg.w // 2, server.bg.h // 2
         self.load_images()
+        self.font = load_font('Font/ENCR10B.TTF', 32)
         self.speed = Pixel_Per_Sec_vaati
         self.tp_timer = 2.0
         self.motion_timer = Time_Per_Teleport
@@ -79,6 +80,8 @@ class Vaati:
 
     def draw(self):
         sx, sy = self.x - server.bg.window_left, self.y - server.bg.window_bottom
+
+        self.font.draw(sx - 16, sy + 135 + 32, f'{self.hp}', (255, 0, 255))
 
         if self.Teleport:
             Vaati.images['teleport'][int(self.frame_teleport)].draw(sx, sy, 220, 270)
