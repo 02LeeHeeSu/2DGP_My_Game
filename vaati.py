@@ -60,10 +60,10 @@ class Vaati:
             if not self.Teleport:
                 self.teleport_sound.play()
             self.Teleport = True
-            self.is_stopped = False
+            self.is_stopped = True
         else:
             self.Teleport = False
-            self.is_stopped = True
+            self.is_stopped = False
 
         self.frame_move = (self.frame_move + FPMove * Move_Per_Time * game_framework.frame_time) % FPMove
 
